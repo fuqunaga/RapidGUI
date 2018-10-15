@@ -58,6 +58,8 @@ namespace FuGUI.Example
 
         private void OnGUI()
         {
+            GUILayout.Label("<b>GUIUtil.Field()</b>");
+
             stringVal = GUIUtil.Field(stringVal, "string");
             boolVal = GUIUtil.Field(boolVal, "bool");
                         
