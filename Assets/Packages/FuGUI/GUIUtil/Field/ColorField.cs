@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace FuGUI
 {
@@ -24,49 +23,32 @@ namespace FuGUI
 
         #endregion
 
-        static readonly Dictionary<string, string> _colorLabelTable = new Dictionary<string, string>()
-        {
-            { "x","h" },
-            { "y","s" },
-            { "z","v" },
-            { "w","a" },
-        };
 
         static object ColorField(object obj)
         {
             var color = (Color)obj;
-            var a = color.a;
 
             var bgColor = GUI.backgroundColor;
-            GUI.backgroundColor = new Color(color.r, color.g, color.b, 1f);
             {
-                var rgbSize = 20f;
-                GUILayout.Box("", colorStyle, GUILayout.Width(rgbSize), GUILayout.Height(rgbSize));
-                //if (Event.current.type == EventType.Repaint)
+                const int height = 20;
+                const int alphaHeight = 3;
+                GUI.backgroundColor = new Color(color.r, color.g, color.b, 1f);
+                if ( GUILayout.Button("", colorStyle, GUILayout.Height(height)) )
                 {
-                    var aSize = 7f;
-                    var rect = GUILayoutUtility.GetLastRect();
-                    rect.x += rect.width - aSize;
-                    rect.y += rect.height - aSize;
-                    rect.width = aSize;
-                    rect.height = aSize;
-
-                    GUI.backgroundColor = new Color(a, a, a, 1f);
-                    GUI.Box(rect, "", colorStyle);
+                    Debug.Log("hoge");
                 }
 
+                var rect = GUILayoutUtility.GetLastRect();
+                rect.y = rect.yMax - alphaHeight;
+                rect.height = alphaHeight;
+                GUI.backgroundColor = UnityEngine.Color.black;
+                GUI.Box(rect, "", colorStyle);
+
+                rect.width *= color.a;
+                GUI.backgroundColor = UnityEngine.Color.white;
+                GUI.Box(rect, "", colorStyle);
             }
             GUI.backgroundColor = bgColor;
-
-            GUILayout.Space(8f);
-
-            float h, s, v;
-            UnityEngine.Color.RGBToHSV(color, out h, out s, out v);
-
-            var hsva = (Vector4)RecursiveField(new Vector4(h, s, v, color.a), _colorLabelTable);
-
-            color = UnityEngine.Color.HSVToRGB(hsva.x, hsva.y, hsva.z);
-            color.a = hsva.w;
 
             return color;
         }

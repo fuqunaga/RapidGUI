@@ -11,7 +11,7 @@ namespace FuGUI
 
         public static void Color(Color color, Action action)
         {
-            using (var c = new ColorScope(color))
+            using (new ColorScope(color))
             {
                 action();
             }
