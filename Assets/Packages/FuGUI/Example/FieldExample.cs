@@ -29,6 +29,7 @@ namespace FuGUI.Example
             public int intVal;
             public float floatVal;
             public string stringVal;
+            public List<Color> colos;
         }
 
         public string stringVal;

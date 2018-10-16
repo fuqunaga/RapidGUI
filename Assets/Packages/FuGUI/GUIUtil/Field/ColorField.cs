@@ -23,6 +23,7 @@ namespace FuGUI
 
         #endregion
 
+        static IMColorPicker colorPicker;
 
         static object ColorField(object obj)
         {
@@ -30,12 +31,15 @@ namespace FuGUI
 
             var bgColor = GUI.backgroundColor;
             {
+                var controlID = GUIUtility.GetControlID(FocusType.Passive);
+
                 const int height = 20;
                 const int alphaHeight = 3;
                 GUI.backgroundColor = new Color(color.r, color.g, color.b, 1f);
-                if ( GUILayout.Button("", colorStyle, GUILayout.Height(height)) )
+                if (GUILayout.Button("", colorStyle, GUILayout.Height(height)))
                 {
-                    Debug.Log("hoge");
+                    GUIUtility.hotControl = controlID;
+                    colorPicker = new IMColorPicker(color);
                 }
 
                 var rect = GUILayoutUtility.GetLastRect();
@@ -49,6 +53,14 @@ namespace FuGUI
                 GUI.Box(rect, "", colorStyle);
             }
             GUI.backgroundColor = bgColor;
+
+
+            if (colorPicker != null)
+            {
+                var destroy = colorPicker.DrawWindow();
+                if (destroy) colorPicker = null;
+                else color = colorPicker.color;
+            }
 
             return color;
         }
