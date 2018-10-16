@@ -181,11 +181,11 @@ namespace FuGUI
         }
 
 
-        public void SetWindowPosition(float x, float y)
+        public void SetWindowPosition(Vector2 pos)
         {
-            windowRect.x = x;
-            windowRect.y = y;
+            windowRect.position = pos;
         }
+
 
         public bool DrawWindow(string title = "")
         {
@@ -236,7 +236,7 @@ namespace FuGUI
         {
             using (new GUILayout.HorizontalScope())
             {
-                DrawPreview(_colorPrev, () => color = _colorPrev);                
+                DrawPreview(_colorPrev, () => color = _colorPrev);
                 DrawPreview(_color, null);
                 GUILayout.FlexibleSpace();
             }
