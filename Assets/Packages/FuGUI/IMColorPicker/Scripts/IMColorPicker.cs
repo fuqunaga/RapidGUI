@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Linq;
 
 namespace FuGUI
 {
@@ -18,30 +19,35 @@ namespace FuGUI
 
         #region static
 
-        static GUIStyle previewStyle;
-        static GUIStyle labelStyle;
-        static GUIStyle hueStyle;
-        static GUIStyle presetStyle, presetHighlightedStyle;
+        static readonly Texture2D circle, rightArrow, leftArrow, button, buttonHighlighted;
 
-        static Texture2D hueTexture;
-        static Texture2D circle, rightArrow, leftArrow, button, buttonHighlighted;
+        static readonly GUIStyle previewStyle;
+        static readonly GUIStyle labelStyle;
+        static readonly GUIStyle hueStyle;
+        static readonly GUIStyle presetStyle, presetHighlightedStyle;
+
+        static readonly GUIContent previewContents;
+
+        static IMColorPreset defaultPreset;
 
         static IMColorPicker()
         {
-            circle = circle ?? Resources.Load<Texture2D>("imCircle");
-            rightArrow = rightArrow ?? Resources.Load<Texture2D>("imRight");
-            leftArrow = leftArrow ?? Resources.Load<Texture2D>("imLeft");
-            button = button ?? Resources.Load<Texture2D>("imBorder");
-            buttonHighlighted = buttonHighlighted ?? Resources.Load<Texture2D>("imBorderHighlighted");
+            circle = Resources.Load<Texture2D>("imCircle");
+            rightArrow = Resources.Load<Texture2D>("imRight");
+            leftArrow = Resources.Load<Texture2D>("imLeft");
+            button = Resources.Load<Texture2D>("imBorder");
+            buttonHighlighted = Resources.Load<Texture2D>("imBorderHighlighted");
 
             previewStyle = new GUIStyle();
-            previewStyle.normal.background = Texture2D.whiteTexture;
+            var previewSize = new Vector2Int(kPreviewBarWidth, kPreviewBarHeight);
+            var checkerBoard = CreateChekcerBoardTexture(previewSize, 4, Color.white, Color.HSVToRGB(0f, 0f, 0.8f));
+            previewStyle.normal.background = checkerBoard;
 
             labelStyle = new GUIStyle("Label");
             labelStyle.fontSize = 12;
 
-            hueTexture = hueTexture ?? CreateHueTexture(20, kHSVPickerSize);
             hueStyle = new GUIStyle();
+            var hueTexture = CreateHueTexture(20, kHSVPickerSize);
             hueStyle.normal.background = hueTexture;
 
             presetStyle = new GUIStyle();
@@ -49,13 +55,54 @@ namespace FuGUI
 
             presetHighlightedStyle = new GUIStyle();
             presetHighlightedStyle.normal.background = buttonHighlighted;
+
+            var whiteTex = new Texture2D(previewSize.x, previewSize.y);
+            whiteTex.SetPixels(whiteTex.GetPixels().Select(_ => Color.white).ToArray());
+            whiteTex.Apply();
+            previewContents = new GUIContent(whiteTex);
+
+            defaultPreset = ScriptableObject.CreateInstance<IMColorPreset>();
+        }
+
+        static Texture2D CreateHueTexture(int width, int height)
+        {
+            var tex = new Texture2D(width, height);
+            for (int y = 0; y < height; y++)
+            {
+                var h = 1f * y / height;
+                var color = Color.HSVToRGB(h, 1f, 1f);
+                for (int x = 0; x < width; x++)
+                {
+                    tex.SetPixel(x, y, color);
+                }
+            }
+
+            tex.Apply();
+            return tex;
+        }
+
+        static Texture2D CreateChekcerBoardTexture(Vector2Int size, int gridSize, Color col0, Color col1)
+        {
+            var tex = new Texture2D(size.x, size.y);
+            for (var y = 0; y < size.y; y++)
+            {
+                var flagY = ((y / gridSize) % 2 == 0);
+                for (var x = 0; x < size.x; x++)
+                {
+                    var flagX = ((x / gridSize) % 2 == 0);
+                    tex.SetPixel(x, y, (flagX ^ flagY) ? col0 : col1);
+                }
+            }
+
+            tex.Apply();
+            return tex;
         }
 
         #endregion
 
-
-        const int kPreviewBarHeight = 16, kPreviewBarAlphaHeight = 3;
         const int kHSVPickerSize = 200, kHuePickerWidth = 16;
+        const int kPreviewBarWidth = 112, kPreviewBarHeight = 24;
+
 
         public Color color
         {
@@ -112,8 +159,8 @@ namespace FuGUI
 
 
 
-        public IMColorPicker() : this(Color.red, null) { }
-        public IMColorPicker(Color c) : this(c, null) { }
+        public IMColorPicker() : this(Color.red, defaultPreset) { }
+        public IMColorPicker(Color c) : this(c, defaultPreset) { }
         public IMColorPicker(IMColorPreset pr) : this(Color.red, pr) { }
         public IMColorPicker(Color c, IMColorPreset pr)
         {
@@ -189,45 +236,32 @@ namespace FuGUI
         {
             using (new GUILayout.HorizontalScope())
             {
-                DrawPreview(_colorPrev, () => color = _colorPrev);
+                DrawPreview(_colorPrev, () => color = _colorPrev);                
                 DrawPreview(_color, null);
+                GUILayout.FlexibleSpace();
             }
         }
 
         void DrawPreview(Color c, Action onButton)
         {
-            var width = (kHSVPickerSize + kHuePickerWidth + 15) / 2;
-
             using (new GUILayout.VerticalScope())
             {
-                if (GUILayout.Button("", previewStyle, GUILayout.Width(width), GUILayout.Height(kPreviewBarHeight + kPreviewBarAlphaHeight)))
+                var tmpBC = GUI.backgroundColor;
+                var tmpCC = GUI.contentColor;
                 {
-                    if (onButton != null) onButton();
+
+                    GUI.backgroundColor = Color.white;
+                    GUI.contentColor = c;
+
+                    if (GUILayout.Button(previewContents, previewStyle, GUILayout.Width(kPreviewBarWidth), GUILayout.Height(kPreviewBarHeight)))
+                    {
+                        onButton?.Invoke();
+                    }
                 }
-
-                var tmp = GUI.backgroundColor;
-                var rect = GUILayoutUtility.GetLastRect();
-
-                rect.height = kPreviewBarHeight;
-                DrawPreviewBar(rect, new Color(c.r, c.g, c.b));
-
-                rect.y += rect.height;
-                rect.height = kPreviewBarAlphaHeight;
-                DrawPreviewBar(rect, Color.black);
-
-                rect.width *= c.a;
-                DrawPreviewBar(rect, Color.white);
-
-                GUI.backgroundColor = tmp;
+                GUI.backgroundColor = tmpBC;
+                GUI.contentColor = tmpCC;
             }
         }
-
-        void DrawPreviewBar(Rect rect, Color c)
-        {
-            GUI.backgroundColor = c;
-            GUI.Label(rect, "", previewStyle);
-        }
-
 
         void DrawHSVPicker()
         {
@@ -248,7 +282,9 @@ namespace FuGUI
             using (new GUILayout.HorizontalScope())
             {
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button(sliderMode.ToString(), GUILayout.Width(50f)))
+                var style = new GUIStyle("button");
+                style.fontSize = 12;
+                if (GUILayout.Button(sliderMode.ToString(), style, GUILayout.Width(50f)))
                 {
                     sliderMode = (SliderMode)(((int)sliderMode + 1) % Enum.GetValues(typeof(SliderMode)).Length);
                 }
@@ -448,23 +484,6 @@ namespace FuGUI
             }
 
             svTexture.Apply();
-        }
-
-        static Texture2D CreateHueTexture(int width, int height)
-        {
-            var tex = new Texture2D(width, height);
-            for (int y = 0; y < height; y++)
-            {
-                var h = 1f * y / height;
-                var color = Color.HSVToRGB(h, 1f, 1f);
-                for (int x = 0; x < width; x++)
-                {
-                    tex.SetPixel(x, y, color);
-                }
-            }
-
-            tex.Apply();
-            return tex;
         }
     }
 }

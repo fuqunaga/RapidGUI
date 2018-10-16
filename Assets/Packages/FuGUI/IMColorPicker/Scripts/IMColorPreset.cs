@@ -13,7 +13,7 @@ namespace FuGUI
             }
         }
 
-        [SerializeField] List<Color> colors;
+        [SerializeField] List<Color> colors = new List<Color>();
 
         public void Save(Color color)
         {

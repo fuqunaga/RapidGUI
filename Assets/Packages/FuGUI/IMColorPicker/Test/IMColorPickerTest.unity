@@ -308,5 +308,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preset: {fileID: 11400000, guid: ffa777c12360f9f45a4067e68765d199, type: 2}
-  color: {r: 1, g: 0, b: 0, a: 1}
+  color: {r: 1, g: 0, b: 0, a: 0.403}
   window: 1

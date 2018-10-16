@@ -15,7 +15,7 @@ namespace FuGUI.imColorPicker.Test
         {
             if(colorPicker == null)
             {
-                colorPicker = new IMColorPicker(preset);
+                colorPicker = new IMColorPicker(color, preset);
             }
 
             using(new GUILayout.HorizontalScope())
