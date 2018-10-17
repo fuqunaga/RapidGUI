@@ -21,7 +21,7 @@ namespace FuGUI
         {
             using (var h = new GUILayout.HorizontalScope(options))
             {
-                PrefixLabel(label);
+                obj = PrefixLabelDraggable(label, obj, type);
                 obj = DicpatchFieldFunc(type).Invoke(obj, type);
             }
 
