@@ -25,6 +25,7 @@ namespace FuGUI
 
         static int colorPickerControlID = -1;
         static IMColorPicker colorPicker;
+        static Vector2? colorPickerLastPos;
 
         static object ColorField(object obj)
         {
@@ -40,7 +41,7 @@ namespace FuGUI
                 {
                     colorPickerControlID = controlID;
                     colorPicker = new IMColorPicker(color);
-                    colorPicker.SetWindowPosition(Event.current.mousePosition);
+                    colorPicker.SetWindowPosition(colorPickerLastPos ?? Event.current.mousePosition);
                 }
 
                 var rect = GUILayoutUtility.GetLastRect();
@@ -59,8 +60,15 @@ namespace FuGUI
             if ((colorPickerControlID == controlID) && (colorPicker != null))
             {
                 var destroy = colorPicker.DrawWindow();
-                if (destroy) colorPicker = null;
-                else color = colorPicker.color;
+                if (destroy)
+                {
+                    colorPicker = null;
+                }
+                else
+                {
+                    color = colorPicker.color;
+                    colorPickerLastPos = colorPicker.windowRect.position;
+                }
             }
 
             return color;

@@ -57,38 +57,45 @@ namespace FuGUI.Example
         public CustomClass customClassVal = new CustomClass();
         public List<CustomClass> customClassListVal;
 
+        Vector2 scrollPosition;
+
         private void OnGUI()
         {
             GUILayout.Label("<b>GUIUtil.Field()</b>");
 
-            stringVal = GUIUtil.Field(stringVal, "string");
-            boolVal = GUIUtil.Field(boolVal, "bool");
-                        
-            intVal = GUIUtil.Field(intVal, "int");
-            floatVal = GUIUtil.Field(floatVal, "float");
-            colorVal = GUIUtil.Field(colorVal, "color");
-            enumVal = GUIUtil.Field(enumVal, "enum");
-            enumFlagsVal = GUIUtil.Field(enumFlagsVal, "enumFlags");
+            using (var sc = new GUILayout.ScrollViewScope(scrollPosition))
+            {
+                scrollPosition = sc.scrollPosition;
 
-            vector2Val = GUIUtil.Field(vector2Val, "vector2");
-            vector3Val = GUIUtil.Field(vector3Val, "vector3");
-            vector4Val = GUIUtil.Field(vector4Val, "vector4");
+                stringVal = GUIUtil.Field(stringVal, "string");
+                boolVal = GUIUtil.Field(boolVal, "bool");
 
-            vector2IntVal = GUIUtil.Field(vector2IntVal, "vector2Int");
-            vector3IntVal = GUIUtil.Field(vector3IntVal, "vector3Int");
+                intVal = GUIUtil.Field(intVal, "int");
+                floatVal = GUIUtil.Field(floatVal, "float");
+                colorVal = GUIUtil.Field(colorVal, "color");
+                enumVal = GUIUtil.Field(enumVal, "enum");
+                enumFlagsVal = GUIUtil.Field(enumFlagsVal, "enumFlags");
 
-            rectVal = GUIUtil.Field(rectVal, "rect");
-            rectIntVal = GUIUtil.Field(rectIntVal, "rectInt");
-            rectOffsetVal = GUIUtil.Field(rectOffsetVal, "rectOffset");
+                vector2Val = GUIUtil.Field(vector2Val, "vector2");
+                vector3Val = GUIUtil.Field(vector3Val, "vector3");
+                vector4Val = GUIUtil.Field(vector4Val, "vector4");
 
-            boundsVal = GUIUtil.Field(boundsVal, "bounds");
-            boundsIntVal = GUIUtil.Field(boundsIntVal, "boundsInt");
-            
-            arrayVal = GUIUtil.Field(arrayVal, "array");
-            listVal = GUIUtil.Field(listVal, "list");
+                vector2IntVal = GUIUtil.Field(vector2IntVal, "vector2Int");
+                vector3IntVal = GUIUtil.Field(vector3IntVal, "vector3Int");
 
-            customClassVal = GUIUtil.Field(customClassVal, "customClass");
-            customClassListVal = GUIUtil.Field(customClassListVal, "customClassList");
+                rectVal = GUIUtil.Field(rectVal, "rect");
+                rectIntVal = GUIUtil.Field(rectIntVal, "rectInt");
+                rectOffsetVal = GUIUtil.Field(rectOffsetVal, "rectOffset");
+
+                boundsVal = GUIUtil.Field(boundsVal, "bounds");
+                boundsIntVal = GUIUtil.Field(boundsIntVal, "boundsInt");
+
+                arrayVal = GUIUtil.Field(arrayVal, "array");
+                listVal = GUIUtil.Field(listVal, "list");
+
+                customClassVal = GUIUtil.Field(customClassVal, "customClass");
+                customClassListVal = GUIUtil.Field(customClassListVal, "customClassList");
+            }
         }
     }
 }

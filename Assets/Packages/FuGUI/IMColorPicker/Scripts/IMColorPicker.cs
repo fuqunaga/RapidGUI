@@ -151,7 +151,7 @@ namespace FuGUI
 
         Vector3 _hsv = new Vector3(0f, 0f, 0f);
 
-        Rect windowRect = new Rect(20, 20, 205, 100);
+        public Rect windowRect = new Rect(20, 20, 205, 100);
 
         GUIStyle svStyle;
         Texture2D svTexture;
