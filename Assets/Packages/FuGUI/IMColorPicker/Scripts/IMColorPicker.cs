@@ -151,7 +151,8 @@ namespace FuGUI
 
         Vector3 _hsv = new Vector3(0f, 0f, 0f);
 
-        public Rect windowRect = new Rect(20, 20, 205, 100);
+        public Rect windowRect = new Rect(20, 20, 250, 500);
+        bool destroy;
 
         GUIStyle svStyle;
         Texture2D svTexture;
@@ -189,11 +190,14 @@ namespace FuGUI
 
         public bool DrawWindow(string title = "")
         {
-            windowRect = GUILayout.Window(GetHashCode(), windowRect, DrawColorPickerWindow, title);
+            //windowRect = GUILayout.Window(GetHashCode(), windowRect, DrawColorPickerWindow, title);
+            windowRect = GUI.ModalWindow(GetHashCode(), windowRect, DrawColorPickerWindow, title);
 
             // suicide when click outside of window
+            /*
             var ev = Event.current;
-            var destroy = (ev.button == 0 && ev.type == EventType.MouseDown && !windowRect.Contains(ev.mousePosition));
+            var destroy = (ev.button == 0 && ev.rawType == EventType.MouseDown && !windowRect.Contains(ev.mousePosition));
+            */           
             return destroy;
         }
 
@@ -201,6 +205,9 @@ namespace FuGUI
         {
             DrawColorPicker();
             GUI.DragWindow();
+
+            var ev = Event.current;
+            destroy = (ev.button == 0 && ev.rawType == EventType.MouseDown && !windowRect.Contains(ev.mousePosition));
         }
 
         public void DrawColorPicker()
