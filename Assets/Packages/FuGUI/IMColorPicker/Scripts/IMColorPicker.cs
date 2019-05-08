@@ -193,7 +193,9 @@ namespace FuGUI
 
             // suicide when click outside of window
             var ev = Event.current;
-            var destroy = (ev.button == 0 && ev.type == EventType.MouseDown && !windowRect.Contains(ev.mousePosition));
+            var destroy = (ev.button == 0 
+                && ((ev.type == EventType.MouseDown)  || (ev.type == EventType.Ignore))
+                && !windowRect.Contains(ev.mousePosition));
             return destroy;
         }
 

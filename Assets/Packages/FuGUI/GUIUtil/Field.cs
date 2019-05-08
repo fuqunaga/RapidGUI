@@ -67,23 +67,5 @@ namespace FuGUI
         }
 
         static bool IsList(Type type) => type.GetInterface(ListInterfaceStr) != null;
-
-        #region Style
-
-        static GUIStyle _labelRight;
-        public static GUIStyle labelRight
-        {
-            get
-            {
-                if (_labelRight == null)
-                {
-                    _labelRight = new GUIStyle(GUI.skin.label);
-                    _labelRight.alignment = TextAnchor.UpperRight;
-                }
-                return _labelRight;
-            }
-        }
-
-        #endregion
     }
 }
