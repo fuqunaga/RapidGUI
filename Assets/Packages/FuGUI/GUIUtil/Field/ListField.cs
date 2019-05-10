@@ -19,11 +19,11 @@ namespace FuGUI
             {
                 if (v == null)
                 {
-                    GUILayout.Label("List is null");
+                    GUILayout.Label("<color=grey>List is null</color>");
                 }
                 else if (!hasElem)
                 {
-                    GUILayout.Label("List is Empty");
+                    GUILayout.Label("<color=grey>List is Empty</color>");
                 }
                 else
                 {

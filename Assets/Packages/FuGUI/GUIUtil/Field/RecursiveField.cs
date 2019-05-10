@@ -11,7 +11,7 @@ namespace FuGUI
         {
             if (obj == null)
             {
-                GUILayout.Label("object is null", "box");
+                GUILayout.Label("<color=grey>object is null</color>", "box");
             }
             else
             {

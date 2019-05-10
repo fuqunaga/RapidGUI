@@ -12,7 +12,7 @@ namespace FuGUI
                 using (new GUILayout.HorizontalScope())
                 {
                     PrefixLabel(label);
-                    GUILayout.Label("object is null", "box");
+                    GUILayout.Label("<color=grey>object is null</grey>", "box");
                 }
             }
             else

@@ -29,11 +29,12 @@ namespace FuGUI
         }
 
         static Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>();
+        static Stack<int> recursiveTypeLoopCheck = new Stack<int>();
 
         static FieldFunc DicpatchFieldFunc(Type type)
         {
             FieldFunc func;
-            if ( !fieldFuncTable.TryGetValue(type, out func))
+            if (!fieldFuncTable.TryGetValue(type, out func))
             {
                 if (type.IsEnum)
                 {
@@ -53,7 +54,30 @@ namespace FuGUI
                 }
                 else if (IsRecursive(type))
                 {
-                    func = new FieldFunc((obj, t) => RecursiveField(obj));
+                    if (type.IsValueType)
+                    {
+                        func = new FieldFunc((obj, t) => RecursiveField(obj));
+                    }
+                    else
+                    {
+                        func = new FieldFunc((obj, t) =>
+                        {
+                            var ret = obj;
+                            var hash = obj.GetHashCode();
+                            if (recursiveTypeLoopCheck.Contains(hash))
+                            {
+                                GUILayout.Label($"<color=grey>[{type}]: loop reference detected.</color>", "box");
+                            }
+                            else
+                            {
+                                recursiveTypeLoopCheck.Push(hash);
+                                ret = RecursiveField(obj);
+                                recursiveTypeLoopCheck.Pop();
+                            }
+
+                            return ret;
+                        });
+                    }
                 }
                 else
                 {

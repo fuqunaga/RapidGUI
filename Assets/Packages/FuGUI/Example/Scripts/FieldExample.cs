@@ -34,6 +34,15 @@ namespace FuGUI.Example
             public string stringVal;
         }
 
+        public class ComplexClass
+        {
+            public string str;
+            public CustomClass customClass = new CustomClass();
+            public ComplexClass complexClass;
+            public float[] floatList;
+            public List<CustomClass> customClassList;
+        }
+
         public string stringVal;
         public bool boolVal;
         public int intVal;
@@ -53,13 +62,23 @@ namespace FuGUI.Example
         public Bounds boundsVal;
         public BoundsInt boundsIntVal;
 
-        public int[] arrayVal;
-        public List<float> listVal;
+        public float[] arrayVal;
+        public List<int> listVal;
 
         public CustomClass customClassVal = new CustomClass();
         public List<CustomClass> customClassListVal;
 
+        public ComplexClass complexClassVal = new ComplexClass();
+        public List<ComplexClass> complexClassListVal;
+
         Vector2 scrollPosition;
+
+        private void Start()
+        {
+            var c = new ComplexClass();
+            c.complexClass = complexClassVal;
+            complexClassVal.complexClass = c;
+        }
 
         private void OnGUI()
         {
@@ -102,9 +121,11 @@ namespace FuGUI.Example
 
                     using (new GUILayout.VerticalScope())
                     {
-
                         customClassVal = GUIUtil.Field(customClassVal, "customClass");
                         customClassListVal = GUIUtil.Field(customClassListVal, "customClassList");
+
+                        complexClassVal = GUIUtil.Field(complexClassVal, "complexClass");
+                        complexClassListVal = GUIUtil.Field(complexClassListVal, "complexClassList");
                     }
                 }
             }
