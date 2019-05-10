@@ -27,32 +27,21 @@ namespace FuGUI
         #endregion
 
 
-        public static float prefixLabelWidth
-        {
-            get { return _prefisLabelWidth; }
-            set
-            {
-                _prefisLabelWidth = value;
-                labelWidthLayout = GUILayout.Width(_prefisLabelWidth);
-            }
-        }
+        public static float prefixLabelWidth = 128f;
 
         public static bool isLabelRightAlign;
-
-        static float _prefisLabelWidth = 128f;
-        static GUILayoutOption labelWidthLayout = GUILayout.Width(_prefisLabelWidth);
+        static GUIStyle labelStyle => isLabelRightAlign ? labelRight : GUI.skin.label;
 
 
         public static void PrefixLabel(string label)
         {
             if (!string.IsNullOrEmpty(label))
             {
-                var style = isLabelRightAlign ? labelRight : GUI.skin.label;
-
-                GUILayout.Label(label, style, labelWidthLayout);
+                GUILayout.Label(label, labelStyle, GUILayout.Width(prefixLabelWidth));
             }
         }
 
+        /*
         public class FoldState
         {
             public bool open;
@@ -66,18 +55,18 @@ namespace FuGUI
 
             if (!string.IsNullOrEmpty(label))
             {
-                var style = isLabelRightAlign ? labelRight : GUI.skin.label;
-
-                var controlID = GUIUtility.GetControlID(prefixFoldHash, FocusType.Passive, new Rect(Vector2.zero, Vector2.one * 100f));
+                var hint = (label+"ignorenumber_protect").GetHashCode(); // if last of string is number, it may be ignored. so add a magic word to last.
+                var controlID = GUIUtility.GetControlID(hint, FocusType.Passive);
                 var state = (FoldState)GUIUtility.GetStateObject(typeof(FoldState), controlID);
                 var foldStr = state.open ? "▼" : "▶";
 
-                state.open ^= GUILayout.Button(foldStr + label + controlID, style, labelWidthLayout);
+                state.open ^= GUILayout.Button(foldStr + label + "_" + hint + "_" + controlID, labelStyle, labelWidthLayout);
                 ret = state.open;
             }
 
             return ret;
         }
+        */
 
         public static object PrefixLabelDraggable(string label, object obj, Type type)
         {

@@ -8,7 +8,9 @@ namespace FuGUI
 {
     public static partial class GUIUtil
     {
+        public static float sliderMinWidth = 200f;
         public static float sliderFieldWidth = 80f;
+        
 
         public static float Slider(float v, string label = "", Dictionary<string, string> labelReplaceTable = null)
         {
@@ -53,12 +55,12 @@ namespace FuGUI
 
         public static object SliderInt(object v, object min, object max, string label = "")
         {
-            int ret = default(int);
+            int ret = default;
 
             using (var h = new GUILayout.HorizontalScope())
             {
                 v = PrefixLabelDraggable(label, v, typeof(int));
-                ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max);
+                ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max, GUILayout.MinWidth(sliderMinWidth));
                 ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
             }
 
@@ -72,7 +74,7 @@ namespace FuGUI
             using (var h = new GUILayout.HorizontalScope())
             {
                 v = PrefixLabelDraggable(label, v, typeof(float));
-                ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max);
+                ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max, GUILayout.MinWidth(sliderMinWidth));
                 ret = (float)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
             }
 

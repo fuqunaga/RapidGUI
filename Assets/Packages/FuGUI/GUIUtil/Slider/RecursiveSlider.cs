@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FuGUI
@@ -17,44 +18,30 @@ namespace FuGUI
             }
             else
             {
+                min = min ?? Activator.CreateInstance(obj.GetType());
+
                 var type = obj.GetType();
 
-                GUILayout.BeginHorizontal();
-
-                var open = PrefixFold(label);
+                PrefixLabel(label);
 
 
-                if (!open)
+                isLabelRightAlign = true;
+
+                var infos = GetMemberInfoList(type);
+                for (var i = 0; i < infos.Count; ++i)
                 {
-                    obj = DicpatchFieldFunc(type).Invoke(obj, type);
+                    var fi = infos[i];
+                    var elem = fi.GetValue(obj);
+                    var elemMin = fi.GetValue(min);
+                    var elemMax = fi.GetValue(max);
+                    var elemLabel = labelCheck(fi.Name, labelReplaceTable);
 
-                    GUILayout.EndHorizontal();
+                    elem = Slider(elem, elemMin, elemMax, fi.MemberType, elemLabel);
+
+                    fi.SetValue(obj, elem);
                 }
-                else
-                {
-                    GUILayout.FlexibleSpace();
-                    GUILayout.EndHorizontal();
 
-                    var infos = GetMemberInfoList(type);
-
-
-                    isLabelRightAlign = true;
-
-                    for (var i = 0; i < infos.Count; ++i)
-                    {
-                        var fi = infos[i];
-                        var elem = fi.GetValue(obj);
-                        var elemMin = fi.GetValue(min);
-                        var elemMax = fi.GetValue(max);
-                        var elemLabel = labelCheck(fi.Name, labelReplaceTable);
-
-                        elem = Slider(elem, elemMin, elemMax, fi.MemberType, elemLabel);
-
-                        fi.SetValue(obj, elem);
-                    }
-
-                    isLabelRightAlign = false;
-                }
+                isLabelRightAlign = false;
             }
 
             return obj;
