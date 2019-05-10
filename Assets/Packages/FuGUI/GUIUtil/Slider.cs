@@ -8,7 +8,7 @@ namespace FuGUI
 {
     public static partial class GUIUtil
     {
-        public static float sliderMinWidth = 200f;
+        public static float sliderFieldWidth = 80f;
 
         public static float Slider(float v, string label = "", Dictionary<string, string> labelReplaceTable = null)
         {
@@ -17,7 +17,7 @@ namespace FuGUI
 
         public static T Slider<T>(T v, T max, string label = "", Dictionary<string, string> labelReplaceTable = null)
         {
-            return Slider(v, default(T), max, label, labelReplaceTable);
+            return Slider(v, default, max, label, labelReplaceTable);
         }
 
         public static T Slider<T>(T v, T min, T max, string label = "", Dictionary<string, string> labelReplaceTable = null)
@@ -34,8 +34,7 @@ namespace FuGUI
         {
             object ret;
 
-            SliderFunc func;
-            if (typeSliderFuncTable.TryGetValue(type, out func))
+            if (typeSliderFuncTable.TryGetValue(type, out var func))
             {
                 ret = func(obj, min, max, label);
             }
@@ -59,8 +58,8 @@ namespace FuGUI
             using (var h = new GUILayout.HorizontalScope())
             {
                 v = PrefixLabelDraggable(label, v, typeof(int));
-                ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max, GUILayout.MinWidth(sliderMinWidth));
-                ret = (int)StandardField(ret, v.GetType());
+                ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max);
+                ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
             }
 
             return ret;
@@ -68,13 +67,13 @@ namespace FuGUI
 
         public static object SliderFloat(object v, object min, object max, string label = "")
         {
-            float ret = default(float);
+            float ret = default;
 
             using (var h = new GUILayout.HorizontalScope())
             {
                 v = PrefixLabelDraggable(label, v, typeof(float));
-                ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max, GUILayout.MinWidth(sliderMinWidth));
-                ret = (float)StandardField(ret, v.GetType());
+                ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max);
+                ret = (float)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
             }
 
             return ret;

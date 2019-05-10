@@ -7,17 +7,19 @@ namespace FuGUI
     {
         static GUILayoutOption fieldWidthMin = GUILayout.MinWidth(80f);
 
-        static object StandardField(object v, Type type)
+        static object StandardField(object v, Type type) => StandardField(v, type, null);
+        
+        static object StandardField(object v, Type type, GUILayoutOption option)
         {
             object ret = v;
 
             var unparsedStr = UnparsedStr.Create();
             var color = (unparsedStr.hasStr && !unparsedStr.CanParse(type)) ? UnityEngine.Color.red : GUI.color;
 
-            using (var cs = new ColorScope(color))
+            using (new ColorScope(color))
             {
                 var text = unparsedStr.Get() ?? ((v != null) ? v.ToString() : "");
-                var displayStr = GUILayout.TextField(text, fieldWidthMin);
+                var displayStr = GUILayout.TextField(text, option ?? fieldWidthMin);
                 if (displayStr != text)
                 {
                     try
