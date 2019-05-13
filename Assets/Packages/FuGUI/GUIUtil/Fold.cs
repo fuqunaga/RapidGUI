@@ -60,7 +60,7 @@ namespace FuGUI
                     titleAction?.Invoke();
                 }
 
-                GUIUtil.Indent(() =>
+                using (new GUIUtil.IndentScope())
                 {
                     //using (var v = new GUILayout.VerticalScope())
                     {
@@ -69,7 +69,7 @@ namespace FuGUI
                             ret |= drawFuncs.Aggregate(false, (changed, drawFunc) => changed || drawFunc());
                         }
                     }
-                });
+                }
             }
 
             return ret;

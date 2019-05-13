@@ -6,43 +6,35 @@ namespace FuGUI
 {
     public static partial class GUIUtil
     {
-        public static object RecursiveSlider(object obj, object min, object max, string label = "", Dictionary<string, string> labelReplaceTable = null)
+        static object RecursiveSlider(object obj, object min, object max)
         {
-            if (obj == null)
+            return RecursiveFlow(obj, () => DoRecursiveSlider(obj, min, max));
+        }
+
+        static object DoRecursiveSlider(object obj, object min, object max)
+        {
+            min = min ?? Activator.CreateInstance(obj.GetType());
+
+            var type = obj.GetType();
+
+
+            PrefixLabelSetting.alignRight = true;
+
+            var infos = GetMemberInfoList(type);
+            for (var i = 0; i < infos.Count; ++i)
             {
-                using (new GUILayout.HorizontalScope())
-                {
-                    PrefixLabel(label);
-                    GUILayout.Label("<color=grey>object is null</grey>", "box");
-                }
+                var fi = infos[i];
+                var elem = fi.GetValue(obj);
+                var elemMin = fi.GetValue(min);
+                var elemMax = fi.GetValue(max);
+                var elemLabel = fi.Name;
+
+                elem = Slider(elem, elemMin, elemMax, fi.MemberType, elemLabel);
+
+                fi.SetValue(obj, elem);
             }
-            else
-            {
-                min = min ?? Activator.CreateInstance(obj.GetType());
 
-                var type = obj.GetType();
-
-                PrefixLabel(label);
-
-
-                isLabelRightAlign = true;
-
-                var infos = GetMemberInfoList(type);
-                for (var i = 0; i < infos.Count; ++i)
-                {
-                    var fi = infos[i];
-                    var elem = fi.GetValue(obj);
-                    var elemMin = fi.GetValue(min);
-                    var elemMax = fi.GetValue(max);
-                    var elemLabel = labelCheck(fi.Name, labelReplaceTable);
-
-                    elem = Slider(elem, elemMin, elemMax, fi.MemberType, elemLabel);
-
-                    fi.SetValue(obj, elem);
-                }
-
-                isLabelRightAlign = false;
-            }
+            PrefixLabelSetting.alignRight = false;
 
             return obj;
         }

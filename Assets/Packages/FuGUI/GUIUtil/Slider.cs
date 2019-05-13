@@ -8,84 +8,87 @@ namespace FuGUI
 {
     public static partial class GUIUtil
     {
+        delegate object SliderFunc(object v, object min, object max);
+
         public static float sliderMinWidth = 200f;
         public static float sliderFieldWidth = 80f;
-        
 
-        public static float Slider(float v, string label = "", Dictionary<string, string> labelReplaceTable = null)
+
+        public static float Slider(float v, string label = null, params GUILayoutOption[] options)
         {
-            return Slider(v, 1f, label, labelReplaceTable);
+            return Slider(v, 1f, label, options);
         }
 
-        public static T Slider<T>(T v, T max, string label = "", Dictionary<string, string> labelReplaceTable = null)
+        public static T Slider<T>(T v, T max, string label = null, params GUILayoutOption[] options)
         {
-            return Slider(v, default, max, label, labelReplaceTable);
+            return Slider(v, default, max, label, options);
         }
 
-        public static T Slider<T>(T v, T min, T max, string label = "", Dictionary<string, string> labelReplaceTable = null)
+        public static T Slider<T>(T v, T min, T max, string label = null, params GUILayoutOption[] options)
         {
-            return (T)Slider(v, min, max, typeof(T), label, labelReplaceTable);
+            return (T)Slider(v, min, max, typeof(T), label, options);
         }
 
 
         #region Slider() Implement
 
-        delegate object SliderFunc(object v, object min, object max, string label);
 
-        public static object Slider(object obj, object min, object max, Type type, string label = "", Dictionary<string, string> labelReplaceTable = null)
+
+        public static object Slider(object obj, object min, object max, Type type, string label = null, params GUILayoutOption[] options)
         {
-            object ret;
-
-            if (typeSliderFuncTable.TryGetValue(type, out var func))
+            using (var h = new GUILayout.HorizontalScope(options))
             {
-                ret = func(obj, min, max, label);
-            }
-            else if (GetMemberInfoList(type).Any())
-            {
-                ret = RecursiveSlider(obj, min, max, label, labelReplaceTable);
-            }
-            else
-            {
-                ret = Field(obj, type, label);
+                obj = PrefixLabelDraggable(label, obj, type);
+                obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
             }
 
-            return ret;
+            return obj;
         }
 
-
-        public static object SliderInt(object v, object min, object max, string label = "")
+        static Dictionary<Type, SliderFunc> sliderFuncTable = new Dictionary<Type, SliderFunc>()
         {
-            int ret = default;
-
-            using (var h = new GUILayout.HorizontalScope())
-            {
-                v = PrefixLabelDraggable(label, v, typeof(int));
-                ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max, GUILayout.MinWidth(sliderMinWidth));
-                ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
-            }
-
-            return ret;
-        }
-
-        public static object SliderFloat(object v, object min, object max, string label = "")
-        {
-            float ret = default;
-
-            using (var h = new GUILayout.HorizontalScope())
-            {
-                v = PrefixLabelDraggable(label, v, typeof(float));
-                ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max, GUILayout.MinWidth(sliderMinWidth));
-                ret = (float)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
-            }
-
-            return ret;
-        }
-
-        static readonly Dictionary<Type, SliderFunc> typeSliderFuncTable = new Dictionary<Type, SliderFunc>()
-        {
-            { typeof(int), SliderInt },
-            { typeof(float), SliderFloat },
+            {typeof(int), SliderInt },
+            {typeof(float), SliderFloat }
         };
+
+        static SliderFunc DicpatchSliderFunc(Type type)
+        {
+            if (!sliderFuncTable.TryGetValue(type, out var func))
+            {
+                if (IsRecursive(type))
+                {
+                    func = RecursiveSlider;
+                }
+                else
+                {
+                    // 不明なものはFieldに流す
+                    var fieldFunc = DispatchFieldFunc(type);
+                    func = (v, min, max) => fieldFunc(v, type);
+                }
+
+                sliderFuncTable[type] = func;
+            }
+
+            return func;
+        }
+
+
+        static object SliderInt(object v, object min, object max)
+        {
+            var ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max, GUILayout.MinWidth(sliderMinWidth));
+            ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
+
+            return ret;
+        }
+
+        static object SliderFloat(object v, object min, object max)
+        {
+            var ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max, GUILayout.MinWidth(sliderMinWidth));
+            ret = (float)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
+
+
+            return ret;
+        }
 
         #endregion
     }

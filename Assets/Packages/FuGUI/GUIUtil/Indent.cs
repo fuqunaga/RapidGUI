@@ -7,13 +7,18 @@ namespace FuGUI
     {
         #region Static Method Style
 
-        public static void Indent(Action action) { Indent(1, action); }
-        public static void Indent(int level, Action action)
+        public static void BeginIndent(float width = 20f)
         {
-            using (var i = new IndentScope(level))
-            {
-                action();
-            }
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(width);
+            GUILayout.BeginVertical();
+        }
+
+        public static void EndIndent()
+        {
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
         }
 
         #endregion
@@ -23,18 +28,14 @@ namespace FuGUI
 
         public class IndentScope : GUI.Scope
         {
-            public IndentScope(int level = 1)
+            public IndentScope(float width = 20f)
             {
-                const int TAB = 20;
-                GUILayout.BeginHorizontal();
-                GUILayout.Space(TAB * level);
-                GUILayout.BeginVertical();
+                BeginIndent(width);
             }
 
             protected override void CloseScope()
             {
-                GUILayout.EndVertical();
-                GUILayout.EndHorizontal();
+                EndIndent();
             }
         }
 

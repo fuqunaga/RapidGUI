@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,7 +6,6 @@ namespace FuGUI
 {
     public static partial class GUIUtil
     {
-
         #region Style
 
         static GUIStyle _labelRight;
@@ -26,19 +24,37 @@ namespace FuGUI
 
         #endregion
 
-
-        public static float prefixLabelWidth = 128f;
-
-        public static bool isLabelRightAlign;
-        static GUIStyle labelStyle => isLabelRightAlign ? labelRight : GUI.skin.label;
-
-
-        public static void PrefixLabel(string label)
+        static class PrefixLabelSetting
         {
+            public static float width = 128f;
+            public static bool alignRight;
+        }
+
+        static GUIStyle labelStyle => PrefixLabelSetting.alignRight ? labelRight : GUI.skin.label;
+
+
+        static GUIContent tmpContent = new GUIContent();
+
+        public static bool PrefixLabel(string label)
+        {
+            var isLong = false;
+
             if (!string.IsNullOrEmpty(label))
             {
-                GUILayout.Label(label, labelStyle, GUILayout.Width(prefixLabelWidth));
+                tmpContent.text = label;
+                isLong = GUI.skin.label.CalcHeight(tmpContent, PrefixLabelSetting.width) > 21;
+                if (isLong)
+                {
+                    GUILayout.Label(label, labelStyle);
+                }
+                else
+                {
+                    GUILayout.Label(label, labelStyle, GUILayout.Width(PrefixLabelSetting.width));
+                }
+
             }
+
+            return isLong;
         }
 
         /*
@@ -68,11 +84,15 @@ namespace FuGUI
         }
         */
 
-        public static object PrefixLabelDraggable(string label, object obj, Type type)
+
+        public static object PrefixLabelDraggable(string label, object obj, Type type) => PrefixLabelDraggable(label, obj, type, out var isLong);
+
+        public static object PrefixLabelDraggable(string label, object obj, Type type, out bool isLong)
         {
+            isLong = false;
             if (!string.IsNullOrEmpty(label))
             {
-                PrefixLabel(label);
+                isLong = PrefixLabel(label);
                 if (IsDraggable(type))
                 {
                     obj = DoDrag(obj, type);
@@ -82,6 +102,18 @@ namespace FuGUI
             return obj;
         }
 
+        public static void BeginPrefixIndent(float width)
+        {
+            BeginIndent(width);
+            PrefixLabelSetting.width -= width;
+        }
+
+        public static void EndPrefixIndent()
+        {
+
+        }
+
+#region implement drag
 
         static Vector2 lastMousePos;
         static readonly int doDragHash = "DoDrag".GetHashCode();
@@ -95,7 +127,7 @@ namespace FuGUI
             var ev = Event.current;
             var etype = ev.GetTypeForControl(controlID);
 
-            switch(etype)
+            switch (etype)
             {
                 case EventType.MouseDown:
                     {
@@ -142,7 +174,7 @@ namespace FuGUI
 
                             ev.Use();
                         }
-                        
+
                     }
                     break;
             }
@@ -151,14 +183,16 @@ namespace FuGUI
         }
 
 
-        
+
 
         public static bool IsDraggable(Type type)
         {
             return (
-                (typeof(int) == type)  ||
+                (typeof(int) == type) ||
                 (typeof(float)) == type
                 );
         }
     }
+
+#endregion
 }

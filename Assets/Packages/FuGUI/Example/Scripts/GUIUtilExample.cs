@@ -74,10 +74,10 @@ namespace FuGUI.Example
                     _dynamicFolds.OnGUI();
                     _int = GUIUtil.IntButton(_int, "IntButton");
 
-                    GUIUtil.Indent(() =>
+                    using (new GUIUtil.IndentScope())
                     {
                         GUILayout.Label("Indent");
-                    });
+                    }
 
                     using (var cs = new GUIUtil.ColorScope(Color.green))
                     {

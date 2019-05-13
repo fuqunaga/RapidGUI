@@ -24,6 +24,7 @@ namespace FuGUI.Example
             Flag100 = 4,
         }
 
+        [System.Serializable]
         public class CustomClass
         {
             public int intVal;
@@ -34,11 +35,12 @@ namespace FuGUI.Example
             public string stringVal;
         }
 
+        [System.Serializable]
         public class ComplexClass
         {
-            public string str;
+            public string longNameFieldSoThatWillBeMultiLine;
             public CustomClass customClass = new CustomClass();
-            public ComplexClass complexClass;
+            public ComplexClass complexClass = null;
             public float[] floatList;
             public List<CustomClass> customClassList;
         }

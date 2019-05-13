@@ -19,34 +19,36 @@ namespace FuGUI
 
         public static object Field(object obj, Type type, string label = null, params GUILayoutOption[] options)
         {
-            using (var h = new GUILayout.HorizontalScope(options))
+            GUILayout.BeginHorizontal(options);
             {
-                obj = PrefixLabelDraggable(label, obj, type);
-                obj = DicpatchFieldFunc(type).Invoke(obj, type);
+                obj = PrefixLabelDraggable(label, obj, type, out var isLong);
+                if (isLong)
+                {
+                    GUILayout.EndHorizontal();
+                    GUILayout.BeginHorizontal(options);
+                    GUILayout.Space(PrefixLabelSetting.width + GUI.skin.label.margin.horizontal);
+                }
+
+                obj = DispatchFieldFunc(type).Invoke(obj, type);
             }
+            GUILayout.EndHorizontal();
 
             return obj;
         }
 
-        static Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>();
-        static Stack<int> recursiveTypeLoopCheck = new Stack<int>();
-
-        static FieldFunc DicpatchFieldFunc(Type type)
+        static Dictionary<Type, FieldFunc> fieldFuncTable = new Dictionary<Type, FieldFunc>()
         {
-            FieldFunc func;
-            if (!fieldFuncTable.TryGetValue(type, out func))
+            {typeof(bool), new FieldFunc((obj,t) => BoolField(obj)) },
+            {typeof(Color), new FieldFunc((obj,t) => ColorField(obj)) }
+        };
+
+        static FieldFunc DispatchFieldFunc(Type type)
+        {
+            if (!fieldFuncTable.TryGetValue(type, out var func))
             {
                 if (type.IsEnum)
                 {
                     func = new FieldFunc((obj, t) => EnumField(obj));
-                }
-                else if (type == typeof(bool))
-                {
-                    func = new FieldFunc((obj, t) => BoolField(obj));
-                }
-                else if (type == typeof(Color))
-                {
-                    func = new FieldFunc((obj, t) => ColorField(obj));
                 }
                 else if (IsList(type))
                 {
@@ -54,30 +56,7 @@ namespace FuGUI
                 }
                 else if (IsRecursive(type))
                 {
-                    if (type.IsValueType)
-                    {
-                        func = new FieldFunc((obj, t) => RecursiveField(obj));
-                    }
-                    else
-                    {
-                        func = new FieldFunc((obj, t) =>
-                        {
-                            var ret = obj;
-                            var hash = obj.GetHashCode();
-                            if (recursiveTypeLoopCheck.Contains(hash))
-                            {
-                                GUILayout.Label($"<color=grey>[{type}]: loop reference detected.</color>", "box");
-                            }
-                            else
-                            {
-                                recursiveTypeLoopCheck.Push(hash);
-                                ret = RecursiveField(obj);
-                                recursiveTypeLoopCheck.Pop();
-                            }
-
-                            return ret;
-                        });
-                    }
+                    func = new FieldFunc((obj, t) => RecursiveField(obj));
                 }
                 else
                 {
