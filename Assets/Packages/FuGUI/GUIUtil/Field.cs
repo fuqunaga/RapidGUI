@@ -19,19 +19,11 @@ namespace FuGUI
 
         public static object Field(object obj, Type type, string label = null, params GUILayoutOption[] options)
         {
-            GUILayout.BeginHorizontal(options);
+            using (new GUILayout.HorizontalScope(options))
             {
-                obj = PrefixLabelDraggable(label, obj, type, out var isLong);
-                if (isLong)
-                {
-                    GUILayout.EndHorizontal();
-                    GUILayout.BeginHorizontal(options);
-                    GUILayout.Space(PrefixLabelSetting.width + GUI.skin.label.margin.horizontal);
-                }
-
+                obj = PrefixLabelDraggable(label, obj, type, options);
                 obj = DispatchFieldFunc(type).Invoke(obj, type);
             }
-            GUILayout.EndHorizontal();
 
             return obj;
         }

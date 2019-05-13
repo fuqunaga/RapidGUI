@@ -8,7 +8,7 @@ namespace FuGUI
     public static partial class GUIUtil
     {
         static Stack<int> recursiveTypeLoopCheck = new Stack<int>();
-        static bool isInRecursive => recursiveTypeLoopCheck.Count > 1;
+        static bool isInRecursive => recursiveTypeLoopCheck.Count > 0;
 
         static object RecursiveFlow(object obj, Func<object> doFunc)
         {

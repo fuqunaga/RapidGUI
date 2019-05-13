@@ -10,6 +10,7 @@ namespace FuGUI.Example
     public class SliderExample : MonoBehaviour
     {
         public int intVal;
+        [Range(0,1)]
         public float floatVal;
         public Vector2 vector2Val;
         public Vector3 vector3Val;

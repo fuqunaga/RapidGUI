@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FuGUI
@@ -15,11 +14,32 @@ namespace FuGUI
         {
             min = min ?? Activator.CreateInstance(obj.GetType());
 
-            var type = obj.GetType();
+            GUILayout.EndHorizontal();
+            {
+                using (new PrefixLabelIndentScope())
+                {
+                    var type = obj.GetType();
+                    //if (IsMultiLine(type))
+                    {
+                        DoSlider(obj, min, max, type);
+                    }
+                    /*
+                    else
+                    {
+                        PrefixLabelSetting.alignRight = isInRecursive;
+                        DoSlider(obj, min, max, type);
+                        PrefixLabelSetting.alignRight = false;
+                    }
+                    */
+                }
+            }
+            GUILayout.BeginHorizontal();
 
+            return obj;
+        }
 
-            PrefixLabelSetting.alignRight = true;
-
+        static void DoSlider(object obj, object min, object max, Type type)
+        {
             var infos = GetMemberInfoList(type);
             for (var i = 0; i < infos.Count; ++i)
             {
@@ -33,10 +53,6 @@ namespace FuGUI
 
                 fi.SetValue(obj, elem);
             }
-
-            PrefixLabelSetting.alignRight = false;
-
-            return obj;
         }
     }
 }

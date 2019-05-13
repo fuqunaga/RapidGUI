@@ -85,7 +85,18 @@ namespace FuGUI
         */
 
 
-        public static object PrefixLabelDraggable(string label, object obj, Type type) => PrefixLabelDraggable(label, obj, type, out var isLong);
+        public static object PrefixLabelDraggable(string label, object obj, Type type, params GUILayoutOption[] options)
+        {
+            var ret = PrefixLabelDraggable(label, obj, type, out var isLong);
+            if (isLong)
+            {
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal(options);
+                GUILayout.Space(PrefixLabelSetting.width + GUI.skin.label.margin.horizontal);
+            }
+
+            return ret;
+        }
 
         public static object PrefixLabelDraggable(string label, object obj, Type type, out bool isLong)
         {

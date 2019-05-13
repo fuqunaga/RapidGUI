@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 
@@ -10,8 +9,11 @@ namespace FuGUI
     {
         delegate object SliderFunc(object v, object min, object max);
 
-        public static float sliderMinWidth = 200f;
-        public static float sliderFieldWidth = 80f;
+        public static class SliderSetting
+        {
+            public static float minWidth = 200f;
+            public static float fieldWidth = 80f;
+        }
 
 
         public static float Slider(float v, string label = null, params GUILayoutOption[] options)
@@ -38,7 +40,7 @@ namespace FuGUI
         {
             using (var h = new GUILayout.HorizontalScope(options))
             {
-                obj = PrefixLabelDraggable(label, obj, type);
+                obj = PrefixLabelDraggable(label, obj, type, options);
                 obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
             }
 
@@ -75,16 +77,16 @@ namespace FuGUI
 
         static object SliderInt(object v, object min, object max)
         {
-            var ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max, GUILayout.MinWidth(sliderMinWidth));
-            ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
+            var ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max, GUILayout.MinWidth(SliderSetting.minWidth));
+            ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
 
             return ret;
         }
 
         static object SliderFloat(object v, object min, object max)
         {
-            var ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max, GUILayout.MinWidth(sliderMinWidth));
-            ret = (float)StandardField(ret, v.GetType(), GUILayout.Width(sliderFieldWidth));
+            var ret = GUILayout.HorizontalSlider((float)v, (float)min, (float)max, GUILayout.MinWidth(SliderSetting.minWidth));
+            ret = (float)StandardField(ret, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
 
 
             return ret;

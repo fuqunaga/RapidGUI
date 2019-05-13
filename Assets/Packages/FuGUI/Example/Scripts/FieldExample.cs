@@ -80,14 +80,11 @@ namespace FuGUI.Example
             var c = new ComplexClass();
             c.complexClass = complexClassVal;
             complexClassVal.complexClass = c;
-
-            arrayVal = null;
-            listVal = null;
         }
 
         private void OnGUI()
         {
-            GUILayout.Label("<b>GUIUtil.Field()</b>");
+            GUILayout.Label($"<b>GUIUtil.Field()</b>");
 
             using (var sc = new GUILayout.ScrollViewScope(scrollPosition))
             {
