@@ -80,6 +80,9 @@ namespace FuGUI.Example
             var c = new ComplexClass();
             c.complexClass = complexClassVal;
             complexClassVal.complexClass = c;
+
+            arrayVal = null;
+            listVal = null;
         }
 
         private void OnGUI()

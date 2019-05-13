@@ -19,17 +19,18 @@ namespace FuGUI
             {
                 if (v == null)
                 {
-                    GUILayout.Label("<color=grey>List is null</color>");
+                    WarningLabelNoStyle("List is null.");
                 }
                 else if (!hasElem)
                 {
-                    GUILayout.Label("<color=grey>List is Empty</color>");
+                    WarningLabelNoStyle("List is empty.");
                 }
                 else
                 {
                     for (var i = 0; i < list.Count; ++i)
                     {
-                        list[i] = Field(list[i], elemType);
+                        var label = IsMultiLine(elemType) ? $"Element {i}" : null;
+                        list[i] = Field(list[i], elemType, label);
                     }
                 }
 
@@ -41,10 +42,13 @@ namespace FuGUI
                     var width = GUILayout.Width(20f);
                     if (GUILayout.Button("+", width))
                     {
-                        if (list == null) list = (IList)Activator.CreateInstance(type);
+                        if (list == null)
+                        {
+                            list = (IList)Activator.CreateInstance(type, 0);
+                        }
+
                         var newElem = CreateNewElement(hasElem ? list[list.Count - 1] : null, elemType);
 
-                        // list.Add() is Not implemented if type is array. so it rise exception.
                         var array = list as Array;
                         if (array != null)
                         {
@@ -63,7 +67,6 @@ namespace FuGUI
                     GUI.enabled = hasElem;
                     if (GUILayout.Button("-", width))
                     {
-                        // list.Add() is Not implemented if type is array. so it rise exception.
                         var array = list as Array;
                         if (array != null)
                         {

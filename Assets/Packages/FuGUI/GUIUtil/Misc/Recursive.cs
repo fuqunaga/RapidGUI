@@ -14,7 +14,7 @@ namespace FuGUI
         {
             if (obj == null)
             {
-                GUILayout.Label("<color=grey>object is null</color>", "box");
+                WarningLabel("object is null.");
             }
             else
             {
@@ -30,7 +30,7 @@ namespace FuGUI
 
                     if (recursiveTypeLoopCheck.Contains(hash))
                     {
-                        GUILayout.Label($"<color=grey>[{type}]: circular reference detected.</color>", "box");
+                        WarningLabel($"[{type}]: circular reference detected.");
                     }
                     else
                     {
