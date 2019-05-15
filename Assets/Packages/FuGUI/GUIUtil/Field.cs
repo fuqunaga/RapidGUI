@@ -9,17 +9,20 @@ namespace FuGUI
 
     public static partial class GUIUtil
     {
-        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options)
+        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field<T>(v, label, GUIStyle.none, options);
+
+        public static T Field<T>(T v, string label, GUIStyle style, params GUILayoutOption[] options)
         {
             var type = typeof(T);
-            var obj = Field(v, type, label, options);
+            var obj = Field(v, type, label, style, options);
             return (T)Convert.ChangeType(obj, type);
         }
 
+        public static object Field(object obj, Type type, string label = null, params GUILayoutOption[] options) => Field(obj, type, label, GUIStyle.none, options);
 
-        public static object Field(object obj, Type type, string label = null, params GUILayoutOption[] options)
+        public static object Field(object obj, Type type, string label, GUIStyle style, params GUILayoutOption[] options)
         {
-            using (new GUILayout.HorizontalScope(options))
+            using (new GUILayout.HorizontalScope(style, options))
             {
                 obj = PrefixLabelDraggable(label, obj, type, options);
                 obj = DispatchFieldFunc(type).Invoke(obj, type);
