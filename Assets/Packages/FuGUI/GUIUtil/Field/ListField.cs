@@ -8,6 +8,7 @@ namespace FuGUI
     public static partial class GUIUtil
     {
         static readonly string ListInterfaceStr = "IList`1";
+        static readonly string[] listPopupButtonNames = new[]{"Add Element", "Delete Element"}; 
 
         static Rect rect_;
 
@@ -50,27 +51,18 @@ namespace FuGUI
 
                         var idx = i; // bind current i for lamda
 
-                        /*
-                        Popup(rect, 1, new Vector2(200f, 50f), () =>
+
+                        var result = Popup(rect, 1, listPopupButtonNames);
+                        switch(result)
                         {
-                            var finish = false;
-                            if (GUILayout.Button("Add Element", Style.flatButton))
-                            {
-                                AddNewElement(ref list, elemType, list[idx], idx + 1);
-                                finish = true;
-                            }
+                            case 0:
+                                list = AddElement(list, elemType, list[i], i);
+                                break;
 
-                            if (GUILayout.Button("Delete Element", Style.flatButton))
-                            {
-                                list = DeleteElement(list, elemType, idx);
-                                finish = true;
-                            }
-
-
-                            return finish;
-                        });
-                        */
-
+                            case 1:
+                                list = DeleteElement(list, elemType, i);
+                                break;
+                        }
                     }
                 }
 
@@ -89,28 +81,14 @@ namespace FuGUI
 
                         var baseElem = hasElem ? list[list.Count - 1] : null;
 
-                        AddNewElement(ref list, elemType, baseElem, list.Count);
+                        list = AddElement(list, elemType, baseElem, list.Count);
                     }
 
                     var tmp = GUI.enabled;
                     GUI.enabled = hasElem;
                     if (GUILayout.Button("-", width))
                     {
-#if true
                         list = DeleteElement(list, elemType, list.Count - 1);
-#else
-                        var array = list as Array;
-                        if (array != null)
-                        {
-                            var newArray = Array.CreateInstance(elemType, array.Length - 1);
-                            Array.Copy(array, newArray, array.Length - 1);
-                            list = newArray;
-                        }
-                        else
-                        {
-                            list.RemoveAt(list.Count - 1);
-                        }
-#endif
                     }
                     GUI.enabled = tmp;
                 }
@@ -120,7 +98,7 @@ namespace FuGUI
         }
 
 
-        static IList AddNewElement(ref IList list, Type elemType, object baseElem, int index)
+        static IList AddElement(IList list, Type elemType, object baseElem, int index)
         {
             index = Mathf.Clamp(index, 0, list.Count);
             var newElem = CreateNewElement(baseElem, elemType);

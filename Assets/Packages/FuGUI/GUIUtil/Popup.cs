@@ -12,7 +12,7 @@ namespace FuGUI
 
 
         public static int Popup(Rect launchRect, string[] displayOptions) => Popup(launchRect, -1, -1, displayOptions, "");
-
+        public static int Popup(Rect launchRect, int button, string[] displayOptions) => Popup(launchRect, button, -1, displayOptions, "");
 
         public static int Popup(Rect launchRect, int button, int selectionIndex, string[] displayOptions, string label = "")
         {
