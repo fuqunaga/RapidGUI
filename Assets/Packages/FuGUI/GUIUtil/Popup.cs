@@ -31,7 +31,7 @@ namespace FuGUI
                     && launchRect.Contains(pos)
                     )
                 {
-                    popupPos = pos;
+                    popupPos =  GUIUtility.GUIToScreenPoint(pos);
                     popupControlID = controlID;
                     ev.Use();
                 }

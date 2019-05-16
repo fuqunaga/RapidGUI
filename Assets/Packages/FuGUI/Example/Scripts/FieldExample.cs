@@ -84,13 +84,6 @@ namespace FuGUI.Example
 
         private void OnGUI()
         {
-            GUILayout.Box("Popup");
-            var resultIdx = GUIUtil.PopupOnLastRect(new[] { "Button One", "Button Two", "Button Three" });
-            if (resultIdx >= 0)
-            {
-                Debug.Log($"Popup: Button{resultIdx + 1}");
-            }
-
             GUILayout.Label($"<b>GUIUtil.Field()</b>");
 
             using (var sc = new GUILayout.ScrollViewScope(scrollPosition))
