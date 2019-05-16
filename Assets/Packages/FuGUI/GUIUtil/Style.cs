@@ -20,7 +20,7 @@ namespace FuGUI
 
             static void CreateFlatButton()
             {
-                var style = new GUIStyle("label");
+                var style = new GUIStyle("label");                
                 style.padding = new RectOffset(24, 6, 2, 2);
 
                 var toggle = GUI.skin.toggle;
@@ -32,13 +32,14 @@ namespace FuGUI
                 tex.Apply();
                 style.hover.background = tex;
 
+                style.name = nameof(flatButton);
                 flatButton = style;
             }
 
             static void CreatePopup()
             {
                 var style = new GUIStyle("box");
-                style.stretchHeight = true;
+                style.border = new RectOffset();
 
                 var tex = new Texture2D(1, 1);
                 var brightness = 0.2f;
@@ -49,6 +50,7 @@ namespace FuGUI
                 style.normal.background =
                 style.hover.background = tex;
 
+                style.name = nameof(popup);
                 popup = style;
             }
         }

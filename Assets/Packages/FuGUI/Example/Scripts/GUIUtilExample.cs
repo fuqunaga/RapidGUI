@@ -83,6 +83,14 @@ namespace FuGUI.Example
                     {
                         GUILayout.Label("ColorScope");
                     }
+
+                    GUILayout.Box("Popup");
+                    var rect = GUILayoutUtility.GetLastRect();
+                    var resultIdx = GUIUtil.Popup(rect, new[] { "Button One", "Button Two", "Button Three" });
+                    if (resultIdx >= 0 )
+                    {
+                        Debug.Log($"Popup: Button{resultIdx + 1}");
+                    }
                 }
 
                 _fieldFolds.OnGUI();

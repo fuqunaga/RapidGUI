@@ -50,12 +50,13 @@ namespace FuGUI
 
                         var idx = i; // bind current i for lamda
 
+                        /*
                         Popup(rect, 1, new Vector2(200f, 50f), () =>
                         {
                             var finish = false;
                             if (GUILayout.Button("Add Element", Style.flatButton))
                             {
-                                list = AddNewElement(list, elemType, list[idx], idx + 1);
+                                AddNewElement(ref list, elemType, list[idx], idx + 1);
                                 finish = true;
                             }
 
@@ -68,6 +69,7 @@ namespace FuGUI
 
                             return finish;
                         });
+                        */
 
                     }
                 }
@@ -87,7 +89,7 @@ namespace FuGUI
 
                         var baseElem = hasElem ? list[list.Count - 1] : null;
 
-                        list = AddNewElement(list, elemType, baseElem, list.Count);
+                        AddNewElement(ref list, elemType, baseElem, list.Count);
                     }
 
                     var tmp = GUI.enabled;
@@ -118,7 +120,7 @@ namespace FuGUI
         }
 
 
-        static IList AddNewElement(IList list, Type elemType, object baseElem, int index)
+        static IList AddNewElement(ref IList list, Type elemType, object baseElem, int index)
         {
             index = Mathf.Clamp(index, 0, list.Count);
             var newElem = CreateNewElement(baseElem, elemType);
