@@ -10,9 +10,10 @@ namespace FuGUI
 
         static readonly int popupWindowID = "Popup".GetHashCode();
 
+        public static int PopupOnLastRect(string[] displayOptions, string label="") => PopupOnLastRect(-1, displayOptions, -1, label);
+        public static int PopupOnLastRect(string[] displayOptions, int button, string label = "") => PopupOnLastRect(-1, displayOptions, button, label);
 
-        public static int Popup(Rect launchRect, string[] displayOptions) => Popup(launchRect, -1, -1, displayOptions, "");
-        public static int Popup(Rect launchRect, int button, string[] displayOptions) => Popup(launchRect, button, -1, displayOptions, "");
+        public static int PopupOnLastRect(int selectionIndex, string[] displayOptions, int button, string label = "") => Popup(GUILayoutUtility.GetLastRect(), button, selectionIndex, displayOptions, label);
 
         public static int Popup(Rect launchRect, int button, int selectionIndex, string[] displayOptions, string label = "")
         {
@@ -50,7 +51,7 @@ namespace FuGUI
                     var type = Event.current.type;
                     if ((type == EventType.Layout) || (type== EventType.Repaint) )
                     {
-                        var buttonStyle = Style.flatButton;
+                        var buttonStyle = Style.popupButton;
                         var contentSize = Vector2.zero;
                         for (var i = 0; i < displayOptions.Length; ++i)
                         {
@@ -73,7 +74,7 @@ namespace FuGUI
                         {
                             for (var j = 0; j < displayOptions.Length; ++j)
                             {
-                                if (GUILayout.Button(displayOptions[j], Style.flatButton))
+                                if (GUILayout.Button(displayOptions[j], Style.popupButton))
                                 {
                                     popupResult = j;
                                 }

@@ -1,12 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace FuGUI
 {
     public static partial class GUIUtil
     {
-        #region Static Method Style
-
         public static void BeginIndent(float width = 20f)
         {
             GUILayout.BeginHorizontal();
@@ -20,25 +17,11 @@ namespace FuGUI
             GUILayout.EndHorizontal();
 
         }
-
-        #endregion
-
-
-        #region Scope Style
-
         public class IndentScope : GUI.Scope
         {
-            public IndentScope(float width = 20f)
-            {
-                BeginIndent(width);
-            }
+            public IndentScope(float width = 20f) => BeginIndent(width);
 
-            protected override void CloseScope()
-            {
-                EndIndent();
-            }
+            protected override void CloseScope() => EndIndent();
         }
-
-        #endregion
     }
 }

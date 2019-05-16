@@ -8,7 +8,7 @@ namespace FuGUI
     public static partial class GUIUtil
     {
         static readonly string ListInterfaceStr = "IList`1";
-        static readonly string[] listPopupButtonNames = new[]{"Add Element", "Delete Element"}; 
+        static readonly string[] listPopupButtonNames = new[] { "Add Element", "Delete Element" };
 
         static Rect rect_;
 
@@ -37,23 +37,13 @@ namespace FuGUI
                     {
                         var label = IsMultiLine(elemType) ? $"Element {i}" : null;
 
-                        using (new GUILayout.HorizontalScope())
+                        using (new IndentScope(20f))
                         {
-                            GUILayout.Space(20f);
-                            using (new GUILayout.VerticalScope())
-                            {
-                                list[i] = Field(list[i], elemType, label);
-                            }
+                            list[i] = Field(list[i], elemType, label);
                         }
 
-                        var rect = GUILayoutUtility.GetLastRect();
-
-
-                        var idx = i; // bind current i for lamda
-
-
-                        var result = Popup(rect, 1, listPopupButtonNames);
-                        switch(result)
+                        var result = PopupOnLastRect(listPopupButtonNames, 1);
+                        switch (result)
                         {
                             case 0:
                                 list = AddElement(list, elemType, list[i], i);
@@ -84,13 +74,13 @@ namespace FuGUI
                         list = AddElement(list, elemType, baseElem, list.Count);
                     }
 
-                    var tmp = GUI.enabled;
-                    GUI.enabled = hasElem;
-                    if (GUILayout.Button("-", width))
+                    using (new EnabledScope(hasElem))
                     {
-                        list = DeleteElement(list, elemType, list.Count - 1);
+                        if (GUILayout.Button("-", width))
+                        {
+                            list = DeleteElement(list, elemType, list.Count - 1);
+                        }
                     }
-                    GUI.enabled = tmp;
                 }
             }
 

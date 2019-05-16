@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace FuGUI
 {
@@ -9,7 +6,7 @@ namespace FuGUI
     {
         public static class Style
         {
-            public static GUIStyle flatButton;
+            public static GUIStyle popupButton;
             public static GUIStyle popup;
 
             static Style()
@@ -21,7 +18,7 @@ namespace FuGUI
             static void CreateFlatButton()
             {
                 var style = new GUIStyle("label");                
-                style.padding = new RectOffset(24, 6, 2, 2);
+                style.padding = new RectOffset(24, 48, 2, 2);
 
                 var toggle = GUI.skin.toggle;
                 style.normal.textColor = toggle.normal.textColor;
@@ -32,8 +29,8 @@ namespace FuGUI
                 tex.Apply();
                 style.hover.background = tex;
 
-                style.name = nameof(flatButton);
-                flatButton = style;
+                style.name = nameof(popupButton);
+                popupButton = style;
             }
 
             static void CreatePopup()

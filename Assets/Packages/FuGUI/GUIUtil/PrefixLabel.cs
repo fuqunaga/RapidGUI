@@ -27,10 +27,8 @@ namespace FuGUI
         static class PrefixLabelSetting
         {
             public static float width = 128f;
-            public static bool alignRight;
         }
 
-        static GUIStyle labelStyle => PrefixLabelSetting.alignRight ? labelRight : GUI.skin.label;
 
 
         static GUIContent tmpContent = new GUIContent();
@@ -45,11 +43,11 @@ namespace FuGUI
                 isLong = GUI.skin.label.CalcHeight(tmpContent, PrefixLabelSetting.width) > 21;
                 if (isLong)
                 {
-                    GUILayout.Label(label, labelStyle);
+                    GUILayout.Label(label);
                 }
                 else
                 {
-                    GUILayout.Label(label, labelStyle, GUILayout.Width(PrefixLabelSetting.width));
+                    GUILayout.Label(label, GUILayout.Width(PrefixLabelSetting.width));
                 }
 
             }
@@ -111,17 +109,6 @@ namespace FuGUI
             }
 
             return obj;
-        }
-
-        public static void BeginPrefixIndent(float width)
-        {
-            BeginIndent(width);
-            PrefixLabelSetting.width -= width;
-        }
-
-        public static void EndPrefixIndent()
-        {
-
         }
 
 #region implement drag

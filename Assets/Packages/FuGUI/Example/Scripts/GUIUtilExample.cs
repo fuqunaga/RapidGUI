@@ -72,7 +72,6 @@ namespace FuGUI.Example
                     _miscFolds.OnGUI();
                     _dynamicFoldEnable = GUILayout.Toggle(_dynamicFoldEnable, "DynamicFold");
                     _dynamicFolds.OnGUI();
-                    _int = GUIUtil.IntButton(_int, "IntButton");
 
                     using (new GUIUtil.IndentScope())
                     {
@@ -85,8 +84,7 @@ namespace FuGUI.Example
                     }
 
                     GUILayout.Box("Popup");
-                    var rect = GUILayoutUtility.GetLastRect();
-                    var resultIdx = GUIUtil.Popup(rect, new[] { "Button One", "Button Two", "Button Three" });
+                    var resultIdx = GUIUtil.PopupOnLastRect(new[] { "Button One", "Button Two", "Button Three" });
                     if (resultIdx >= 0 )
                     {
                         Debug.Log($"Popup: Button{resultIdx + 1}");
