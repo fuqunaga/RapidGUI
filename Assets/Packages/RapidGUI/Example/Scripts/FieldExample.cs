@@ -79,7 +79,7 @@ namespace RapidGUI.Example
         {
             var c = new ComplexClass();
             c.complexClass = complexClassVal;
-            complexClassVal.complexClass = c;
+            complexClassVal.complexClass = c; // circular reference
         }
 
         private void OnGUI()
@@ -104,6 +104,8 @@ namespace RapidGUI.Example
                         enumFlagsVal = RGUI.Field(enumFlagsVal, "enumFlags");
 
                         vector2Val = RGUI.Field(vector2Val, "vector2");
+
+
                         vector3Val = RGUI.Field(vector3Val, "vector3");
                         vector4Val = RGUI.Field(vector4Val, "vector4");
 
@@ -120,6 +122,7 @@ namespace RapidGUI.Example
                         arrayVal = RGUI.Field(arrayVal, "array");
                         listVal = RGUI.Field(listVal, "list");
                     }
+
 
                     using (new GUILayout.VerticalScope())
                     {

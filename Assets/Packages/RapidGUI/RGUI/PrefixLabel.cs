@@ -26,10 +26,8 @@ namespace RapidGUI
 
         static class PrefixLabelSetting
         {
-            public static float width = 128f;
+            public static float width = 130f;
         }
-
-
 
         static GUIContent tmpContent = new GUIContent();
 
@@ -39,17 +37,19 @@ namespace RapidGUI
 
             if (!string.IsNullOrEmpty(label))
             {
+                var style = GUI.skin.label;
                 tmpContent.text = label;
-                isLong = GUI.skin.label.CalcHeight(tmpContent, PrefixLabelSetting.width) > 21;
+                isLong = style.CalcHeight(tmpContent, PrefixLabelSetting.width) > 21;
+
+
                 if (isLong)
                 {
                     GUILayout.Label(label);
                 }
                 else
                 {
-                    GUILayout.Label(label, GUILayout.Width(PrefixLabelSetting.width));
+                    GUILayout.Label(label, GUILayout.Width(PrefixLabelSetting.width));                    
                 }
-
             }
 
             return isLong;

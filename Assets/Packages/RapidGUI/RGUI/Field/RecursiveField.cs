@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace RapidGUI
@@ -42,7 +43,7 @@ namespace RapidGUI
             return obj;
         }
 
-
+        static StringBuilder tmpStringBuilder = new StringBuilder();
         static void DoFields(object obj, Type type)
         {
             var infos = GetMemberInfoList(type);
@@ -50,7 +51,13 @@ namespace RapidGUI
             {
                 var info = infos[i];
                 var v = info.GetValue(obj);
-                v = Field(v, info.MemberType, info.Name);
+
+                // for the bug? that short label will be strange word wrap at unity2019
+                tmpStringBuilder.Clear();
+                tmpStringBuilder.Append(info.Name);
+                tmpStringBuilder.Append(" ");
+
+                v = Field(v, info.MemberType, tmpStringBuilder.ToString());
                 info.SetValue(obj, v);
             };
         }
