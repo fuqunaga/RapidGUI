@@ -4,7 +4,7 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        public static void BeginIndent(float width = 20f)
+        public static void BeginIndent(float width = 32f)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Space(width);
@@ -19,7 +19,7 @@ namespace RapidGUI
         }
         public class IndentScope : GUI.Scope
         {
-            public IndentScope(float width = 20f) => BeginIndent(width);
+            public IndentScope(float width = 32f) => BeginIndent(width);
 
             protected override void CloseScope() => EndIndent();
         }

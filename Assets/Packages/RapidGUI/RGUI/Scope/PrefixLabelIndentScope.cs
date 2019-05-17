@@ -8,7 +8,7 @@ namespace RapidGUI
         {
             float width;
 
-            public PrefixLabelIndentScope(float width=20f)
+            public PrefixLabelIndentScope(float width=32f)
             {
                 BeginIndent(width);
                 PrefixLabelSetting.width -= width;

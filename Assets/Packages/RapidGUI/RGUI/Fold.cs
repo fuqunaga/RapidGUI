@@ -35,7 +35,9 @@ namespace RapidGUI
 
         public void SetTitleAction(Action titleAction) => this.titleAction = titleAction;
 
-        public void Add(Func<bool> drawFunc) { Add(null, drawFunc); }
+
+        public void Add(Func<bool> drawFunc) => Add(null, drawFunc);
+
         public void Add(Func<bool> checkEnableFunc, Func<bool> drawFunc)
         {
             _funcDatas.Add(new FuncData()

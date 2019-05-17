@@ -3,7 +3,7 @@
 
 namespace RapidGUI.Example
 {
-    public class GUIUtilExample : MonoBehaviour
+    public class RapidGUIExample : MonoBehaviour
     {
         Folds _fieldFolds = new Folds();
         Folds _sliderFolds = new Folds();

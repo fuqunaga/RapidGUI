@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -24,8 +25,8 @@ namespace RapidGUI.Example
             Flag100 = 4,
         }
 
-        [System.Serializable]
-        public class CustomClass
+        [Serializable]
+        public class CustomClass : ICloneable
         {
             public int intVal;
             public float floatVal;
@@ -33,6 +34,17 @@ namespace RapidGUI.Example
             [Range(0f, 100f)]
             public float rangeVal;
             public string stringVal;
+
+
+            // if class is ICloneable or has Copy Constructor then Array/List element will be dupricate when add new element
+            public object Clone()
+            {
+                return new CustomClass()
+                {
+                    intVal = intVal,
+                    floatVal = floatVal
+                };
+            }
         }
 
         [System.Serializable]
