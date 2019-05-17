@@ -94,8 +94,7 @@ namespace RapidGUI
                 propertyInfoTable = list.ToDictionary(tn => tn.type, tn => tn.names.Select(name => tn.type.GetProperty(name)).ToList());
             };
 
-            List<PropertyInfo> piList;
-            propertyInfoTable.TryGetValue(type, out piList);
+            propertyInfoTable.TryGetValue(type, out var piList);
 
             return piList ?? new List<PropertyInfo>();
         }
@@ -109,10 +108,18 @@ namespace RapidGUI
 
         static List<FieldInfo> GetFieldInfoList(Type type)
         {
-            List<FieldInfo> fiList;
-            if (!fieldInfoTable.TryGetValue(type, out fiList))
+            if (!fieldInfoTable.TryGetValue(type, out var fiList))
             {
-                fiList = type.GetFields(BindingFlags.Public | BindingFlags.Instance).ToList();
+                fiList = type
+                    .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(fi => fi.GetCustomAttribute<NonSerializedAttribute>() == null)
+                    .ToList();
+
+                fiList.AddRange(type
+                    .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(fi => fi.GetCustomAttribute<SerializeField>() != null)
+                    );
+
                 fieldInfoTable[type] = fiList;
             }
 

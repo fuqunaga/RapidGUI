@@ -17,7 +17,7 @@ namespace RapidGUI.Example
             Three,
         };
 
-        [System.Flags]
+        [Flags]
         public enum EnumSmapleFlags
         {
             Flag001 = 1,
@@ -25,24 +25,35 @@ namespace RapidGUI.Example
             Flag100 = 4,
         }
 
+        /// <summary>
+        /// Custom Class
+        ///  RapidGUI displays members with the same rules as unity serialize
+        ///  if class is ICloneable or has Copy Constructor then Array/List element will be dupricate when add new element
+        /// </summary>
         [Serializable]
         public class CustomClass : ICloneable
         {
             public int intVal;
-            public float floatVal;
+
+            [SerializeField]
+            protected float floatVal;
 
             [Range(0f, 100f)]
             public float rangeVal;
             public string stringVal;
 
+            [NonSerialized]
+            public int nonSerialized;
 
-            // if class is ICloneable or has Copy Constructor then Array/List element will be dupricate when add new element
+
             public object Clone()
             {
                 return new CustomClass()
                 {
                     intVal = intVal,
-                    floatVal = floatVal
+                    floatVal = floatVal,
+                    rangeVal = rangeVal,
+                    stringVal = stringVal
                 };
             }
         }
