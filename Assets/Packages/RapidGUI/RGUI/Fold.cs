@@ -64,12 +64,9 @@ namespace RapidGUI
 
                 using (new RGUI.IndentScope())
                 {
-                    //using (var v = new GUILayout.VerticalScope())
+                    if (isOpen)
                     {
-                        if (isOpen)
-                        {
-                            ret |= drawFuncs.Aggregate(false, (changed, drawFunc) => changed || drawFunc());
-                        }
+                        ret |= drawFuncs.Aggregate(false, (changed, drawFunc) => changed || drawFunc());
                     }
                 }
             }

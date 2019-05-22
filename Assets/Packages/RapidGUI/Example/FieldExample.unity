@@ -259,7 +259,7 @@ MonoBehaviour:
   boolVal: 0
   intVal: 0
   floatVal: 0
-  colorVal: {r: 0.44839802, g: 0.4968491, b: 0.859, a: 0.391}
+  colorVal: {r: 0.2392157, g: 0.37647063, b: 0.5686275, a: 1}
   enumVal: 1
   enumFlagsVal: 4
   vector2Val: {x: 0, y: 0}

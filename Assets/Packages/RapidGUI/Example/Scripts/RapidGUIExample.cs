@@ -5,10 +5,13 @@ namespace RapidGUI.Example
 {
     public class RapidGUIExample : MonoBehaviour
     {
-        Folds _fieldFolds = new Folds();
-        Folds _sliderFolds = new Folds();
-        Folds _miscFolds = new Folds();
-        Folds _dynamicFolds = new Folds();
+        Folds fieldFolds = new Folds();
+        Folds sliderFolds = new Folds();
+        Folds miscFolds = new Folds();
+        Folds dynamicFolds = new Folds();
+
+        WindowLauncher windowLauncher = new WindowLauncher("windowLauncher");
+        WindowLaunchers launchers = new WindowLaunchers();
 
 
         public string _string;
@@ -26,15 +29,15 @@ namespace RapidGUI.Example
 
         public void Start()
         {
-            _miscFolds.Add("Fold0", () => { GUILayout.Label("Fold0"); });
-            _miscFolds.Add("Fold1", () => { GUILayout.Label("Fold1 FirstAdd"); });
-            _miscFolds.Add("Fold1", () => { GUILayout.Label("Fold1 SecondAdd"); });
-            _miscFolds.Add("TitleAction", () => { GUILayout.Label("TitleAction"); }).SetTitleAction(() => _bool = GUILayout.Toggle(_bool, "Custom Title Action"));
-            _miscFolds.Add(-1, "FoldCustomOrder", () => { GUILayout.Label("FoldCustomOrder"); });
-            _miscFolds.Add("IDebugMenu", typeof(IDebugMenuExample));
-            _dynamicFolds.Add("DynamicFold", () => _dynamicFoldEnable, () => { GUILayout.Label("DynamicFold"); });
+            miscFolds.Add("Fold0", () => { GUILayout.Label("Fold0"); });
+            miscFolds.Add("Fold1", () => { GUILayout.Label("Fold1 FirstAdd"); });
+            miscFolds.Add("Fold1", () => { GUILayout.Label("Fold1 SecondAdd"); });
+            miscFolds.Add("TitleAction", () => { GUILayout.Label("TitleAction"); }).SetTitleAction(() => _bool = GUILayout.Toggle(_bool, "Custom Title Action"));
+            miscFolds.Add(-1, "FoldCustomOrder", () => { GUILayout.Label("FoldCustomOrder"); });
+            miscFolds.Add("IDebugMenu", typeof(IDebugMenuExample));
+            dynamicFolds.Add("DynamicFold", () => _dynamicFoldEnable, () => { GUILayout.Label("DynamicFold"); });
 
-            _fieldFolds.Add("Field", () =>
+            fieldFolds.Add("Field", () =>
             {
                 _string = RGUI.Field(_string, "string");
                 _bool = RGUI.Field(_bool, "bool");
@@ -49,7 +52,7 @@ namespace RapidGUI.Example
             }, true);
 
 
-            _sliderFolds.Add("Slider", () =>
+            sliderFolds.Add("Slider", () =>
             {
                 _int = RGUI.Slider(_int, 0, 100, "int");
                 _float = RGUI.Slider(_float, "float");
@@ -61,6 +64,13 @@ namespace RapidGUI.Example
                 _vector3Int = RGUI.Slider(_vector3Int, Vector3Int.zero, Vector3Int.one * 100, "Slider(Vector3Int)");
                 _rect = RGUI.Slider(_rect, Rect.zero, new Rect(1f, 1f, 1f, 1f), "Slider(Rect)");
             }, true);
+
+            windowLauncher.Add(() => GUILayout.Label("In WindowLauncher"));
+
+            launchers.name = "WindowLaunchers";
+            launchers.rect = new Rect(Vector2.up * 500f, Vector2.zero);
+            launchers.Add("LauncherItem0", () => GUILayout.Label("In LauncherItem0"));
+            launchers.Add("LauncherItem1", () => GUILayout.Label("In LauncherItem1"));
         }
 
         void OnGUI()
@@ -69,19 +79,25 @@ namespace RapidGUI.Example
             {
                 using (var v = new GUILayout.VerticalScope(GUILayout.MinWidth(300f)))
                 {
-                    _miscFolds.OnGUI();
+                    miscFolds.OnGUI();
                     _dynamicFoldEnable = GUILayout.Toggle(_dynamicFoldEnable, "DynamicFold");
-                    _dynamicFolds.OnGUI();
+                    dynamicFolds.OnGUI();
 
                     using (new RGUI.IndentScope())
                     {
-                        GUILayout.Label("Indent");
+                        GUILayout.Label("IndentScope");
                     }
 
-                    using (var cs = new RGUI.ColorScope(Color.green))
+                    using (new RGUI.ColorScope(Color.green))
                     {
                         GUILayout.Label("ColorScope");
                     }
+
+                    using (new RGUI.EnabledScope(false))
+                    {
+                        GUILayout.Label("EnabledScope");
+                    }
+
 
                     GUILayout.Box("Popup");
                     var resultIdx = RGUI.PopupOnLastRect(new[] { "Button One", "Button Two", "Button Three" });
@@ -89,10 +105,14 @@ namespace RapidGUI.Example
                     {
                         Debug.Log($"Popup: Button{resultIdx + 1}");
                     }
+
+                    windowLauncher.OnGUI();
                 }
 
-                _fieldFolds.OnGUI();
-                _sliderFolds.OnGUI();
+                fieldFolds.OnGUI();
+                sliderFolds.OnGUI();
+
+                launchers.OnGUI();
             }
         }
     }

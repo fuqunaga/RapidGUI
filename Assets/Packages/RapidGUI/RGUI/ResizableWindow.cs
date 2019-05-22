@@ -5,9 +5,9 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        public static Rect ResizableWindow(int id, Rect rect, GUI.WindowFunction func, string text, params GUILayoutOption[] options)
+        public static Rect ResizableWindow(int id, Rect rect, GUI.WindowFunction func, string text, GUIStyle style = null, params GUILayoutOption[] options)
         {
-            return _ResizableWindow.DoWindow(id, rect, func, text, options);
+            return _ResizableWindow.DoWindow(id, rect, func, text, style, options);
         }
 
         class _ResizableWindow
@@ -15,31 +15,40 @@ namespace RapidGUI
             #region static
 
             const int detectionRange = 8;
+            static readonly RectOffset overflow = new RectOffset(detectionRange, detectionRange, 0, detectionRange);
+            static GUIStyle defaultStyle;
 
-            static GUIStyle _style;
-            protected static GUIStyle Style
+            static _ResizableWindow()
             {
-                get
+                defaultStyle = new GUIStyle(GUI.skin.window);
+                defaultStyle.overflow = overflow;
+            }
+
+            protected static GUIStyle CheckStyle(GUIStyle style)
+            {
+                if (style == null)
                 {
-                    if (_style == null)
-                    {
-                        _style = new GUIStyle(GUI.skin.window);
-                        _style.overflow = new RectOffset(detectionRange, detectionRange, 0, detectionRange); ;
-                    }
-                    return _style;
+                    style = defaultStyle;
                 }
+                else if (style.overflow != overflow)
+                {
+                    style = new GUIStyle(style);
+                    style.overflow = overflow;
+                }
+
+                return style;
             }
 
             protected static Dictionary<int, _ResizableWindow> _table = new Dictionary<int, _ResizableWindow>();
 
-            public static Rect DoWindow(int id, Rect rect, GUI.WindowFunction func, string text, GUILayoutOption[] options)
+            public static Rect DoWindow(int id, Rect rect, GUI.WindowFunction func, string text, GUIStyle style = null, params GUILayoutOption[] options)
             {
                 _ResizableWindow window;
                 if (!_table.TryGetValue(id, out window))
                 {
                     _table[id] = window = new _ResizableWindow();
                 }
-                return window.Do(id, rect, func, text, options);
+                return window.Do(id, rect, func, text, style, options);
             }
 
             #endregion
@@ -48,10 +57,10 @@ namespace RapidGUI
             int draggingLR;
             int draggingTB;
 
-            protected Rect Do(int id, Rect rect, GUI.WindowFunction func, string text, GUILayoutOption[] options)
+            protected Rect Do(int id, Rect rect, GUI.WindowFunction func, string text, GUIStyle style = null, params GUILayoutOption[] options)
             {
                 rect = ResizeRect(rect, detectionRange);
-                return GUILayout.Window(id, rect, func, text, Style, options);
+                return GUILayout.Window(id, rect, func, text, CheckStyle(style), options);
             }
 
             Rect ResizeRect(Rect window, float detectionRange)
@@ -62,7 +71,7 @@ namespace RapidGUI
                 {
                     draggingLR = draggingTB = 0;
                 }
-                else if ( current.type == EventType.MouseDown)
+                else if (current.type == EventType.MouseDown)
                 {
                     Rect resizer = window;
                     var pos = current.mousePosition;
