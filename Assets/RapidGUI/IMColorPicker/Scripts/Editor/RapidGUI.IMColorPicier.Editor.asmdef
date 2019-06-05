@@ -1,0 +1,17 @@
+{
+    "name": "RapidGUI.IMColorPicier.Editor",
+    "references": [
+        "GUID:3d35d6db7bb67824691179b12a2ce031"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
