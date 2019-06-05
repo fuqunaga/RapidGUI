@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
 namespace RapidGUI
 {
     public class WindowLaunchers
@@ -32,7 +31,7 @@ namespace RapidGUI
         public string name = "";
         public bool isWindow = true;
         public bool isDraggable = true;
-        public Rect rect;
+        public Rect rect = new Rect(Vector2.one * 10f, Vector2.zero);
 
 
         public void Add(string name, Action drawFunc) => Add(name, () => true, drawFunc);
@@ -62,7 +61,7 @@ namespace RapidGUI
                     launchers.ForEach(l => l.OnGUI());
                     if (isDraggable) GUI.DragWindow();
                 },
-                name);
+                name, RGUI.Style.darkWindow);
             }
             else
             {

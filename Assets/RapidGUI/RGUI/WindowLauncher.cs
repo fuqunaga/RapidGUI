@@ -79,7 +79,7 @@ namespace RapidGUI
                         funcDatas.ForEach(data => data.OnGUI());
                         GUI.DragWindow();
                     }
-                    , name);
+                    , name, RGUI.Style.darkWindow);
             }
         }
 
@@ -90,7 +90,6 @@ namespace RapidGUI
         {
             public static readonly GUIStyle toggle;
             const int underLine = 3;
-
 
             static Style()
             {

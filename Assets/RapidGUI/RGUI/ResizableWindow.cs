@@ -7,10 +7,10 @@ namespace RapidGUI
     {
         public static Rect ResizableWindow(int id, Rect rect, GUI.WindowFunction func, string text, GUIStyle style = null, params GUILayoutOption[] options)
         {
-            return _ResizableWindow.DoWindow(id, rect, func, text, style, options);
+            return ResizableWindow_.DoWindow(id, rect, func, text, style, options);
         }
 
-        class _ResizableWindow
+        class ResizableWindow_
         {
             #region static
 
@@ -18,7 +18,9 @@ namespace RapidGUI
             static readonly RectOffset overflow = new RectOffset(detectionRange, detectionRange, 0, detectionRange);
             static GUIStyle defaultStyle;
 
-            static _ResizableWindow()
+            static Dictionary<GUIStyle, GUIStyle> customStyleDic = new Dictionary<GUIStyle, GUIStyle>();
+
+            static ResizableWindow_()
             {
                 defaultStyle = new GUIStyle(GUI.skin.window);
                 defaultStyle.overflow = overflow;
@@ -26,27 +28,35 @@ namespace RapidGUI
 
             protected static GUIStyle CheckStyle(GUIStyle style)
             {
+                GUIStyle ret = null;
                 if (style == null)
                 {
-                    style = defaultStyle;
+                    ret = defaultStyle;
                 }
                 else if (style.overflow != overflow)
                 {
-                    style = new GUIStyle(style);
-                    style.overflow = overflow;
+                    if (customStyleDic.TryGetValue(style, out var customStyle))
+                    {
+                        ret = customStyle;
+                    }
+                    else
+                    {
+                        ret = new GUIStyle(style);
+                        ret.overflow = overflow;
+                        customStyleDic[style] = ret;
+                    }
                 }
 
-                return style;
+                return ret;
             }
 
-            protected static Dictionary<int, _ResizableWindow> _table = new Dictionary<int, _ResizableWindow>();
+            protected static Dictionary<int, ResizableWindow_> table = new Dictionary<int, ResizableWindow_>();
 
             public static Rect DoWindow(int id, Rect rect, GUI.WindowFunction func, string text, GUIStyle style = null, params GUILayoutOption[] options)
             {
-                _ResizableWindow window;
-                if (!_table.TryGetValue(id, out window))
+                if (!table.TryGetValue(id, out var window))
                 {
-                    _table[id] = window = new _ResizableWindow();
+                    table[id] = window = new ResizableWindow_();
                 }
                 return window.Do(id, rect, func, text, style, options);
             }
