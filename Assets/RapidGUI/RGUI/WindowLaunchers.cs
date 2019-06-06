@@ -37,11 +37,11 @@ namespace RapidGUI
         public void Add(string name, Action drawFunc) => Add(name, () => true, drawFunc);
 
 
-        public void Add(string name, Func<bool> checkEnableFunc, Action drawFunc)
+        public void Add(string name, Func<bool> checkEnableFunc, Action drawFunc, float width = 300f)
         {
             if (!launcherDic.TryGetValue(name, out var launcher))
             {
-                launcherDic[name] = launcher = new WindowLauncher(name);
+                launcherDic[name] = launcher = new WindowLauncher(name, width);
                 launcher.onOpen += OnOpen;
             }
 
@@ -79,6 +79,9 @@ namespace RapidGUI
             }
         }
 
+
+        #region Auto Layout Windows
+
         List<WindowLauncher> openLaunchers = new List<WindowLauncher>();
 
         void OnOpen(WindowLauncher launcher)
@@ -95,5 +98,7 @@ namespace RapidGUI
 
             openLaunchers.Add(launcher);
         }
+
+        #endregion
     }
 }

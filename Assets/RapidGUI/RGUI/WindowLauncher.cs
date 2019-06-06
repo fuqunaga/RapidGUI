@@ -41,9 +41,10 @@ namespace RapidGUI
         
 
 
-        public WindowLauncher(string name)
+        public WindowLauncher(string name, float width = 300f)
         {
             this.name = name;
+            rect.width = width;
         }
 
         public void Dispose()
@@ -75,6 +76,7 @@ namespace RapidGUI
                     if (isOpen)
                     {
                         isMoved = false;
+                        rect.position = Event.current.mousePosition + Vector2.right * 50f;
                         onOpen?.Invoke(this);
                     }
                     else
