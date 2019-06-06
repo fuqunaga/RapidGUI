@@ -42,6 +42,7 @@ namespace RapidGUI
             if (!launcherDic.TryGetValue(name, out var launcher))
             {
                 launcherDic[name] = launcher = new WindowLauncher(name);
+                launcher.onOpen += OnOpen;
             }
 
             launcher.Add(checkEnableFunc, drawFunc);
@@ -76,6 +77,23 @@ namespace RapidGUI
             {
                 list.ForEach(l => l.DoGUI());
             }
+        }
+
+        List<WindowLauncher> openLaunchers = new List<WindowLauncher>();
+
+        void OnOpen(WindowLauncher launcher)
+        {
+            var idx = openLaunchers.FindIndex(l => l == launcher || !l.isOpen || l.isMoved);
+            if (idx >= 0)
+            {
+                openLaunchers.RemoveRange(idx, openLaunchers.Count - idx);
+            }
+
+            var last = openLaunchers.LastOrDefault();
+            var pos = new Vector2(rect.xMax + 28f, (last?.rect.yMax + 16f) ?? rect.yMin);
+            launcher.rect.position = pos;
+
+            openLaunchers.Add(launcher);
         }
     }
 }

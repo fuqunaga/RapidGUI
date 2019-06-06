@@ -29,11 +29,17 @@ namespace RapidGUI
 
         public string name;
         public bool isOpen;
-        public List<FuncData> funcDatas = new List<FuncData>();
+        public Rect rect;
+        public bool isMoved { get; protected set; }
+
+        public event Action<WindowLauncher> onOpen;
+        public event Action<WindowLauncher> onClose;
 
         public bool isEnable => funcDatas.Any(data => data.checkEnableFunc());
 
-        Rect rect;
+        protected List<FuncData> funcDatas = new List<FuncData>();
+        
+
 
         public WindowLauncher(string name)
         {
@@ -44,7 +50,6 @@ namespace RapidGUI
         {
             WindowLauncherManager.Instance.Remove(this);
         }
-
 
 
         public void Add(Action drawFunc) => Add(() => true, drawFunc);
@@ -64,7 +69,20 @@ namespace RapidGUI
         {
             if ( isEnable )
             {
-                isOpen = GUILayout.Toggle(isOpen, "❏ " + name, Style.toggle);
+                if ( isOpen != GUILayout.Toggle(isOpen, "❏ " + name, Style.toggle))
+                {
+                    isOpen = !isOpen;
+                    if (isOpen)
+                    {
+                        isMoved = false;
+                        onOpen?.Invoke(this);
+                    }
+                    else
+                    {
+                        onClose?.Invoke(this);
+                    }
+                }
+
                 WindowLauncherManager.Instance.Add(this);
             }
         }
@@ -73,6 +91,7 @@ namespace RapidGUI
         {
             if (isOpen && isEnable)
             {
+                var pos = rect.position;
                 rect = RGUI.ResizableWindow(GetHashCode(), rect,
                     (id) =>
                     {
@@ -80,6 +99,8 @@ namespace RapidGUI
                         GUI.DragWindow();
                     }
                     , name, RGUIStyle.darkWindow);
+
+                isMoved |= pos != rect.position;
             }
         }
 
