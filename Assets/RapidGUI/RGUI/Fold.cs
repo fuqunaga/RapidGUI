@@ -47,7 +47,7 @@ namespace RapidGUI
             });
         }
 
-        public bool OnGUI()
+        public bool DoGUI()
         {
             var ret = false;
             var drawFuncs = _funcDatas.Where(fd => fd._checkEnable == null || fd._checkEnable()).Select(fd => fd._draw).ToList();

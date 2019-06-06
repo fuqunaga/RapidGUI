@@ -60,7 +60,7 @@ namespace RapidGUI
         }
 
 
-        public void OnGUI()
+        public void DoGUI()
         {
             if ( isEnable )
             {
@@ -69,7 +69,7 @@ namespace RapidGUI
             }
         }
 
-        public void OnGUIWindow()
+        public void DoGUIWindow()
         {
             if (isOpen && isEnable)
             {

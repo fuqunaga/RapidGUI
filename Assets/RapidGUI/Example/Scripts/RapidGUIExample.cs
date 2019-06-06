@@ -79,9 +79,9 @@ namespace RapidGUI.Example
             {
                 using (var v = new GUILayout.VerticalScope(GUILayout.MinWidth(300f)))
                 {
-                    miscFolds.OnGUI();
+                    miscFolds.DoGUI();
                     _dynamicFoldEnable = GUILayout.Toggle(_dynamicFoldEnable, "DynamicFold");
-                    dynamicFolds.OnGUI();
+                    dynamicFolds.DoGUI();
 
                     using (new RGUI.IndentScope())
                     {
@@ -106,13 +106,13 @@ namespace RapidGUI.Example
                         Debug.Log($"Popup: Button{resultIdx + 1}");
                     }
 
-                    windowLauncher.OnGUI();
+                    windowLauncher.DoGUI();
                 }
 
-                fieldFolds.OnGUI();
-                sliderFolds.OnGUI();
+                fieldFolds.DoGUI();
+                sliderFolds.DoGUI();
 
-                launchers.OnGUI();
+                launchers.DoGUI();
             }
         }
     }

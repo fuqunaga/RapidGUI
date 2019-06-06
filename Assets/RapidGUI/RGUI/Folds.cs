@@ -80,7 +80,7 @@ namespace RapidGUI
 
 
         List<Fold> _folds = new List<Fold>();
-        public bool OnGUI()
+        public bool DoGUI()
         {
             var ret = false;
 
@@ -92,7 +92,7 @@ namespace RapidGUI
 
             using (var v = new GUILayout.VerticalScope())
             {
-                ret = _folds.Aggregate(false, (changed, fold) => changed || fold.OnGUI());
+                ret = _folds.Aggregate(false, (changed, fold) => changed || fold.DoGUI());
             }
             return ret;
         }

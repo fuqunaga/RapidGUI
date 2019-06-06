@@ -50,22 +50,27 @@ namespace RapidGUI
         public bool Remove(string name) => launcherDic.Remove(name);
 
 
-        public void OnGUI()
+        public void DoGUI()
         {
             var list = launcherDic.Values.ToList();
 
             if (isWindow)
             {
+                if ( string.IsNullOrEmpty(name))
+                {
+
+                }
+
                 rect = RGUI.ResizableWindow(GetHashCode(), rect, (id) =>
                 {
-                    list.ForEach(l => l.OnGUI());
+                    list.ForEach(l => l.DoGUI());
                     if (isDraggable) GUI.DragWindow();
                 },
                 name, RGUIStyle.darkWindow);
             }
             else
             {
-                list.ForEach(l => l.OnGUI());
+                list.ForEach(l => l.DoGUI());
             }
         }
     }

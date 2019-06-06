@@ -30,7 +30,7 @@ namespace RapidGUI
 
         static void CreateFlatButton()
         {
-            var style = new GUIStyle("label");
+            var style = new GUIStyle(GUI.skin.label);
             style.padding = new RectOffset(24, 48, 2, 2);
 
             var toggle = GUI.skin.toggle;
@@ -48,7 +48,7 @@ namespace RapidGUI
 
         static void CreatePopup()
         {
-            var style = new GUIStyle("box");
+            var style = new GUIStyle(GUI.skin.box);
             style.border = new RectOffset();
 
             popupTex = new Texture2D(1, 1);
@@ -69,7 +69,6 @@ namespace RapidGUI
         {
             var style = new GUIStyle(GUI.skin.window);
 
-            style.normal.textColor = Color.red;
             style.normal.background = darkWindowTexNormal = CreateTexDark(style.normal.background, 0.6f, 1.1f);
             style.onNormal.background = darkWindowTexOnNormal = CreateTexDark(style.onNormal.background, 0.6f, 1.4f);
 
