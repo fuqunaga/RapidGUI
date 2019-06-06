@@ -52,20 +52,21 @@ namespace RapidGUI
 
         public void OnGUI()
         {
-            var launchers = launcherDic.Values.ToList();
+            var list = launcherDic.Values.ToList();
 
             if (isWindow)
             {
                 rect = RGUI.ResizableWindow(GetHashCode(), rect, (id) =>
                 {
-                    launchers.ForEach(l => l.OnGUI());
+                    list.ForEach(l => l.OnGUI());
                     if (isDraggable) GUI.DragWindow();
                 },
-                name, RGUI.Style.darkWindow);
+                name, RGUIStyle.darkWindow);
+                UnityEngine.Object.DontDestroyOnLoad(RGUIStyle.darkWindow.normal.background);
             }
             else
             {
-                launchers.ForEach(l => l.OnGUI());
+                list.ForEach(l => l.OnGUI());
             }
         }
     }

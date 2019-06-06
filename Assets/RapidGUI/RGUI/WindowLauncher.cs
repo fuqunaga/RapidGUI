@@ -79,7 +79,7 @@ namespace RapidGUI
                         funcDatas.ForEach(data => data.OnGUI());
                         GUI.DragWindow();
                     }
-                    , name, RGUI.Style.darkWindow);
+                    , name, RGUIStyle.darkWindow);
             }
         }
 

@@ -51,7 +51,7 @@ namespace RapidGUI
                     var type = Event.current.type;
                     if ((type == EventType.Layout) || (type== EventType.Repaint) )
                     {
-                        var buttonStyle = Style.popupButton;
+                        var buttonStyle = RGUIStyle.popupButton;
                         var contentSize = Vector2.zero;
                         for (var i = 0; i < displayOptions.Length; ++i)
                         {
@@ -64,7 +64,7 @@ namespace RapidGUI
                         var margin = buttonStyle.margin;
                         contentSize.y += Mathf.Max(0, displayOptions.Length - 1) * Mathf.Max(margin.top, margin.bottom); // is this right?
 
-                        size = Style.popup.CalcScreenSize(contentSize);
+                        size = RGUIStyle.popup.CalcScreenSize(contentSize);
                     }
                     
 
@@ -74,7 +74,7 @@ namespace RapidGUI
                         {
                             for (var j = 0; j < displayOptions.Length; ++j)
                             {
-                                if (GUILayout.Button(displayOptions[j], Style.popupButton))
+                                if (GUILayout.Button(displayOptions[j], RGUIStyle.popupButton))
                                 {
                                     popupResult = j;
                                 }
@@ -87,7 +87,7 @@ namespace RapidGUI
                             popupResult = -1; ;
                         }
                     }
-                    , label, Style.popup);
+                    , label, RGUIStyle.popup);
                 }
             }
 

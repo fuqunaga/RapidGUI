@@ -41,6 +41,7 @@ namespace RapidGUI
         public void OnGUI()
         {
             launchers.ToList().ForEach(l => l.OnGUIWindow());
+            launchers.Clear();
         }
     }
 }
