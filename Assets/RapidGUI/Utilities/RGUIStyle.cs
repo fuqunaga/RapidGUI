@@ -2,22 +2,30 @@
 
 namespace RapidGUI
 {
-    public static partial class RGUIStyle
+    public static class RGUIStyle
     {
         public static GUIStyle popupButton;
         public static GUIStyle popup;
         public static GUIStyle darkWindow;
+
+        // GUIStyleState.background will be null 
+        // if it set after secound scene load and don't use a few frame
+        // to keep textures, set it to other member. at unity2019
+        public static Texture2D popupButtonTex;
+        public static Texture2D popupTex;
+        public static Texture2D darkWindowTexNormal;
+        public static Texture2D darkWindowTexOnNormal;
 
         static RGUIStyle()
         {
             CreateStyles();
         }
 
-        static void CreateStyles()
+        public static void CreateStyles()
         {
             CreateFlatButton();
             CreatePopup();
-            CreateDarkWindow();
+            darkWindow = CreateDarkWindow();
         }
 
         static void CreateFlatButton()
@@ -29,10 +37,10 @@ namespace RapidGUI
             style.normal.textColor = toggle.normal.textColor;
             style.hover.textColor = toggle.hover.textColor;
 
-            var tex = new Texture2D(1, 1);
-            tex.SetPixels(new[] { new Color(0.5f, 0.5f, 0.5f, 0.5f) });
-            tex.Apply();
-            style.hover.background = tex;
+            popupButtonTex = new Texture2D(1, 1);
+            popupButtonTex.SetPixels(new[] { new Color(0.5f, 0.5f, 0.5f, 0.5f) });
+            popupButtonTex.Apply();
+            style.hover.background = popupButtonTex;
 
             style.name = nameof(popupButton);
             popupButton = style;
@@ -43,36 +51,38 @@ namespace RapidGUI
             var style = new GUIStyle("box");
             style.border = new RectOffset();
 
-            var tex = new Texture2D(1, 1);
+            popupTex = new Texture2D(1, 1);
             var brightness = 0.2f;
             var alpha = 0.9f;
-            tex.SetPixels(new[] { new Color(brightness, brightness, brightness, alpha) });
-            tex.Apply();
+            popupTex.SetPixels(new[] { new Color(brightness, brightness, brightness, alpha) });
+            popupTex.Apply();
 
             style.normal.background =
-            style.hover.background = tex;
+            style.hover.background = popupTex;
 
             style.name = nameof(popup);
             popup = style;
         }
 
 
-        static void CreateDarkWindow()
+        public static GUIStyle CreateDarkWindow()
         {
             var style = new GUIStyle(GUI.skin.window);
 
             style.normal.textColor = Color.red;
-            style.normal.background = CreateTexDark(style.normal.background, 0.6f, 1.1f);
-            style.onNormal.background = CreateTexDark(style.onNormal.background, 0.6f, 1.4f);
+            style.normal.background = darkWindowTexNormal = CreateTexDark(style.normal.background, 0.6f, 1.1f);
+            style.onNormal.background = darkWindowTexOnNormal = CreateTexDark(style.onNormal.background, 0.6f, 1.4f);
 
             style.name = nameof(darkWindow);
-            darkWindow = style;
+
+            return style;
         }
 
-        static Texture2D CreateTexDark(Texture2D src, float colorRate, float alphaRate)
+        public static Texture2D CreateTexDark(Texture2D src, float colorRate, float alphaRate)
         {
             var dst = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false);
             Graphics.CopyTexture(src, dst);
+
 
             var pixels = dst.GetPixels();
             for (var i = 0; i < pixels.Length; ++i)

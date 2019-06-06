@@ -91,6 +91,12 @@ namespace RapidGUI
             public static readonly GUIStyle toggle;
             const int underLine = 3;
 
+            // GUIStyleState.background will be null 
+            // if it set after secound scene load and don't use a few frame
+            // to keep textures, set it to other member. at unity2019
+            static List<Texture2D> texList = new List<Texture2D>();
+
+
             static Style()
             {
                 Color onColor = new Color(0.25f, 0.4f, 0.98f, 0.9f);
@@ -110,13 +116,13 @@ namespace RapidGUI
                 var bgColorHover = Vector4.one * 0.5f;
                 var bgColorActive = Vector4.one * 0.7f;
 
-                style.onNormal.background = CreateToggleOnTex(onColor, Color.clear);
-                style.onHover.background = CreateToggleOnTex(onColor, bgColorHover);
-                style.onActive.background = CreateToggleOnTex(onColor * 1.5f, bgColorActive);
-
-                style.normal.background = CreateTex(Color.clear);
-                style.hover.background = CreateTex(bgColorHover);
-                style.active.background = CreateTex(bgColorActive);
+                texList.Add(style.onNormal.background = CreateToggleOnTex(onColor, Color.clear));
+                texList.Add(style.onHover.background = CreateToggleOnTex(onColor, bgColorHover));
+                texList.Add(style.onActive.background = CreateToggleOnTex(onColor * 1.5f, bgColorActive));
+                
+                texList.Add(style.normal.background = CreateTex(Color.clear));
+                texList.Add(style.hover.background = CreateTex(bgColorHover));
+                texList.Add(style.active.background = CreateTex(bgColorActive));
 
                 return style;
             }

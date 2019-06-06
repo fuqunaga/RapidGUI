@@ -62,7 +62,6 @@ namespace RapidGUI
                     if (isDraggable) GUI.DragWindow();
                 },
                 name, RGUIStyle.darkWindow);
-                UnityEngine.Object.DontDestroyOnLoad(RGUIStyle.darkWindow.normal.background);
             }
             else
             {
