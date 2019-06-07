@@ -86,16 +86,38 @@ namespace RapidGUI
 
         void OnOpen(WindowLauncher launcher)
         {
-            var idx = openLaunchers.FindIndex(l => l == launcher || !l.isOpen || l.isMoved);
-            if (idx >= 0)
+            const float xOffset = 28f;
+            const float yOffset = 16f;
+            var x = rect.xMax + xOffset;
+            var y = rect.yMin;
+
+
+            var removeIdx = openLaunchers.FindIndex(l => l == launcher || !l.isOpen || l.isMoved);
+            var last = (removeIdx >= 0)
+                ? openLaunchers.ElementAtOrDefault(removeIdx - 1)
+                : openLaunchers.LastOrDefault();
+
+            if (last != null)
             {
-                openLaunchers.RemoveRange(idx, openLaunchers.Count - idx);
+                x = last.rect.xMin;
+                y = last.rect.yMax + yOffset;
+                Debug.Log($"{rect.yMax} {Screen.height}");
+                if (y > Screen.height - 100f)
+                {
+                    var maxX = openLaunchers.Max(l => l.rect.xMin);
+                    var top = openLaunchers.Find(l => l.rect.xMin == maxX);
+                    x = top.rect.xMax + xOffset;
+                    y = top.rect.yMin;
+                }
             }
 
-            var last = openLaunchers.LastOrDefault();
-            var pos = new Vector2(rect.xMax + 28f, (last?.rect.yMax + 16f) ?? rect.yMin);
-            launcher.rect.position = pos;
 
+            launcher.rect.position = new Vector2(x, y);
+
+            if (removeIdx >= 0)
+            {
+                openLaunchers.RemoveRange(removeIdx, openLaunchers.Count - removeIdx);
+            }
             openLaunchers.Add(launcher);
         }
 
