@@ -79,8 +79,21 @@ namespace RapidGUI
 
         public static Texture2D CreateTexDark(Texture2D src, float colorRate, float alphaRate)
         {
+            // copy texture trick.
+            // Graphics.CopyTexture(src, dst) must same format src and dst.
+            // but src format can't call GetPixels().
+            var tmp = RenderTexture.GetTemporary(src.width, src.height);
+            Graphics.Blit(src, tmp);
+
+            var prev = RenderTexture.active;
+            RenderTexture.active = prev;
+
             var dst = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false);
-            Graphics.CopyTexture(src, dst);
+            dst.ReadPixels(new Rect(0f, 0f, src.width, src.height), 0, 0);
+            
+
+            RenderTexture.active = prev;
+            RenderTexture.ReleaseTemporary(tmp);
 
 
             var pixels = dst.GetPixels();
