@@ -2,11 +2,11 @@
 
 namespace RapidGUI.Example
 {
-    public class IDebugMenuExample : MonoBehaviour, IDebugMenu
+    public class IDebugMenuExample : MonoBehaviour, IDoGUI
     {
-        public void DebugMenu()
+        public void DoGUI()
         {
-            GUILayout.Label("IDebugMenu");
+            GUILayout.Label("IDoGUI");
         }
     }
 }

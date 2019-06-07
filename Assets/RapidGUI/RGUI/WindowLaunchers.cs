@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace RapidGUI
 {
@@ -33,11 +34,13 @@ namespace RapidGUI
         public bool isDraggable = true;
         public Rect rect = new Rect(Vector2.one * 10f, Vector2.zero);
 
+        const float defaultWidth = 300f;
 
-        public void Add(string name, Action drawFunc) => Add(name, () => true, drawFunc);
+
+        public WindowLauncher Add(string name, Action drawFunc) => Add(name, () => true, drawFunc);
 
 
-        public void Add(string name, Func<bool> checkEnableFunc, Action drawFunc, float width = 300f)
+        public WindowLauncher Add(string name, Func<bool> checkEnableFunc, Action drawFunc, float width = defaultWidth)
         {
             if (!launcherDic.TryGetValue(name, out var launcher))
             {
@@ -46,6 +49,7 @@ namespace RapidGUI
             }
 
             launcher.Add(checkEnableFunc, drawFunc);
+            return launcher;
         }
 
         public bool Remove(string name) => launcherDic.Remove(name);
@@ -101,7 +105,6 @@ namespace RapidGUI
             {
                 x = last.rect.xMin;
                 y = last.rect.yMax + yOffset;
-                Debug.Log($"{rect.yMax} {Screen.height}");
                 if (y > Screen.height - 100f)
                 {
                     var maxX = openLaunchers.Max(l => l.rect.xMin);
@@ -122,5 +125,24 @@ namespace RapidGUI
         }
 
         #endregion
+    }
+
+    public static class WindowLaunchersExtention
+    {
+        public static WindowLauncher Add(this WindowLaunchers launchers, string name, params Type[] iDoGUI)
+        {
+            return launchers.Add(name, default, iDoGUI);
+        }
+
+        public static WindowLauncher Add(this WindowLaunchers launchers, string name, float width, params Type[] iDoGUI)
+        {
+            var invalids = iDoGUI.Where(type => false == type.GetInterfaces().Contains(typeof(IDoGUI)));
+            Assert.IsFalse(invalids.Any(), $"{string.Join(",", invalids.Select(type => type.ToString()).ToArray())} is NOT IDoGUI.");
+
+            var iDebugMenus = iDoGUI.Select(t => new LazyFindObject(t)).ToList() // exec once.
+                .Select(lfo => lfo.GetObject()).Where(o => o != null).Cast<IDoGUI>();   // exec every call.
+
+            return launchers.Add(name, () => iDebugMenus.Any(), () => iDebugMenus.ToList().ForEach(idm => idm.DoGUI()), width);
+        }
     }
 }

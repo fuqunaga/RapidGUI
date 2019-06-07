@@ -30,6 +30,8 @@ namespace RapidGUI
         public string name;
         public bool isOpen;
         public Rect rect;
+        public Action titleAction;
+
         public bool isMoved { get; protected set; }
 
         public event Action<WindowLauncher> onOpen;
@@ -38,7 +40,7 @@ namespace RapidGUI
         public bool isEnable => funcDatas.Any(data => data.checkEnableFunc());
 
         protected List<FuncData> funcDatas = new List<FuncData>();
-        
+
 
 
         public WindowLauncher(string name, float width = 300f)
@@ -65,12 +67,21 @@ namespace RapidGUI
             });
         }
 
+        public void SetTitleAction(Action titleAction) => this.titleAction = titleAction;
+
 
         public void DoGUI()
         {
-            if ( isEnable )
+            if (isEnable)
             {
-                if ( isOpen != GUILayout.Toggle(isOpen, "❏ " + name, Style.toggle))
+                bool changed;
+                using (new GUILayout.HorizontalScope())
+                {
+                    changed = isOpen != GUILayout.Toggle(isOpen, "❏ " + name, Style.toggle);
+                    titleAction?.Invoke();
+                }
+
+                if (changed)
                 {
                     isOpen = !isOpen;
                     if (isOpen)
@@ -134,7 +145,7 @@ namespace RapidGUI
                 style.alignment = TextAnchor.MiddleLeft;
 
                 //style.padding.left = 15;
-                style.border = new RectOffset(0, 0, 1, underLine+1);
+                style.border = new RectOffset(0, 0, 1, underLine + 1);
 
                 var bgColorHover = Vector4.one * 0.5f;
                 var bgColorActive = Vector4.one * 0.7f;
@@ -142,7 +153,7 @@ namespace RapidGUI
                 texList.Add(style.onNormal.background = CreateToggleOnTex(onColor, Color.clear));
                 texList.Add(style.onHover.background = CreateToggleOnTex(onColor, bgColorHover));
                 texList.Add(style.onActive.background = CreateToggleOnTex(onColor * 1.5f, bgColorActive));
-                
+
                 texList.Add(style.normal.background = CreateTex(Color.clear));
                 texList.Add(style.hover.background = CreateTex(bgColorHover));
                 texList.Add(style.active.background = CreateTex(bgColorActive));

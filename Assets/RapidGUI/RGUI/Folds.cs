@@ -117,12 +117,12 @@ namespace RapidGUI
 
         public static void Add(this Folds folds, int order, string name, bool enableFirst, params Type[] iDebugMenuTypes)
         {
-            Assert.IsTrue(iDebugMenuTypes.All(type => type.GetInterfaces().Contains(typeof(IDebugMenu))));
+            Assert.IsTrue(iDebugMenuTypes.All(type => type.GetInterfaces().Contains(typeof(IDoGUI))));
 
             var iDebugMenus = iDebugMenuTypes.Select(t => new LazyFindObject(t)).ToList() // exec once.
-                .Select(lfo => lfo.GetObject()).Where(o => o != null).Cast<IDebugMenu>();   // exec every call.
+                .Select(lfo => lfo.GetObject()).Where(o => o != null).Cast<IDoGUI>();   // exec every call.
 
-            folds.Add(order, name, () => iDebugMenus.Any(), () => iDebugMenus.ToList().ForEach(idm => idm.DebugMenu()), enableFirst);
+            folds.Add(order, name, () => iDebugMenus.Any(), () => iDebugMenus.ToList().ForEach(idm => idm.DoGUI()), enableFirst);
         }
     }
 }

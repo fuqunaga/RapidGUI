@@ -56,7 +56,7 @@ namespace RapidGUI
             {
                 var foldStr = isOpen ? "▼" : "▶";
 
-                using (var h = new GUILayout.HorizontalScope())
+                using (new GUILayout.HorizontalScope())
                 {
                     isOpen ^= GUILayout.Button(foldStr + name, Style.Fold);
                     titleAction?.Invoke();
