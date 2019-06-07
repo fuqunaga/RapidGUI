@@ -7,7 +7,7 @@ namespace RapidGUI.Example
     /// <summary>
     /// GUIUtil.Slider() examples
     /// </summary>
-    public class SliderExample : MonoBehaviour
+    public class SliderExample : ExampleBase
     {
         public int intVal;
         [Range(0,1)]
@@ -26,10 +26,10 @@ namespace RapidGUI.Example
         public List<float> listVal;
 
 
-        private void OnGUI()
-        {
-            GUILayout.Label("<b>GUIUtil.Slider()</b>");
+        protected override string title => "RGUI.Slider()";
 
+        public override void DoGUI()
+        {
             using (new GUILayout.HorizontalScope())
             {
                 using (new GUILayout.VerticalScope())

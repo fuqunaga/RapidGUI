@@ -8,7 +8,7 @@ namespace RapidGUI.Example
     /// <summary>
     /// GUIUtil.Field() examples
     /// </summary>
-    public class FieldExample : MonoBehaviour
+    public class FieldExample : ExampleBase
     {
         public enum EnumSample
         {
@@ -96,8 +96,6 @@ namespace RapidGUI.Example
         public ComplexClass complexClassVal = new ComplexClass();
         public List<ComplexClass> complexClassListVal;
 
-        Vector2 scrollPosition;
-
         private void Start()
         {
             var c = new ComplexClass();
@@ -105,56 +103,52 @@ namespace RapidGUI.Example
             complexClassVal.complexClass = c; // circular reference
         }
 
-        private void OnGUI()
+
+        protected override string title => "RGUI.Field()";
+
+        public override void DoGUI()
         {
-            GUILayout.Label($"<b>RGUI.Field()</b>");
-
-            using (var sc = new GUILayout.ScrollViewScope(scrollPosition))
+            using (new GUILayout.HorizontalScope())
             {
-                scrollPosition = sc.scrollPosition;
-
-                using (new GUILayout.HorizontalScope())
+                using (new GUILayout.VerticalScope())
                 {
-                    using (new GUILayout.VerticalScope())
-                    {
-                        stringVal = RGUI.Field(stringVal, "string");
-                        boolVal = RGUI.Field(boolVal, "bool");
+                    stringVal = RGUI.Field(stringVal, "string");
+                    boolVal = RGUI.Field(boolVal, "bool");
 
-                        intVal = RGUI.Field(intVal, "int");
-                        floatVal = RGUI.Field(floatVal, "float");
-                        colorVal = RGUI.Field(colorVal, "color");
-                        enumVal = RGUI.Field(enumVal, "enum");
-                        enumFlagsVal = RGUI.Field(enumFlagsVal, "enumFlags");
+                    intVal = RGUI.Field(intVal, "int");
+                    floatVal = RGUI.Field(floatVal, "float");
+                    colorVal = RGUI.Field(colorVal, "color");
+                    enumVal = RGUI.Field(enumVal, "enum");
+                    enumFlagsVal = RGUI.Field(enumFlagsVal, "enumFlags");
 
-                        vector2Val = RGUI.Field(vector2Val, "vector2");
+                    vector2Val = RGUI.Field(vector2Val, "vector2");
 
 
-                        vector3Val = RGUI.Field(vector3Val, "vector3");
-                        vector4Val = RGUI.Field(vector4Val, "vector4");
+                    vector3Val = RGUI.Field(vector3Val, "vector3");
+                    vector4Val = RGUI.Field(vector4Val, "vector4");
 
-                        vector2IntVal = RGUI.Field(vector2IntVal, "vector2Int");
-                        vector3IntVal = RGUI.Field(vector3IntVal, "vector3Int");
+                    vector2IntVal = RGUI.Field(vector2IntVal, "vector2Int");
+                    vector3IntVal = RGUI.Field(vector3IntVal, "vector3Int");
 
-                        rectVal = RGUI.Field(rectVal, "rect");
-                        rectIntVal = RGUI.Field(rectIntVal, "rectInt");
-                        rectOffsetVal = RGUI.Field(rectOffsetVal, "rectOffset");
+                    rectVal = RGUI.Field(rectVal, "rect");
+                    rectIntVal = RGUI.Field(rectIntVal, "rectInt");
+                    rectOffsetVal = RGUI.Field(rectOffsetVal, "rectOffset");
 
-                        boundsVal = RGUI.Field(boundsVal, "bounds");
-                        boundsIntVal = RGUI.Field(boundsIntVal, "boundsInt");
+                    boundsVal = RGUI.Field(boundsVal, "bounds");
+                    boundsIntVal = RGUI.Field(boundsIntVal, "boundsInt");
 
-                        arrayVal = RGUI.Field(arrayVal, "array");
-                        listVal = RGUI.Field(listVal, "list");
-                    }
+                    arrayVal = RGUI.Field(arrayVal, "array");
+                    listVal = RGUI.Field(listVal, "list");
+                }
 
 
-                    using (new GUILayout.VerticalScope())
-                    {
-                        customClassVal = RGUI.Field(customClassVal, "customClass");
-                        customClassListVal = RGUI.Field(customClassListVal, "customClassList");
+                using (new GUILayout.VerticalScope())
+                {
+                    customClassVal = RGUI.Field(customClassVal, "customClass");
+                    customClassListVal = RGUI.Field(customClassListVal, "customClassList");
 
-                        complexClassVal = RGUI.Field(complexClassVal, "complexClass");
-                        complexClassListVal = RGUI.Field(complexClassListVal, "complexClassList");
-                    }
+                    complexClassVal = RGUI.Field(complexClassVal, "complexClass");
+                    complexClassListVal = RGUI.Field(complexClassListVal, "complexClassList");
                 }
             }
         }

@@ -6,46 +6,22 @@ using UnityEngine;
 
 namespace RapidGUI
 {
-    public class WindowLauncher : IDisposable
+    public class WindowLauncher : LabelContent<WindowLauncher>, IDisposable
     {
-        #region Type Define
-
-        public class FuncData
-        {
-            public Func<bool> checkEnableFunc;
-            public Action drawFunc;
-
-            public void OnGUI()
-            {
-                if (checkEnableFunc())
-                {
-                    drawFunc();
-                    GUI.DragWindow();
-                }
-            }
-        }
-
-        #endregion
-
-        public string name;
-        public bool isOpen;
         public Rect rect;
-        public Action titleAction;
 
         public bool isMoved { get; protected set; }
 
         public event Action<WindowLauncher> onOpen;
         public event Action<WindowLauncher> onClose;
 
-        public bool isEnable => funcDatas.Any(data => data.checkEnableFunc());
-
-        protected List<FuncData> funcDatas = new List<FuncData>();
+        public bool isEnable => funcDatas.Any(data => data.checkEnableFunc?.Invoke() ?? true);
 
 
+        public WindowLauncher() : base() { }
 
-        public WindowLauncher(string name, float width = 300f)
+        public WindowLauncher(string name, float width = 300f) : base(name)
         {
-            this.name = name;
             rect.width = width;
         }
 
@@ -55,20 +31,11 @@ namespace RapidGUI
         }
 
 
-        public void Add(Action drawFunc) => Add(() => true, drawFunc);
-
-
-        public void Add(Func<bool> checkEnableFunc, Action drawFunc)
+        public WindowLauncher SetWidth(float width)
         {
-            funcDatas.Add(new FuncData()
-            {
-                checkEnableFunc = checkEnableFunc,
-                drawFunc = drawFunc
-            });
+            rect.width = width;
+            return this;
         }
-
-        public void SetTitleAction(Action titleAction) => this.titleAction = titleAction;
-
 
         public void DoGUI()
         {
@@ -87,7 +54,7 @@ namespace RapidGUI
                     if (isOpen)
                     {
                         isMoved = false;
-                        rect.position = Event.current.mousePosition + Vector2.right * 50f;
+                        rect.position = GUIUtility.GUIToScreenPoint(Event.current.mousePosition) + Vector2.right * 50f;
                         onOpen?.Invoke(this);
                     }
                     else
@@ -108,7 +75,7 @@ namespace RapidGUI
                 rect = RGUI.ResizableWindow(GetHashCode(), rect,
                     (id) =>
                     {
-                        funcDatas.ForEach(data => data.OnGUI());
+                        GetGUIFuncs().ForEach(func => func());
                         GUI.DragWindow();
                     }
                     , name, RGUIStyle.darkWindow);

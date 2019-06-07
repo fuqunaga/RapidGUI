@@ -190,14 +190,7 @@ namespace RapidGUI
 
         public bool DrawWindow(string title = "")
         {
-            //windowRect = GUILayout.Window(GetHashCode(), windowRect, DrawColorPickerWindow, title);
-            windowRect = GUI.ModalWindow(GetHashCode(), windowRect, DrawColorPickerWindow, title);
-
-            // suicide when click outside of window
-            /*
-            var ev = Event.current;
-            var destroy = (ev.button == 0 && ev.rawType == EventType.MouseDown && !windowRect.Contains(ev.mousePosition));
-            */           
+            windowRect = GUI.ModalWindow(GetHashCode(), windowRect, DrawColorPickerWindow, title, RGUIStyle.darkWindow);
             return destroy;
         }
 
