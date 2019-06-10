@@ -45,11 +45,11 @@ namespace RapidGUI
                 {
                     func = new FieldFunc((obj, t) => EnumField(obj));
                 }
-                else if (IsList(type))
+                else if (TypeUtility.IsList(type))
                 {
                     func = ListField;
                 }
-                else if (IsRecursive(type))
+                else if (TypeUtility.IsRecursive(type))
                 {
                     func = new FieldFunc((obj, t) => RecursiveField(obj));
                 }
@@ -63,7 +63,5 @@ namespace RapidGUI
 
             return func;
         }
-
-        static bool IsList(Type type) => type.GetInterface(ListInterfaceStr) != null;
     }
 }

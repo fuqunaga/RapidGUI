@@ -24,7 +24,7 @@ namespace RapidGUI
 
         #endregion
 
-        static class PrefixLabelSetting
+        public static class PrefixLabelSetting
         {
             public static float width = 130f;
         }
@@ -54,33 +54,6 @@ namespace RapidGUI
 
             return isLong;
         }
-
-        /*
-        public class FoldState
-        {
-            public bool open;
-        }
-
-        static readonly int prefixFoldHash = "PrefixFold".GetHashCode();
-
-        public static bool PrefixFold(string label)
-        {
-            var ret = true; // as open if no label
-
-            if (!string.IsNullOrEmpty(label))
-            {
-                var hint = (label+"ignorenumber_protect").GetHashCode(); // if last of string is number, it may be ignored. so add a magic word to last.
-                var controlID = GUIUtility.GetControlID(hint, FocusType.Passive);
-                var state = (FoldState)GUIUtility.GetStateObject(typeof(FoldState), controlID);
-                var foldStr = state.open ? "▼" : "▶";
-
-                state.open ^= GUILayout.Button(foldStr + label + "_" + hint + "_" + controlID, labelStyle, labelWidthLayout);
-                ret = state.open;
-            }
-
-            return ret;
-        }
-        */
 
 
         public static object PrefixLabelDraggable(string label, object obj, Type type, params GUILayoutOption[] options)

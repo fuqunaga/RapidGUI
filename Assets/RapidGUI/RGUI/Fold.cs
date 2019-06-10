@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 
@@ -16,11 +17,9 @@ namespace RapidGUI
 
             if (guiFuncs.Any())
             {
-                var foldStr = isOpen ? "▼" : "▶";
-
                 using (new GUILayout.HorizontalScope())
                 {
-                    isOpen ^= GUILayout.Button(foldStr + name, Style.Fold);
+                    isOpen = DoGUIHeader(isOpen, name);
                     titleAction?.Invoke();
                 }
 
@@ -34,6 +33,14 @@ namespace RapidGUI
             }
 
             return ret;
+        }
+
+        public static bool DoGUIHeader(bool isOpen, string name, params GUILayoutOption[] options)
+        {
+            var foldStr = isOpen ? "▼" : "▶";
+            isOpen ^= GUILayout.Button(foldStr + name, Style.Fold, options);
+
+            return isOpen;
         }
 
         public static class Style

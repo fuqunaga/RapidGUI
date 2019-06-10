@@ -7,7 +7,10 @@ using UnityEngine;
 
 namespace RapidGUI
 {
-    public static partial class RGUI
+    /// <summary>
+    /// TypeUtility.GetmemberInfoList() implements
+    /// </summary>
+    public static partial class TypeUtility
     {
         #region Type Define
 
@@ -57,7 +60,7 @@ namespace RapidGUI
         #endregion
 
         static Dictionary<Type, List<IMemberWrapper>> memberInfoTable = new Dictionary<Type, List<IMemberWrapper>>();
-        static List<IMemberWrapper> GetMemberInfoList(Type type)
+        public static List<IMemberWrapper> GetMemberInfoList(Type type)
         {
             List<IMemberWrapper> list;
             if (!memberInfoTable.TryGetValue(type, out list))

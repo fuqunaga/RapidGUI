@@ -32,13 +32,57 @@ namespace RapidGUI
         }
 
 
+        public static float Slider(float v, string label, ref bool isOpen, params GUILayoutOption[] options)
+        {
+            return Slider(v, 1f, label, ref isOpen, options);
+        }
+
+        public static T Slider<T>(T v, T max, string label, ref bool isOpen, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, max, label, ref isOpen, options);
+        }
+
+        public static T Slider<T>(T v, T min, T max, string label, ref bool isOpen, params GUILayoutOption[] options)
+        {
+            return (T)Slider(v, min, max, typeof(T), label, ref isOpen, options);
+        }
+
+
+
         #region Slider() Implement
 
-
-
-        public static object Slider(object obj, object min, object max, Type type, string label = null, params GUILayoutOption[] options)
+        public static object Slider(object obj, object min, object max, Type type, string label, ref bool isOpen, params GUILayoutOption[] options)
         {
-            using (var h = new GUILayout.HorizontalScope(options))
+            if (!TypeUtility.IsRecursive(type))
+            {
+                return Slider(obj, min, max, type, label, options);
+            }
+
+
+            if (!isOpen)
+            {
+                using (new GUILayout.HorizontalScope(options))
+                {
+                    isOpen = Fold.DoGUIHeader(isOpen, label, GUILayout.Width(PrefixLabelSetting.width));
+                    obj = Field(obj, type);
+                }
+            }
+            else
+            { 
+                isOpen = Fold.DoGUIHeader(isOpen, label);
+            
+                using (new GUILayout.HorizontalScope(options))
+                {
+                    obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
+                }
+            }
+
+            return obj;
+        }
+
+        public static object Slider(object obj, object min, object max, Type type, string label, params GUILayoutOption[] options)
+        {
+            using (new GUILayout.HorizontalScope(options))
             {
                 obj = PrefixLabelDraggable(label, obj, type, options);
                 obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
@@ -57,7 +101,7 @@ namespace RapidGUI
         {
             if (!sliderFuncTable.TryGetValue(type, out var func))
             {
-                if (IsRecursive(type))
+                if (TypeUtility.IsRecursive(type))
                 {
                     func = RecursiveSlider;
                 }

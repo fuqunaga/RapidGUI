@@ -40,7 +40,7 @@ namespace RapidGUI
 
         static void DoSlider(object obj, object min, object max, Type type)
         {
-            var infos = GetMemberInfoList(type);
+            var infos = TypeUtility.GetMemberInfoList(type);
             for (var i = 0; i < infos.Count; ++i)
             {
                 var fi = infos[i];

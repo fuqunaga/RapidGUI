@@ -7,7 +7,6 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        static readonly string ListInterfaceStr = "IList`1";
         static readonly string[] listPopupButtonNames = new[] { "Add Element", "Delete Element" };
 
         static Rect rect_;
@@ -17,7 +16,7 @@ namespace RapidGUI
         {
             var list = v as IList;
             var hasElem = (list != null) && list.Count > 0;
-            var elemType = type.GetInterface(ListInterfaceStr).GetGenericArguments().First();
+            var elemType = TypeUtility.GetListInterface(type).GetGenericArguments().First();
 
             using (var ver = new GUILayout.VerticalScope("box"))
             {
@@ -35,7 +34,7 @@ namespace RapidGUI
 
                     for (var i = 0; i < list.Count; ++i)
                     {
-                        var label = IsMultiLine(elemType) ? $"Element {i}" : null;
+                        var label = TypeUtility.IsMultiLine(elemType) ? $"Element {i}" : null;
 
                         using (new IndentScope(20f))
                         {
