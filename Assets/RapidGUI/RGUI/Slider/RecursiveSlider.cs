@@ -15,24 +15,13 @@ namespace RapidGUI
             min = min ?? Activator.CreateInstance(obj.GetType());
 
             GUILayout.EndHorizontal();
+
+            using (new PrefixLabelIndentScope())
             {
-                using (new PrefixLabelIndentScope())
-                {
-                    var type = obj.GetType();
-                    //if (IsMultiLine(type))
-                    {
-                        DoSlider(obj, min, max, type);
-                    }
-                    /*
-                    else
-                    {
-                        PrefixLabelSetting.alignRight = isInRecursive;
-                        DoSlider(obj, min, max, type);
-                        PrefixLabelSetting.alignRight = false;
-                    }
-                    */
-                }
+                var type = obj.GetType();
+                DoSlider(obj, min, max, type);
             }
+
             GUILayout.BeginHorizontal();
 
             return obj;
@@ -47,7 +36,7 @@ namespace RapidGUI
                 var elem = fi.GetValue(obj);
                 var elemMin = fi.GetValue(min);
                 var elemMax = fi.GetValue(max);
-                var elemLabel = fi.Name;
+                var elemLabel = CheckCustomLabel(fi.Name);
 
                 elem = Slider(elem, elemMin, elemMax, fi.MemberType, elemLabel);
 

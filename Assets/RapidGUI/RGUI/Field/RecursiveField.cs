@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -51,10 +49,11 @@ namespace RapidGUI
             {
                 var info = infos[i];
                 var v = info.GetValue(obj);
+                var elemName = CheckCustomLabel(info.Name);
 
                 // for the bug? that short label will be strange word wrap at unity2019
                 tmpStringBuilder.Clear();
-                tmpStringBuilder.Append(info.Name);
+                tmpStringBuilder.Append(elemName);
                 tmpStringBuilder.Append(" ");
 
                 v = Field(v, info.MemberType, tmpStringBuilder.ToString());

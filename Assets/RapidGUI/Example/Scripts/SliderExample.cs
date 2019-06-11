@@ -38,7 +38,7 @@ namespace RapidGUI.Example
 
         public override void DoGUI()
         {
-            using (new GUILayout.HorizontalScope())
+            using (new GUILayout.HorizontalScope(GUILayout.MinWidth(1500f)))
             {
                 using (new GUILayout.VerticalScope())
                 {

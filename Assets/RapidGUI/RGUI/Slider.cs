@@ -55,25 +55,30 @@ namespace RapidGUI
         {
             if (!TypeUtility.IsRecursive(type))
             {
-                return Slider(obj, min, max, type, label, options);
-            }
-
-
-            if (!isOpen)
-            {
-                using (new GUILayout.HorizontalScope(options))
-                {
-                    isOpen = Fold.DoGUIHeader(isOpen, label, GUILayout.Width(PrefixLabelSetting.width));
-                    obj = Field(obj, type);
-                }
+                obj = Slider(obj, min, max, type, label, options);
             }
             else
-            { 
-                isOpen = Fold.DoGUIHeader(isOpen, label);
-            
-                using (new GUILayout.HorizontalScope(options))
+            {
+                using (new GUILayout.VerticalScope(options))
                 {
-                    obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
+                    if (isOpen)
+                    {
+                        isOpen = Fold.DoGUIHeader(isOpen, label);
+
+                        using (new GUILayout.HorizontalScope())
+                        {
+                            obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
+                        }
+                    }
+
+                    else
+                    {
+                        using (new GUILayout.HorizontalScope())
+                        {
+                            isOpen = Fold.DoGUIHeader(isOpen, label, GUILayout.Width(PrefixLabelSetting.width));
+                            obj = DispatchFieldFunc(type).Invoke(obj, type);
+                        }
+                    }
                 }
             }
 

@@ -43,6 +43,7 @@ namespace RapidGUI
             return isOpen;
         }
 
+
         public static class Style
         {
             public static readonly GUIStyle Fold;
@@ -54,6 +55,7 @@ namespace RapidGUI
                 var toggle = GUI.skin.toggle;
                 style.normal.textColor = toggle.normal.textColor;
                 style.hover.textColor = toggle.hover.textColor;
+                style.margin.left = 0;
 
                 tex = new Texture2D(1, 1);
                 tex.SetPixels(new[] { new Color(0.5f, 0.5f, 0.5f, 0.5f) });
