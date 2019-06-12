@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 
 namespace RapidGUI
 {
-    public abstract class LabelContent<T> where T : LabelContent<T>
+    /// <summary>
+    /// Title and content that opens and closes
+    /// </summary>
+    public abstract class TitleContent<T> where T : TitleContent<T>
     {
         protected class FuncData
         {
@@ -20,9 +22,9 @@ namespace RapidGUI
         protected Action titleAction;
         protected List<FuncData> funcDatas = new List<FuncData>();
 
-        public LabelContent() { }
+        public TitleContent() { }
 
-        public LabelContent(string name)
+        public TitleContent(string name)
         {
             this.name = name;
         }

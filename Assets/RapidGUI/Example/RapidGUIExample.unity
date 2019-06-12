@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 627452967}
   - component: {fileID: 627452968}
   m_Layer: 0
-  m_Name: RapidGUISample
+  m_Name: RapidGUIExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,7 +485,16 @@ MonoBehaviour:
   boundsIntVal:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 0, y: 0, z: 0}
-  listVal: []
+  isOpenVector2: 0
+  isOpenVector3: 0
+  isOpenVector4: 0
+  isOpenVector2Int: 0
+  isOpenVector3Int: 0
+  isOpenRect: 0
+  isOpenRectInt: 0
+  isOpenRectOffset: 0
+  isOpenBounds: 0
+  isOpenBoundsInt: 0
 --- !u!1 &1282380287
 GameObject:
   m_ObjectHideFlags: 0

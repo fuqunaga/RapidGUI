@@ -8,7 +8,7 @@ namespace RapidGUI
     /// IMGUI ColorPicker based on
     /// https://github.com/mattatz/unity-immediate-color-picker
     /// </summary>
-    public class IMColorPicker
+    public class IMColorPicker : IDoGUIWindow
     {
         public enum SliderMode
         {
@@ -152,7 +152,7 @@ namespace RapidGUI
         Vector3 _hsv = new Vector3(0f, 0f, 0f);
 
         public Rect windowRect = new Rect(20, 20, 250, 500);
-        bool destroy;
+        public bool destroy { get; protected set; }
 
         GUIStyle svStyle;
         Texture2D svTexture;
@@ -187,6 +187,12 @@ namespace RapidGUI
             windowRect.position = pos;
         }
 
+        // IDoGUIWindow
+        public void DoGUIWindow()
+        {
+            DrawWindow();
+        }
+
 
         public bool DrawWindow(string title = "")
         {
@@ -200,7 +206,8 @@ namespace RapidGUI
             GUI.DragWindow();
 
             var ev = Event.current;
-            destroy = (ev.button == 0 && ev.rawType == EventType.MouseDown && !windowRect.Contains(ev.mousePosition));
+       
+            destroy |= (ev.button == 0 && ev.rawType == EventType.MouseDown && !windowRect.Contains(GUIUtility.GUIToScreenPoint(ev.mousePosition)));
         }
 
         public void DrawColorPicker()

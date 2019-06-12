@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RapidGUI
 {
-    public class Fold : LabelContent<Fold>
+    public class Fold : TitleContent<Fold>
     {
         public Fold() : base() { }
         public Fold(string name) : base(name) { }

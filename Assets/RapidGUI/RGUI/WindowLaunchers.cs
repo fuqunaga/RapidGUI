@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace RapidGUI
 {
-    public class WindowLaunchers : LabelContents<WindowLauncher>
+    public class WindowLaunchers : TitleContents<WindowLauncher>
     {
         #region Type Define
 

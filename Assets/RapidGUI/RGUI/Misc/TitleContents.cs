@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 namespace RapidGUI
 {
-    public abstract class LabelContents<T> where T : LabelContent<T>, new()
+    public abstract class TitleContents<T> where T : TitleContent<T>, new()
     {
         protected Dictionary<string, T> dic = new Dictionary<string, T>();
         protected bool dicChanged = true;
@@ -52,10 +52,10 @@ namespace RapidGUI
     }
 
 
-    public static class LabelContentsExtention
+    public static class TitleContentsExtention
     {
-        public static T Add<T>(this LabelContents<T> contents, string name, params Type[] iDoGUITypes)
-             where T : LabelContent<T>, new()
+        public static T Add<T>(this TitleContents<T> contents, string name, params Type[] iDoGUITypes)
+             where T : TitleContent<T>, new()
         {
             Assert.IsTrue(iDoGUITypes.All(type => type.GetInterfaces().Contains(typeof(IDoGUI))));
 

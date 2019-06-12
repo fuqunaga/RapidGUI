@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RapidGUI
 {
-    public class WindowLauncher : LabelContent<WindowLauncher>, IDisposable
+    public class WindowLauncher : TitleContent<WindowLauncher>, IDoGUIWindow
     {
         public Rect rect;
 
@@ -24,12 +24,6 @@ namespace RapidGUI
         {
             rect.width = width;
         }
-
-        public void Dispose()
-        {
-            WindowLauncherManager.Instance.Remove(this);
-        }
-
 
         public WindowLauncher SetWidth(float width)
         {
@@ -63,7 +57,7 @@ namespace RapidGUI
                     }
                 }
 
-                WindowLauncherManager.Instance.Add(this);
+                WindowInvoker.Instance.Add(this);
             }
         }
 

@@ -4,63 +4,41 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        #region Style
-
-        static GUIStyle _colorStyle;
-        static GUIStyle colorStyle
-        {
-            get
-            {
-                if (_colorStyle == null)
-                {
-                    _colorStyle = new GUIStyle(GUIStyle.none);
-                    _colorStyle.normal.background = Texture2D.whiteTexture;
-                    _colorStyle.margin = new RectOffset(5, 5, 5, 5);
-                }
-                return _colorStyle;
-            }
-        }
-
-        #endregion
-
-        static int colorPickerControlID = -1;
         static IMColorPicker colorPicker;
         static Vector2? colorPickerLastPos;
 
         static object ColorField(object obj)
         {
             var color = (Color)obj;
-            var controlID = GUIUtility.GetControlID(FocusType.Passive);
 
-            var bgColor = GUI.backgroundColor;
+            using (new BackgroundColorScope(new Color(color.r, color.g, color.b, 1f)))
             {
                 const int height = 20;
                 const int alphaHeight = 3;
-                GUI.backgroundColor = new Color(color.r, color.g, color.b, 1f);
-                if (GUILayout.Button("", colorStyle, GUILayout.Height(height)))
+
+                if (GUILayout.Button("", Style.whiteRect, GUILayout.Height(height)))
                 {
-                    colorPickerControlID = controlID;
                     colorPicker = new IMColorPicker(color);
-                    colorPicker.SetWindowPosition(colorPickerLastPos ?? Event.current.mousePosition);
+                    colorPicker.SetWindowPosition(colorPickerLastPos ?? GUIUtility.GUIToScreenPoint(Event.current.mousePosition));
                 }
 
                 var rect = GUILayoutUtility.GetLastRect();
                 rect.y = rect.yMax - alphaHeight;
                 rect.height = alphaHeight;
-                GUI.backgroundColor = UnityEngine.Color.black;
-                GUI.Box(rect, "", colorStyle);
+                GUI.backgroundColor = Color.black;
+                GUI.Box(rect, "", Style.whiteRect);
 
                 rect.width *= color.a;
-                GUI.backgroundColor = UnityEngine.Color.white;
-                GUI.Box(rect, "", colorStyle);
+                GUI.backgroundColor = Color.white;
+                GUI.Box(rect, "", Style.whiteRect);
             }
-            GUI.backgroundColor = bgColor;
 
 
-            if ((colorPickerControlID == controlID) && (colorPicker != null))
+            if (colorPicker != null)
             {
-                var destroy = colorPicker.DrawWindow();
-                if (destroy)
+                WindowInvoker.Instance.Add(colorPicker);
+
+                if (colorPicker.destroy)
                 {
                     colorPicker = null;
                 }
@@ -73,5 +51,24 @@ namespace RapidGUI
 
             return color;
         }
+
+
+
+        #region Style
+
+        static class Style
+        {
+            public readonly static GUIStyle whiteRect;
+
+            static Style()
+            {
+                whiteRect = new GUIStyle(GUIStyle.none);
+                whiteRect.normal.background = Texture2D.whiteTexture;
+                whiteRect.margin = new RectOffset(5, 5, 5, 5);
+            }
+        }
+
+        #endregion
+
     }
 }
