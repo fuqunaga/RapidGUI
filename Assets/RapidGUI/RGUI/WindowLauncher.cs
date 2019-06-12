@@ -84,7 +84,7 @@ namespace RapidGUI
         public static class Style
         {
             public static readonly GUIStyle toggle;
-            const int underLine = 3;
+            const int leftLine = 3;
 
             // GUIStyleState.background will be null 
             // if it set after secound scene load and don't use a few frame
@@ -94,7 +94,7 @@ namespace RapidGUI
 
             static Style()
             {
-                Color onColor = new Color(0.25f, 0.4f, 0.98f, 0.9f);
+                Color onColor = new Color(0.3f, 0.5f, 0.98f, 0.9f);
 
                 toggle = CreateToggle(onColor);
                 toggle.name = "launcher_unit_toggle";
@@ -104,9 +104,8 @@ namespace RapidGUI
             {
                 var style = new GUIStyle(GUI.skin.button);
                 style.alignment = TextAnchor.MiddleLeft;
-
-                //style.padding.left = 15;
-                style.border = new RectOffset(0, 0, 1, underLine + 1);
+                //style.border = new RectOffset(0, 0, 1, underLine + 1);
+                style.border = new RectOffset(leftLine + 1, 1, 0, 0);
 
                 var bgColorHover = Vector4.one * 0.5f;
                 var bgColorActive = Vector4.one * 0.7f;
@@ -124,13 +123,15 @@ namespace RapidGUI
 
             static Texture2D CreateToggleOnTex(Color col, Color bg)
             {
-                var tex = new Texture2D(1, underLine + 3);
+                //var tex = new Texture2D(1, underLine + 3);
+                var tex = new Texture2D(leftLine + 3,1);
 
                 for (var x = 0; x < tex.width; ++x)
                 {
+                    var c = (x < leftLine) ? col : bg;
                     for (var y = 0; y < tex.height; ++y)
                     {
-                        var c = (y < underLine) ? col : bg;
+                        //var c = (y < underLine) ? col : bg;
                         tex.SetPixel(x, y, c);
                     }
                 }
