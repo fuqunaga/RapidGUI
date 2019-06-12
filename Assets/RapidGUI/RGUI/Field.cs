@@ -22,7 +22,8 @@ namespace RapidGUI
 
         public static object Field(object obj, Type type, string label, GUIStyle style, params GUILayoutOption[] options)
         {
-            using (new GUILayout.HorizontalScope(style, options))
+            using (new GUILayout.VerticalScope(style, options))
+            using (new GUILayout.HorizontalScope())
             {
                 obj = PrefixLabelDraggable(label, obj, type, options);
                 obj = DispatchFieldFunc(type).Invoke(obj, type);
