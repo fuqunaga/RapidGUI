@@ -70,7 +70,6 @@ namespace RapidGUI
                             obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
                         }
                     }
-
                     else
                     {
                         using (new GUILayout.HorizontalScope())
@@ -87,7 +86,8 @@ namespace RapidGUI
 
         public static object Slider(object obj, object min, object max, Type type, string label, params GUILayoutOption[] options)
         {
-            using (new GUILayout.HorizontalScope(options))
+            using (new GUILayout.VerticalScope(options))
+            using (new GUILayout.HorizontalScope())
             {
                 obj = PrefixLabelDraggable(label, obj, type, options);
                 obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
