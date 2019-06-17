@@ -18,7 +18,7 @@ namespace RapidGUI
         public T Add(string name, Func<bool> guiFunc) => Add(name, null, guiFunc);
 
         public virtual T Add(string name, Func<bool> checkEnableFunc, Func<bool> guiFunc)
-        { 
+        {
             if (dic.TryGetValue(name, out var element))
             {
                 element.Add(checkEnableFunc, guiFunc);
@@ -32,6 +32,16 @@ namespace RapidGUI
             dicChanged = true;
 
             return element;
+        }
+
+        public T Add(string name, params Type[] iDoGUITypes)
+        {
+            Assert.IsTrue(iDoGUITypes.All(type => type.GetInterfaces().Contains(typeof(IDoGUI))));
+
+            var iDoGUIs = iDoGUITypes.Select(t => new LazyFindObject(t)).ToList() // exec once.
+                .Select(lfo => lfo.GetObject()).Where(o => o != null).Cast<IDoGUI>();   // exec every call.
+
+            return Add(name, () => iDoGUIs.Any(), () => iDoGUIs.ToList().ForEach(idm => idm.DoGUI()));
         }
 
 
@@ -48,21 +58,6 @@ namespace RapidGUI
             }
 
             dicChanged = true;
-        }
-    }
-
-
-    public static class TitleContentsExtention
-    {
-        public static T Add<T>(this TitleContents<T> contents, string name, params Type[] iDoGUITypes)
-             where T : TitleContent<T>, new()
-        {
-            Assert.IsTrue(iDoGUITypes.All(type => type.GetInterfaces().Contains(typeof(IDoGUI))));
-
-            var iDoGUIs = iDoGUITypes.Select(t => new LazyFindObject(t)).ToList() // exec once.
-                .Select(lfo => lfo.GetObject()).Where(o => o != null).Cast<IDoGUI>();   // exec every call.
-
-            return contents.Add(name, () => iDoGUIs.Any(), () => iDoGUIs.ToList().ForEach(idm => idm.DoGUI()));
         }
     }
 }
