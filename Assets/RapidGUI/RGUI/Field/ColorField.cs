@@ -1,19 +1,32 @@
 ﻿using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+
 namespace RapidGUI
 {
     public static partial class RGUI
     {
-        static IMColorPicker colorPicker;
+        static IMColorPicker colorPicker = null;
         static Vector2? colorPickerLastPos;
 
         static object ColorField(object obj)
         {
             var color = (Color)obj;
 
+#if UNITY_EDITOR
+            if (RGUILayoutUtility.IsInEditorWindow())
+            {
+                var ret = EditorGUILayout.ColorField(color);
+                return ret;
+            }
+#endif
+
             using (new BackgroundColorScope(new Color(color.r, color.g, color.b, 1f)))
             {
-                const int height = 20;
+                const int height = 16;
                 const int alphaHeight = 3;
 
                 if (GUILayout.Button("", Style.whiteRect, GUILayout.Height(height)))

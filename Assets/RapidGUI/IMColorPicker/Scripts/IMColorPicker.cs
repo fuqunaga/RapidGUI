@@ -324,7 +324,7 @@ namespace RapidGUI
         {
             using (new GUILayout.HorizontalScope())
             {
-                GUILayout.Label(label, GUILayout.Width(10f));
+                GUILayout.Label(label, GUILayout.Width(16f));
                 v = GUILayout.HorizontalSlider(v, 0f, 1f);
                 float.TryParse(GUILayout.TextField(v.ToString("0.000"), GUILayout.Width(40f)), out v); ;
             }

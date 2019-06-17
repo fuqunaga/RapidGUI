@@ -57,7 +57,10 @@ namespace RapidGUI
                     }
                 }
 
-                WindowInvoker.Instance.Add(this);
+                if (isOpen)
+                {
+                    WindowInvoker.Instance.Add(this);
+                }
             }
         }
 
