@@ -1,29 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RapidGUI
 {
     public static partial class RGUI
     {
-        #region Style
-
-        static GUIStyle _warningLabelStyle;
-        public static GUIStyle warningLabelStyle
-        {
-            get
-            {
-                if (_warningLabelStyle == null)
-                {
-                    _warningLabelStyle = new GUIStyle(GUI.skin.box);
-                    _warningLabelStyle.alignment = GUI.skin.label.alignment;
-                }
-                return _warningLabelStyle;
-            }
-        }
-
-        #endregion
-
         public static string warningLabelPrefix = "<color=grey>";
         public static string warningLabelPostfix = "</color>";
 
@@ -31,12 +11,12 @@ namespace RapidGUI
 
         public static void WarningLabel(string label)
         {
-            GUILayout.Label(WarningLabelModifyLabel(label), warningLabelStyle);
+            GUILayout.Label(WarningLabelModifyLabel(label), RGUIStyle.warningLabel);
         }
 
         public static void WarningLabelNoStyle(string label)
         {
-            GUILayout.Label(WarningLabelModifyLabel(label));
+            GUILayout.Label(WarningLabelModifyLabel(label), RGUIStyle.warningLabelNoStyle);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace RapidGUI
 {
@@ -7,6 +8,9 @@ namespace RapidGUI
         public static GUIStyle popupButton;
         public static GUIStyle popup;
         public static GUIStyle darkWindow;
+
+        public static GUIStyle warningLabel;
+        public static GUIStyle warningLabelNoStyle;
 
         // GUIStyleState.background will be null 
         // if it set after secound scene load and don't use a few frame
@@ -25,7 +29,9 @@ namespace RapidGUI
         {
             CreateFlatButton();
             CreatePopup();
-            darkWindow = CreateDarkWindow();
+            CreateDarkWindow();
+            CreateWarningLabel();
+            CreateWarningLabelNoStyle();
         }
 
         static void CreateFlatButton()
@@ -65,7 +71,7 @@ namespace RapidGUI
         }
 
 
-        public static GUIStyle CreateDarkWindow()
+        public static void CreateDarkWindow()
         {
             var style = new GUIStyle(GUI.skin.window);
 
@@ -74,7 +80,7 @@ namespace RapidGUI
 
             style.name = nameof(darkWindow);
 
-            return style;
+            darkWindow = style;
         }
 
         public static Texture2D CreateTexDark(Texture2D src, float colorRate, float alphaRate)
@@ -113,5 +119,27 @@ namespace RapidGUI
 
             return dst;
         }
+
+
+        private static void CreateWarningLabel()
+        {
+            var style = new GUIStyle(GUI.skin.box);
+            style.alignment = GUI.skin.label.alignment;
+            style.richText = true;
+
+            style.name = nameof(warningLabel);
+            warningLabel = style;
+        }
+
+        private static void CreateWarningLabelNoStyle()
+        {
+            var style = new GUIStyle(GUI.skin.label);
+            style.richText = true;
+
+            style.name = nameof(warningLabelNoStyle);
+            warningLabelNoStyle = style;
+        }
+
+
     }
 }
