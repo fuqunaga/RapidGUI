@@ -29,8 +29,6 @@ namespace RapidGUI
             public static float width = 130f;
         }
 
-        static GUIContent tmpContent = new GUIContent();
-
         public static bool PrefixLabel(string label)
         {
             var isLong = false;
@@ -38,8 +36,7 @@ namespace RapidGUI
             if (!string.IsNullOrEmpty(label))
             {
                 var style = GUI.skin.label;
-                tmpContent.text = label;
-                isLong = style.CalcHeight(tmpContent, PrefixLabelSetting.width) > 21;
+                isLong = style.CalcHeight(RGUIUtility.TempContent(label), PrefixLabelSetting.width) > 21;
 
 
                 if (isLong)

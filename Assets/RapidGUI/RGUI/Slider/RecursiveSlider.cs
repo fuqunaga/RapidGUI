@@ -7,7 +7,7 @@ namespace RapidGUI
     {
         static object RecursiveSlider(object obj, object min, object max)
         {
-            return RecursiveFlow(obj, () => DoRecursiveSlider(obj, min, max));
+            return DoRecursiveSafe(obj, () => DoRecursiveSlider(obj, min, max));
         }
 
         static object DoRecursiveSlider(object obj, object min, object max)

@@ -8,7 +8,7 @@ namespace RapidGUI
     {
         static object RecursiveField(object obj)
         {
-            return RecursiveFlow(obj, () => DoRecursiveField(obj));
+            return DoRecursiveSafe(obj, () => DoRecursiveField(obj));
         }
 
         static object DoRecursiveField(object obj)
@@ -51,7 +51,7 @@ namespace RapidGUI
                 var v = info.GetValue(obj);
                 var elemName = CheckCustomLabel(info.Name);
 
-                // for the bug? that short label will be strange word wrap at unity2019
+                // for the bug that short label will be strange word wrap at unity2019
                 tmpStringBuilder.Clear();
                 tmpStringBuilder.Append(elemName);
                 tmpStringBuilder.Append(" ");

@@ -55,8 +55,7 @@ namespace RapidGUI
                         var contentSize = Vector2.zero;
                         for (var i = 0; i < displayOptions.Length; ++i)
                         {
-                            tmpContent.text = displayOptions[i];
-                            var textSize = buttonStyle.CalcSize(tmpContent);
+                            var textSize = buttonStyle.CalcSize(RGUIUtility.TempContent(displayOptions[i]));
                             contentSize.x = Mathf.Max(contentSize.x, textSize.x);
                             contentSize.y += textSize.y;
                         }

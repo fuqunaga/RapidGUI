@@ -1,43 +1,98 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TupleObject = System.ValueTuple<object, object>;
 
 namespace RapidGUI
 {
     public static partial class RGUI
     {
-        static Stack<int> recursiveTypeLoopCheck = new Stack<int>();
+        static Stack<object> recursiveTypeLoopCheck = new Stack<object>();
         static bool isInRecursive => recursiveTypeLoopCheck.Count > 0;
 
-        static object RecursiveFlow(object obj, Func<object> doFunc)
+        enum ObjStatus
         {
-            if (obj == null)
-            {
-                WarningLabel("object is null.");
-            }
-            else
-            {
-                var type = obj.GetType();
+            Null,
+            Loop,
+            ValueType,
+            Class,
+            Tuple,
+        }
 
+        static object DoRecursiveSafe(object obj, Func<object> doFunc)
+        {
+            ObjStatus GetStatus(object o)
+            {
+                if (o == null) return ObjStatus.Null;
+
+                var type = o.GetType();
                 if (type.IsValueType)
                 {
-                    obj = doFunc();
+                    return (type == typeof(TupleObject)) ? ObjStatus.Tuple : ObjStatus.ValueType;
                 }
-                else
-                {
-                    var hash = obj.GetHashCode();
+                else if (recursiveTypeLoopCheck.Contains(o)) return ObjStatus.Loop;
 
-                    if (recursiveTypeLoopCheck.Contains(hash))
+                return ObjStatus.Class;
+            }
+
+            const string nullMsg = "is null.";
+            const string loopMsg = "circular reference detected.";
+
+            switch (GetStatus(obj))
+            {
+                case ObjStatus.Null:
+                    WarningLabel("object" + nullMsg);
+                    break;
+
+                case ObjStatus.Loop:
+                    WarningLabel($"[{obj.GetType()}]: " + loopMsg);
+                    break;
+
+
+                case ObjStatus.ValueType:
+                    obj = doFunc();
+                    break;
+
+                case ObjStatus.Class:
                     {
-                        WarningLabel($"[{type}]: circular reference detected.");
-                    }
-                    else
-                    {
-                        recursiveTypeLoopCheck.Push(hash);
+                        recursiveTypeLoopCheck.Push(obj);
                         obj = doFunc();
                         recursiveTypeLoopCheck.Pop();
                     }
-                }
+                    break;
+
+                case ObjStatus.Tuple:
+                    {
+                        var (min, max) = (TupleObject)obj;
+                        var stMin = GetStatus(min);
+                        var stMax = GetStatus(max);
+
+                        var str1 = (stMin == ObjStatus.Null) ? "min " + nullMsg : ((stMin == ObjStatus.Loop) ? "min: " + loopMsg : null);
+                        var str2 = (stMax == ObjStatus.Null) ? "max " + nullMsg : ((stMax == ObjStatus.Loop) ? "max: " + loopMsg : null);
+
+                        if ( str1 != null || str2 != null)
+                        {
+                            WarningLabel(string.Join("\n", new[] { str1, str2 }.Where(str => str != null).ToArray()));
+                        }
+                        else
+                        {
+                            if ( stMin == ObjStatus.Class)
+                            {
+                                recursiveTypeLoopCheck.Push(min);
+                                recursiveTypeLoopCheck.Push(max);
+                                obj = doFunc();
+                                recursiveTypeLoopCheck.Pop();
+                                recursiveTypeLoopCheck.Pop();
+                            }
+                            else
+                            {
+                                obj = doFunc();
+                            }
+                        }
+                    }
+                    break;
             }
+
             return obj;
         }
     }
