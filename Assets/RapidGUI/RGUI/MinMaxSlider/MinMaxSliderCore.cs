@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace RapidGUI
@@ -21,18 +19,18 @@ namespace RapidGUI
             {
                 minMaxSliderThumb = new GUIStyle()
                 {
-                    border = new RectOffset(14, 14, 0, 0),
+                    border = new RectOffset(7, 7, 0, 0),
                     clipping = TextClipping.Clip,
-                    fixedHeight = 14f,
+                    fixedHeight = 12f,
                     imagePosition = ImagePosition.ImageOnly,
-                    name = "MinMaxHorizontalSliderThumb_Copy",
-                    overflow = new RectOffset(2, 2, 2, 2),
-                    padding = new RectOffset(12, 12, 0, 0),
+                    name = "MinMaxHorizontalSliderThumb",
+                    //overflow = new RectOffset(2, 2, 2, 2),
+                    padding = new RectOffset(7, 7, 0, 0),
                     richText = false,
                 };
 
-                var normalTex = Resources.Load<Texture2D>("minmax slider thumb@2x_copy");
-                var activeTex = Resources.Load<Texture2D>("minmax slider thumb act@2x _copy");
+                var normalTex = Resources.Load<Texture2D>("minmax slider thumb");
+                var activeTex = Resources.Load<Texture2D>("minmax slider thumb act");
 
                 minMaxSliderThumb.normal.background = normalTex;
                 minMaxSliderThumb.active.background = activeTex;

@@ -79,8 +79,8 @@ namespace RapidGUI
             MinMaxSliderCore.MinMaxSlider(rect, ref f1, ref f2, (int)min, (int)max);
             v = ((int)f1, (int)f2);
 
-            v.Item1 = StandardField(v.Item1, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
-            v.Item2 = StandardField(v.Item2, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
+            v.Item1 = StandardField(v.Item1,typeof(int), GUILayout.Width(SliderSetting.fieldWidth));
+            v.Item2 = StandardField(v.Item2,typeof(int), GUILayout.Width(SliderSetting.fieldWidth));
 
             return v;
         }
@@ -95,8 +95,8 @@ namespace RapidGUI
             MinMaxSliderCore.MinMaxSlider(rect, ref f1, ref f2, (float)min, (float)max);
             v = (f1, f2);
 
-            v.Item1 = (float)StandardField(v.Item1, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
-            v.Item2 = (float)StandardField(v.Item2, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
+            v.Item1 = (float)StandardField(v.Item1, typeof(float), GUILayout.Width(SliderSetting.fieldWidth));
+            v.Item2 = (float)StandardField(v.Item2, typeof(float), GUILayout.Width(SliderSetting.fieldWidth));
 
             return v;
         }
