@@ -4,40 +4,21 @@ using UnityEngine;
 
 namespace RapidGUI
 {
-    public class WindowInvoker : MonoBehaviour
+    public static class WindowInvoker
     {
-        #region static 
+        static HashSet<IDoGUIWindow> windows = new HashSet<IDoGUIWindow>();
 
-        static WindowInvoker instance;
-        public static WindowInvoker Instance
+        static WindowInvoker()
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<WindowInvoker>();
-                    if (instance == null)
-                    {
-                        var ga = new GameObject("WindowLauncherManager");
-                        instance = ga.AddComponent<WindowInvoker>();
-                    }
-
-                    DontDestroyOnLoad(instance);
-                }
-
-                return instance;
-            }
+            RapidGUIBehaviour.Instance.onGUI += DoGUI;
         }
 
-        #endregion
+
+        public static void Add(IDoGUIWindow window) => windows.Add(window);
+        public static void Remove(IDoGUIWindow window) => windows.Remove(window);
 
 
-        HashSet<IDoGUIWindow> windows = new HashSet<IDoGUIWindow>();
-
-        public void Add(IDoGUIWindow window) => windows.Add(window);
-        public void Remove(IDoGUIWindow window) => windows.Remove(window);
-        
-        public void OnGUI()
+        static void DoGUI()
         {
             windows.ToList().ForEach(l => l?.DoGUIWindow());
 

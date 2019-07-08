@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RapidGUI
 {
-
-    public static class RGUIUtility
+    public static partial class RGUIUtility
     {
         static GUIContent tempContent = new GUIContent();
     

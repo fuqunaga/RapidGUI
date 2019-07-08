@@ -103,5 +103,4 @@ namespace RapidGUI
 
         #endregion
     }
-
 }

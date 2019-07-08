@@ -14,7 +14,6 @@ namespace RapidGUI
                 InitStyle();
             }
 
-
             static void InitStyle()
             {
                 minMaxSliderThumb = new GUIStyle()
@@ -53,6 +52,7 @@ namespace RapidGUI
             DoMinMaxSlider(position, id, ref minValue, ref size, minLimit, maxLimit, minLimit, maxLimit, GUI.skin.horizontalSlider, Style.minMaxSliderThumb, true);
             maxValue = minValue + size;
         }
+
 
 
         #region based on EditorGUIExt.cs
@@ -298,10 +298,16 @@ namespace RapidGUI
                     slider.Draw(position, GUIContent.none, id);
                     thumb.Draw(thumbRect, GUIContent.none, id);
 
-                    /*
+#if false
                     EditorGUIUtility.AddCursorRect(thumbMinRect, horiz ? MouseCursor.ResizeHorizontal : MouseCursor.ResizeVertical, state != null && state.whereWeDrag == 1 ? id : -1);
                     EditorGUIUtility.AddCursorRect(thumbMaxRect, horiz ? MouseCursor.ResizeHorizontal : MouseCursor.ResizeVertical, state != null && state.whereWeDrag == 2 ? id : -1);
-                    */
+#else
+                    var dragingThumb = (GUIUtility.hotControl == id) && (state != null) && (state.whereWeDrag == 1 || state.whereWeDrag == 2);
+                    if (dragingThumb || thumbMinRect.Contains(evt.mousePosition) || thumbMaxRect.Contains(evt.mousePosition))
+                    {
+                        RGUIUtility.SetCursor(horiz ? MouseCursor.ResizeHorizontal : MouseCursor.ResizeVertical);
+                    }
+#endif
 
                     // if the mouse is outside this control, just bail out...
                     if (GUIUtility.hotControl != id ||

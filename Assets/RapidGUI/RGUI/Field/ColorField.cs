@@ -49,7 +49,7 @@ namespace RapidGUI
 
             if (colorPicker != null)
             {
-                WindowInvoker.Instance.Add(colorPicker);
+                WindowInvoker.Add(colorPicker);
 
                 if (colorPicker.destroy)
                 {
