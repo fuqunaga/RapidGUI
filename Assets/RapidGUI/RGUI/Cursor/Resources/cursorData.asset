@@ -16,7 +16,7 @@ MonoBehaviour:
     tex: {fileID: 2800000, guid: 4c7d0789dd64c2a4abb34c702bde2d23, type: 3}
     hotspot: {x: 18, y: 8}
   resizeVertical:
-    tex: {fileID: 2800000, guid: 4c7d0789dd64c2a4abb34c702bde2d23, type: 3}
+    tex: {fileID: 2800000, guid: 9ea93cce483d412479afe7393187edd5, type: 3}
     hotspot: {x: 8, y: 18}
   resizeUpLeft:
     tex: {fileID: 2800000, guid: 611057dfbf0a2c943b4d5ee31759394c, type: 3}
