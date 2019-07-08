@@ -45,44 +45,12 @@ namespace RapidGUI.Example
             launchers.Add("RGUI.MinMaxSlider()", typeof(MinMaxSliderExample));
             launchers.Add("Fold / Folds", typeof(FoldExample));
             launchers.Add("WindowLauncher / WindowLaunchers", typeof(WindowLauncherExample));
+            launchers.Add("Misc", typeof(MiscExample));
         }
 
         void OnGUI()
         {
             launchers.DoGUI();
-
-            using (var h = new GUILayout.HorizontalScope())
-            {
-                using (var v = new GUILayout.VerticalScope(GUILayout.MinWidth(300f)))
-                {
-                    miscFolds.DoGUI();
-                    _dynamicFoldEnable = GUILayout.Toggle(_dynamicFoldEnable, "DynamicFold");
-                    dynamicFolds.DoGUI();
-
-                    using (new RGUI.IndentScope())
-                    {
-                        GUILayout.Label("IndentScope");
-                    }
-
-                    using (new RGUI.ColorScope(Color.green))
-                    {
-                        GUILayout.Label("ColorScope");
-                    }
-
-                    using (new RGUI.EnabledScope(false))
-                    {
-                        GUILayout.Label("EnabledScope");
-                    }
-
-
-                    GUILayout.Box("Popup");
-                    var resultIdx = RGUI.PopupOnLastRect(new[] { "Button One", "Button Two", "Button Three" });
-                    if (resultIdx >= 0 )
-                    {
-                        Debug.Log($"Popup: Button{resultIdx + 1}");
-                    }
-                }
-            }
         }
     }
 }

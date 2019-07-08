@@ -5,12 +5,9 @@ namespace RapidGUI
     public static partial class RGUI
     {
         static int popupControlID;
-        static Vector2 popupPos;
-        static int? popupResult;
+        static PopsupWindow popupWindow = new PopsupWindow();
 
-        static readonly int popupWindowID = "Popup".GetHashCode();
-
-        public static int PopupOnLastRect(string[] displayOptions, string label="") => PopupOnLastRect(-1, displayOptions, -1, label);
+        public static int PopupOnLastRect(string[] displayOptions, string label = "") => PopupOnLastRect(-1, displayOptions, -1, label);
         public static int PopupOnLastRect(string[] displayOptions, int button, string label = "") => PopupOnLastRect(-1, displayOptions, button, label);
 
         public static int PopupOnLastRect(int selectionIndex, string[] displayOptions, int button, string label = "") => Popup(GUILayoutUtility.GetLastRect(), button, selectionIndex, displayOptions, label);
@@ -27,11 +24,11 @@ namespace RapidGUI
                 var pos = ev.mousePosition;
 
                 if ((ev.type == EventType.MouseUp)
-                    && ((button < 0) || (ev.button == button)) 
+                    && ((button < 0) || (ev.button == button))
                     && launchRect.Contains(pos)
                     )
                 {
-                    popupPos =  GUIUtility.GUIToScreenPoint(pos);
+                    popupWindow.pos = GUIUtility.GUIToScreenPoint(pos);
                     popupControlID = controlID;
                     ev.Use();
                 }
@@ -39,17 +36,17 @@ namespace RapidGUI
             // Active
             else if (popupControlID == controlID)
             {
-                if (popupResult.HasValue)
+                var result = popupWindow.result;
+                if (result.HasValue)
                 {
-                    ret = popupResult.Value;
-                    popupResult = null;
+                    ret = result.Value;
+                    popupWindow.result = null;
                     popupControlID = 0;
                 }
                 else
                 {
-                    var size = default(Vector2);
                     var type = Event.current.type;
-                    if ((type == EventType.Layout) || (type== EventType.Repaint) )
+                    if ((type == EventType.Layout) || (type == EventType.Repaint))
                     {
                         var buttonStyle = RGUIStyle.popupButton;
                         var contentSize = Vector2.zero;
@@ -63,34 +60,54 @@ namespace RapidGUI
                         var margin = buttonStyle.margin;
                         contentSize.y += Mathf.Max(0, displayOptions.Length - 1) * Mathf.Max(margin.top, margin.bottom); // is this right?
 
-                        size = RGUIStyle.popup.CalcScreenSize(contentSize);
-                    }
-                    
+                        var size = RGUIStyle.popup.CalcScreenSize(contentSize);
 
-                    GUI.ModalWindow(popupWindowID, new Rect(popupPos, size), (id) =>
-                    {
-                        using (new GUILayout.VerticalScope())
-                        {
-                            for (var j = 0; j < displayOptions.Length; ++j)
-                            {
-                                if (GUILayout.Button(displayOptions[j], RGUIStyle.popupButton))
-                                {
-                                    popupResult = j;
-                                }
-                            }
-                        }
-
-                        var ev = Event.current;
-                        if ((ev.rawType == EventType.MouseDown) && !(new Rect(Vector2.zero, size).Contains(ev.mousePosition)))
-                        {
-                            popupResult = -1; ;
-                        }
+                        popupWindow.size = size;
                     }
-                    , label, RGUIStyle.popup);
+
+                    popupWindow.label = label;
+                    popupWindow.displayOptions = displayOptions;
+                    WindowInvoker.Add(popupWindow);
                 }
             }
 
             return ret;
+        }
+
+
+        class PopsupWindow : IDoGUIWindow
+        {
+            public string label;
+            public Vector2 pos;
+            public Vector2 size;
+            public int? result;
+            public string[] displayOptions;
+
+            static readonly int popupWindowID = "Popup".GetHashCode();
+
+            public void DoGUIWindow()
+            {
+                GUI.ModalWindow(popupWindowID, new Rect(pos, size), (id) =>
+                {
+                    using (new GUILayout.VerticalScope())
+                    {
+                        for (var j = 0; j < displayOptions.Length; ++j)
+                        {
+                            if (GUILayout.Button(displayOptions[j], RGUIStyle.popupButton))
+                            {
+                                result = j;
+                            }
+                        }
+                    }
+
+                    var ev = Event.current;
+                    if ((ev.rawType == EventType.MouseDown) && !(new Rect(Vector2.zero, size).Contains(ev.mousePosition)))
+                    {
+                        result = -1; ;
+                    }
+                }
+                , label, RGUIStyle.popup);
+            }
         }
     }
 }
