@@ -10,6 +10,7 @@ namespace RapidGUI
     public static partial class RGUI
     {
         static IMColorPicker colorPicker = null;
+        static int colorPickerControlID;
         static Vector2? colorPickerLastPos;
 
         static object ColorField(object obj)
@@ -23,6 +24,7 @@ namespace RapidGUI
                 return ret;
             }
 #endif
+            var id = GUIUtility.GetControlID(FocusType.Passive);
 
             using (new BackgroundColorScope(new Color(color.r, color.g, color.b, 1f)))
             {
@@ -33,6 +35,7 @@ namespace RapidGUI
                 {
                     colorPicker = new IMColorPicker(color);
                     colorPicker.SetWindowPosition(colorPickerLastPos ?? GUIUtility.GUIToScreenPoint(Event.current.mousePosition));
+                    colorPickerControlID = id;
                 }
 
                 var rect = GUILayoutUtility.GetLastRect();
@@ -47,13 +50,14 @@ namespace RapidGUI
             }
 
 
-            if (colorPicker != null)
+            if ((colorPicker != null) && (colorPickerControlID == id))
             {
                 WindowInvoker.Add(colorPicker);
 
                 if (colorPicker.destroy)
                 {
                     colorPicker = null;
+                    colorPickerControlID = 0;
                 }
                 else
                 {
