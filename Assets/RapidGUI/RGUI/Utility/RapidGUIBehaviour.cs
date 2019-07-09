@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace RapidGUI
@@ -32,6 +30,7 @@ namespace RapidGUI
 
         #endregion
 
+        public KeyCode closeFocusedWindowKey = KeyCode.Q;
         public Action onGUI;
 
         public void OnGUI()

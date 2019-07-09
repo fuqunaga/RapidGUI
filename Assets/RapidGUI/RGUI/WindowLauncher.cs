@@ -53,7 +53,7 @@ namespace RapidGUI
                     }
                     else
                     {
-                        onClose?.Invoke(this);
+                        CloseWindow();
                     }
                 }
 
@@ -63,6 +63,9 @@ namespace RapidGUI
                 }
             }
         }
+
+
+        #region IDoGUIWindow
 
         public void DoGUIWindow()
         {
@@ -74,12 +77,25 @@ namespace RapidGUI
                     {
                         GetGUIFuncs().ForEach(func => func());
                         GUI.DragWindow();
+
+                        if (Event.current.type == EventType.Used)
+                        {
+                            WindowInvoker.SetFocusedWindow(this);
+                        }
                     }
                     , name, RGUIStyle.darkWindow);
 
                 isMoved |= pos != rect.position;
             }
         }
+
+        public void CloseWindow()
+        {
+            isOpen = false;
+            onClose?.Invoke(this);
+        }
+
+        #endregion
 
 
         #region Style

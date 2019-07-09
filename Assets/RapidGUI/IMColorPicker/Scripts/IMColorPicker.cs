@@ -187,12 +187,17 @@ namespace RapidGUI
             windowRect.position = pos;
         }
 
-        // IDoGUIWindow
+
+        #region IDoGUIWindow
+
         public void DoGUIWindow()
         {
             DrawWindow();
         }
 
+        public void CloseWindow() { }
+
+        #endregion
 
         public bool DrawWindow(string title = "")
         {

@@ -17,8 +17,8 @@ namespace RapidGUI
             var ret = selectionIndex;
             var controlID = GUIUtility.GetControlID(FocusType.Passive);
 
-            // There are No Active Popup
-            if (popupControlID == 0)
+            // not Popup Owner
+            if (popupControlID != controlID)
             {
                 var ev = Event.current;
                 var pos = ev.mousePosition;
@@ -34,7 +34,7 @@ namespace RapidGUI
                 }
             }
             // Active
-            else if (popupControlID == controlID)
+            else
             {
                 var result = popupWindow.result;
                 if (result.HasValue)
@@ -85,9 +85,11 @@ namespace RapidGUI
 
             static readonly int popupWindowID = "Popup".GetHashCode();
 
+            public Rect GetWindowRect() => new Rect(pos, size);
+
             public void DoGUIWindow()
             {
-                GUI.ModalWindow(popupWindowID, new Rect(pos, size), (id) =>
+                GUI.ModalWindow(popupWindowID, GetWindowRect(), (id) =>
                 {
                     using (new GUILayout.VerticalScope())
                     {
@@ -108,6 +110,8 @@ namespace RapidGUI
                 }
                 , label, RGUIStyle.popup);
             }
+
+            public void CloseWindow() { result = -1; }
         }
     }
 }
