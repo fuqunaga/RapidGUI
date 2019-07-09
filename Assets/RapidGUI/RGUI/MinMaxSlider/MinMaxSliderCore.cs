@@ -302,8 +302,11 @@ namespace RapidGUI
                     EditorGUIUtility.AddCursorRect(thumbMinRect, horiz ? MouseCursor.ResizeHorizontal : MouseCursor.ResizeVertical, state != null && state.whereWeDrag == 1 ? id : -1);
                     EditorGUIUtility.AddCursorRect(thumbMaxRect, horiz ? MouseCursor.ResizeHorizontal : MouseCursor.ResizeVertical, state != null && state.whereWeDrag == 2 ? id : -1);
 #else
-                    var dragingThumb = (GUIUtility.hotControl == id) && (state != null) && (state.whereWeDrag == 1 || state.whereWeDrag == 2);
-                    if (dragingThumb || thumbMinRect.Contains(evt.mousePosition) || thumbMaxRect.Contains(evt.mousePosition))
+                    var hasControl = (GUIUtility.hotControl == id) && (state != null);
+                    var dragingThumb = hasControl && (state.whereWeDrag == 1 || state.whereWeDrag == 2);
+                    if (dragingThumb ||
+                        (!hasControl && (thumbMinRect.Contains(evt.mousePosition) || thumbMaxRect.Contains(evt.mousePosition)))
+                        )
                     {
                         RGUIUtility.SetCursor(horiz ? MouseCursor.ResizeHorizontal : MouseCursor.ResizeVertical);
                     }
