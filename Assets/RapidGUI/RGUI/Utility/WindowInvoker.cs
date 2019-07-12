@@ -30,7 +30,10 @@ namespace RapidGUI
 
             var evt = Event.current;
 
-            if ((evt.type == EventType.KeyUp) && (evt.keyCode == RapidGUIBehaviour.Instance.closeFocusedWindowKey))
+            if ((evt.type == EventType.KeyUp) 
+                && (evt.keyCode == RapidGUIBehaviour.Instance.closeFocusedWindowKey)
+                && (GUIUtility.keyboardControl == 0)
+                )
             {
                 if (windows.Contains(focusedWindow))
                 {
