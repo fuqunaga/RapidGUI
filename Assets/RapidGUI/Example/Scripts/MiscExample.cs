@@ -23,9 +23,9 @@ namespace RapidGUI.Example
                 GUILayout.Label("ColorScope");
             }
 
-            using (new RGUI.BackgroundColorScope(Color.blue))
+            using (new RGUI.BackgroundColorScope(Color.red))
             {
-                GUILayout.Label("BackgroundColorScope");
+                GUILayout.Button("BackgroundColorScope");
             }
 
             using (new RGUI.EnabledScope(false))
