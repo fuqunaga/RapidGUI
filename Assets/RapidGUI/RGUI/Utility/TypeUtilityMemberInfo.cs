@@ -114,15 +114,10 @@ namespace RapidGUI
             if (!fieldInfoTable.TryGetValue(type, out var fiList))
             {
                 fiList = type
-                    .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(fi => fi.GetCustomAttribute<NonSerializedAttribute>() == null)
+                    .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(fi => !typeof(Delegate).IsAssignableFrom(fi.FieldType))
+                    .Where(fi => fi.IsPublic ? fi.GetCustomAttribute<NonSerializedAttribute>() == null : fi.GetCustomAttribute<SerializeField>() != null)
                     .ToList();
-
-                fiList.AddRange(type
-                    .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                    .Where(fi => fi.GetCustomAttribute<SerializeField>() != null)
-                    );
-
                 fieldInfoTable[type] = fiList;
             }
 
