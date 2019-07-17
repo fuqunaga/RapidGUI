@@ -21,14 +21,18 @@ namespace RapidGUI
 
             object GetValue(object value);
             void SetValue(object obj, object value);
+
+            RangeAttribute Range { get; }
         }
 
         public class MemberFieldInfo : IMemberWrapper
         {
             FieldInfo info;
+
             public MemberFieldInfo(FieldInfo info)
             {
                 this.info = info;
+                Range = info.GetCustomAttribute<RangeAttribute>();
             }
 
             public string Name => info.Name;
@@ -38,11 +42,14 @@ namespace RapidGUI
             public object GetValue(object obj) => info.GetValue(obj);
 
             public void SetValue(object obj, object value) => info.SetValue(obj, value);
+
+            public RangeAttribute Range { get; protected set; }
         }
 
         public class MemberPropertyInfo : IMemberWrapper
         {
             PropertyInfo info;
+
             public MemberPropertyInfo(PropertyInfo info)
             {
                 this.info = info;
@@ -55,6 +62,8 @@ namespace RapidGUI
             public object GetValue(object obj) => info.GetValue(obj);
 
             public void SetValue(object obj, object value) => info.SetValue(obj, value);
+
+            public RangeAttribute Range => null;
         }
 
         #endregion

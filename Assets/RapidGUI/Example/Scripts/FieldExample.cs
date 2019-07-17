@@ -27,8 +27,8 @@ namespace RapidGUI.Example
 
         /// <summary>
         /// Custom Class
-        ///  RapidGUI displays members with the same rules as unity serialize
-        ///  if class is ICloneable or has Copy Constructor then Array/List element will be dupricate when add new element
+        ///  RapidGUI displays member fields with the same rules as unity serialize(public, SerializeField, NonSerialized).
+        ///  if class is ICloneable or has Copy Constructor then Array/List element will be dupricate when add new element.
         /// </summary>
         [Serializable]
         public class CustomClass : ICloneable
@@ -38,8 +38,6 @@ namespace RapidGUI.Example
             [SerializeField]
             protected float floatVal;
 
-            [Range(0f, 100f)]
-            public float rangeVal;
             public string stringVal;
 
             [NonSerialized]
@@ -52,15 +50,20 @@ namespace RapidGUI.Example
                 {
                     intVal = intVal,
                     floatVal = floatVal,
-                    rangeVal = rangeVal,
                     stringVal = stringVal
                 };
             }
         }
 
-        [System.Serializable]
+        /// <summary>
+        /// ComplecClass
+        ///  display Slider for member field that has RangAttribute
+        /// </summary>
+        [Serializable]
         public class ComplexClass
         {
+            [Range(0f, 10f)]
+            public float rangeVal;
             public string longNameFieldSoThatWillBeMultiLine;
             public CustomClass customClass = new CustomClass();
             public ComplexClass complexClass = null;

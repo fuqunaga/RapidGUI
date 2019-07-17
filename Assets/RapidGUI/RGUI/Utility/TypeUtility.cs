@@ -18,10 +18,16 @@ namespace RapidGUI
             bool ret;
             if (!multiLineTable.TryGetValue(type, out ret))
             {
-                var elemtTypes = GetMemberInfoList(type).Select(info => info.MemberType);
+                var infoList = GetMemberInfoList(type);
 
-                ret = elemtTypes.Any(t => IsRecursive(t) || IsList(t))
-                    || (elemtTypes.Count() > 4);
+                ret = infoList.Any(info => info.Range != null);
+                if (!ret)
+                {
+                    var elemtTypes = infoList.Select(info => info.MemberType);
+
+                    ret = elemtTypes.Any(t => IsRecursive(t) || IsList(t))
+                        || (elemtTypes.Count() > 4);
+                }
 
                 multiLineTable[type] = ret;
             }

@@ -49,14 +49,24 @@ namespace RapidGUI
             {
                 var info = infos[i];
                 var v = info.GetValue(obj);
+                var range = info.Range;
+                var memberType = info.MemberType;
                 var elemName = CheckCustomLabel(info.Name);
+                
 
-                // for the bug that short label will be strange word wrap at unity2019
-                tmpStringBuilder.Clear();
-                tmpStringBuilder.Append(elemName);
-                tmpStringBuilder.Append(" ");
+                if (range != null)
+                {
+                    v = Slider(v, range.min, range.max, memberType, elemName);
+                }
+                else
+                {
+                    // for the bug that short label will be strange word wrap at unity2019
+                    tmpStringBuilder.Clear();
+                    tmpStringBuilder.Append(elemName);
+                    tmpStringBuilder.Append(" ");
 
-                v = Field(v, info.MemberType, tmpStringBuilder.ToString());
+                    v = Field(v, memberType, tmpStringBuilder.ToString());
+                }
                 info.SetValue(obj, v);
             };
         }
