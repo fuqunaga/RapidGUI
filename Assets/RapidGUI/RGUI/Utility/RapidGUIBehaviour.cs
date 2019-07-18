@@ -21,7 +21,10 @@ namespace RapidGUI
                         instance = ga.AddComponent<RapidGUIBehaviour>();
                     }
 
-                    DontDestroyOnLoad(instance);
+                    if (Application.isPlaying)
+                    {
+                        DontDestroyOnLoad(instance);
+                    }
                 }
 
                 return instance;
