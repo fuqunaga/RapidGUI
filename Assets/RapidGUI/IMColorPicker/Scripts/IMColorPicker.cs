@@ -100,8 +100,8 @@ namespace RapidGUI
 
         #endregion
 
-        const int kHSVPickerSize = 200, kHuePickerWidth = 16;
-        const int kPreviewBarWidth = 112, kPreviewBarHeight = 24;
+        const int kHSVPickerSize = 280, kHuePickerWidth = 24;
+        const int kPreviewBarWidth = 160, kPreviewBarHeight = 24;
 
 
         public Color color
@@ -130,18 +130,19 @@ namespace RapidGUI
                 if (value != _hsv)
                 {
                     _hsv = value;
+                    var a = _color.a;
                     _color = Color.HSVToRGB(hsv.x, hsv.y, hsv.z);
+                    _color.a = a;
+                    
                     UpdateSVTexture();
                     ClearPresetSelection();
                 }
             }
         }
 
-        public float H { get { return _hsv.x; } }
-
-        public float S { get { return _hsv.y; } }
-
-        public float V { get { return _hsv.z; } }
+        public float H => _hsv.x;
+        public float S => _hsv.y;                       
+        public float V => _hsv.z;
 
         SliderMode sliderMode;
 
@@ -151,7 +152,7 @@ namespace RapidGUI
 
         Vector3 _hsv = new Vector3(0f, 0f, 0f);
 
-        public Rect windowRect = new Rect(20, 20, 250, 500);
+        public Rect windowRect = new Rect(20, 20, 350, 580);
         public bool destroy { get; protected set; }
 
         GUIStyle svStyle;
@@ -282,7 +283,7 @@ namespace RapidGUI
                 GUILayout.Label("", svStyle, GUILayout.Width(kHSVPickerSize), GUILayout.Height(kHSVPickerSize));
                 DrawSVHandler(GUILayoutUtility.GetLastRect());
 
-                GUILayout.Space(10f);
+                GUILayout.Space(16f);
 
                 GUILayout.Label("", hueStyle, GUILayout.Width(kHuePickerWidth), GUILayout.Height(kHSVPickerSize));
                 DrawHueHandler(GUILayoutUtility.GetLastRect());
@@ -327,6 +328,15 @@ namespace RapidGUI
 
         float DrawSlide(float v, string label)
         {
+            var tmp = RGUI.PrefixLabelSetting.width;
+            RGUI.PrefixLabelSetting.width = 16f;
+            v =  RGUI.Slider(v, label);
+
+            RGUI.PrefixLabelSetting.width = tmp;
+
+            return v;
+        
+            /*
             using (new GUILayout.HorizontalScope())
             {
                 GUILayout.Label(label, GUILayout.Width(16f));
@@ -335,6 +345,7 @@ namespace RapidGUI
             }
 
             return v;
+            */
         }
 
 
