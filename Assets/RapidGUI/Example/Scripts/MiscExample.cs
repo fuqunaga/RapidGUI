@@ -12,7 +12,7 @@ namespace RapidGUI.Example
         protected override string title => "Misc";
 
         public bool useFastScrollView = true;
-        FastScrollViewVertical fastScrollView = new FastScrollViewVertical();
+        FastScrollView fastScrollView = new FastScrollView();
         Vector2 scPos;
 
         public int scrollViewItemCount = 1000;

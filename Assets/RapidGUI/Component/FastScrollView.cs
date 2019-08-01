@@ -9,21 +9,22 @@ namespace RapidGUI
     /// FastScrollView: ignore items out of range.
     /// call SetNeedUpdateLayout() if height/count of items changed.
     /// </summary>
-    public class FastScrollViewVertical
+    public class FastScrollView
     {
-        bool needUpdateLayout = true;
-
         public Vector2 scrollPosition;
-        public float scrollViewHeight;
+        protected float scrollViewHeight;
+        protected float scopeWidth;
+        protected List<float> yMaxList = new List<float>();
 
-        List<float> yMaxList = new List<float>();
+        protected bool needUpdateLayout = true;
 
         public void SetNeedUpdateLayout() => needUpdateLayout = true;
 
+
         public void DoGUI<T>(IEnumerable<T> items, Action<T> doGUIItem)
         {
-            var evType = Event.current.type;
-            
+            var isRepaint = (Event.current.type == EventType.Repaint);
+
             using (var sv = new GUILayout.ScrollViewScope(scrollPosition))
             {
                 scrollPosition = sv.scrollPosition;
@@ -34,7 +35,7 @@ namespace RapidGUI
                     {
                         var itemList = items.ToList();
 
-                        if (evType == EventType.Repaint)
+                        if (isRepaint)
                         {
                             yMaxList.Clear();
 
@@ -44,8 +45,6 @@ namespace RapidGUI
                                 var rect = GUILayoutUtility.GetLastRect();
                                 yMaxList.Add(rect.yMax);
                             });
-
-                            needUpdateLayout = false;
                         }
                         else
                         {
@@ -67,15 +66,23 @@ namespace RapidGUI
                             .ForEach(item => doGUIItem(item));
 
                         if (endIdx < yMaxList.Count - 1) GUILayout.Space(yMaxList.Last() - yMaxList[endIdx]);
+
+                        GUILayoutUtility.GetRect(scopeWidth, 0f);
                     }
+                }
+
+                if (needUpdateLayout && isRepaint)
+                {
+                    scopeWidth = GUILayoutUtility.GetLastRect().width;
                 }
             }
 
 
 
-            if (evType == EventType.Repaint)
+            if (needUpdateLayout && isRepaint)
             {
                 scrollViewHeight = GUILayoutUtility.GetLastRect().height;
+                needUpdateLayout = false;
             }
         }
     }
