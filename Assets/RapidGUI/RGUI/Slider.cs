@@ -89,7 +89,7 @@ namespace RapidGUI
             using (new GUILayout.VerticalScope(options))
             using (new GUILayout.HorizontalScope())
             {
-                obj = PrefixLabelDraggable(label, obj, type, options);
+                obj = PrefixLabelDraggable(label, obj, type);
                 obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
             }
 

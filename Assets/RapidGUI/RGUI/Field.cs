@@ -9,7 +9,12 @@ namespace RapidGUI
 
     public static partial class RGUI
     {
-        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field<T>(v, label, GUIStyle.none, options);
+        // dummy GUIStyle.none.
+        // unity is optimized to GUIStyle.none.
+        // it seems to occur indent mismatch for complex Vertical/Horizontal Scope.
+        static GUIStyle styleNone = new GUIStyle(GUIStyle.none);
+
+        public static T Field<T>(T v, string label = null, params GUILayoutOption[] options) => Field<T>(v, label, styleNone, options);
 
         public static T Field<T>(T v, string label, GUIStyle style, params GUILayoutOption[] options)
         {
@@ -25,7 +30,7 @@ namespace RapidGUI
             using (new GUILayout.VerticalScope(style, options))
             using (new GUILayout.HorizontalScope())
             {
-                obj = PrefixLabelDraggable(label, obj, type, options);
+                obj = PrefixLabelDraggable(label, obj, type);
                 obj = DispatchFieldFunc(type).Invoke(obj, type);
             }
 

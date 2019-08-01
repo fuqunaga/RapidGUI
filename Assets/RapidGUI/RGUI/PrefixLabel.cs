@@ -35,13 +35,13 @@ namespace RapidGUI
         }
 
 
-        public static object PrefixLabelDraggable(string label, object obj, Type type, params GUILayoutOption[] options)
+        public static object PrefixLabelDraggable(string label, object obj, Type type)
         {
             var ret = PrefixLabelDraggable(label, obj, type, out var isLong);
             if (isLong)
             {
                 GUILayout.EndHorizontal();
-                GUILayout.BeginHorizontal(options);
+                GUILayout.BeginHorizontal();
                 GUILayout.Space(PrefixLabelSetting.width + GUI.skin.label.margin.horizontal);
             }
 
