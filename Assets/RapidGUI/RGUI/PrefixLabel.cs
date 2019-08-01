@@ -6,24 +6,6 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        #region Style
-
-        static GUIStyle _labelRight;
-        public static GUIStyle labelRight
-        {
-            get
-            {
-                if (_labelRight == null)
-                {
-                    _labelRight = new GUIStyle(GUI.skin.label);
-                    _labelRight.alignment = TextAnchor.UpperRight;
-                }
-                return _labelRight;
-            }
-        }
-
-        #endregion
-
         public static class PrefixLabelSetting
         {
             public static float width = 130f;
