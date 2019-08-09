@@ -21,6 +21,53 @@ namespace RapidGUI
             return Slider(v, 1f, label, options);
         }
 
+
+        #region Unity Primitives
+
+        public static Vector2 Slider(Vector2 v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, Vector2.one, label, options);
+        }
+
+        public static Vector3 Slider(Vector3 v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, Vector3.one, label, options);
+        }
+
+        public static Vector4 Slider(Vector4 v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, Vector4.one, label, options);
+        }
+
+        public static Vector2Int Slider(Vector2Int v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, Vector2Int.one * 100, label, options);
+        }
+
+        public static Vector3Int Slider(Vector3Int v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, Vector3Int.one * 100, label, options);
+        }
+
+        public static Rect Slider(Rect v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, new Rect(Vector2.one, Vector2.one), label, options);
+        }
+
+        public static Bounds Slider(Bounds v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, new Bounds(Vector3.one, Vector3.one), label, options);
+        }
+
+        public static BoundsInt Slider(BoundsInt v, string label = null, params GUILayoutOption[] options)
+        {
+            return Slider(v, default, new BoundsInt(Vector3Int.one * 100, Vector3Int.one * 100), label, options);
+        }
+
+        #endregion
+
+
+
         public static T Slider<T>(T v, T max, string label = null, params GUILayoutOption[] options)
         {
             return Slider(v, default, max, label, options);
