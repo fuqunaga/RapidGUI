@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
 namespace RapidGUI
 {
@@ -7,12 +9,35 @@ namespace RapidGUI
         static int popupControlID;
         static PopsupWindow popupWindow = new PopsupWindow();
 
+
+        public static string SelectionPopup(string current, string[] displayOptions)
+        {
+            var idx = Array.IndexOf(displayOptions, current);
+            GUILayout.Box(current);
+            var newIdx = PopupOnLastRect(idx, displayOptions);
+            if ( newIdx != idx)
+            {
+                current = displayOptions[newIdx];
+            }
+            return current;
+        }
+
+        public static int SelectionPopup(int selectionIndex, string[] displayOptions)
+        {
+            var label = (selectionIndex < 0 || displayOptions.Length <= selectionIndex) ? "" : displayOptions[selectionIndex];
+            GUILayout.Box(label);
+            return PopupOnLastRect(selectionIndex, displayOptions);
+        }
+
+
         public static int PopupOnLastRect(string[] displayOptions, string label = "") => PopupOnLastRect(-1, displayOptions, -1, label);
         public static int PopupOnLastRect(string[] displayOptions, int button, string label = "") => PopupOnLastRect(-1, displayOptions, button, label);
 
-        public static int PopupOnLastRect(int selectionIndex, string[] displayOptions, int button, string label = "") => Popup(GUILayoutUtility.GetLastRect(), button, selectionIndex, displayOptions, label);
+        public static int PopupOnLastRect(int selectionIndex, string[] displayOptions, int mouseButton=-1, string label = "") => Popup(GUILayoutUtility.GetLastRect(), mouseButton, selectionIndex, displayOptions, label);
 
-        public static int Popup(Rect launchRect, int button, int selectionIndex, string[] displayOptions, string label = "")
+
+
+        public static int Popup(Rect launchRect, int mouseButton, int selectionIndex, string[] displayOptions, string label = "")
         {
             var ret = selectionIndex;
             var controlID = GUIUtility.GetControlID(FocusType.Passive);
@@ -24,8 +49,10 @@ namespace RapidGUI
                 var pos = ev.mousePosition;
 
                 if ((ev.type == EventType.MouseUp)
-                    && ((button < 0) || (ev.button == button))
+                    && ((mouseButton < 0) || (ev.button == mouseButton))
                     && launchRect.Contains(pos)
+                    && displayOptions != null 
+                    && displayOptions.Any()
                     )
                 {
                     popupWindow.pos = GUIUtility.GUIToScreenPoint(pos);

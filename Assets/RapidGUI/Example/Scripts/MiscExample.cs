@@ -16,6 +16,8 @@ namespace RapidGUI.Example
         Vector2 scPos;
 
         public int scrollViewItemCount = 1000;
+        int selectionPopupIdx;
+        string selectionPopupStr;
 
         public override void DoGUI()
         {
@@ -39,13 +41,30 @@ namespace RapidGUI.Example
                 GUILayout.Label("EnabledScope");
             }
 
-
-            GUILayout.Box("Popup");
-            var resultIdx = RGUI.PopupOnLastRect(new[] { "Button One", "Button Two", "Button Three" });
-            if (resultIdx >= 0)
+            using (new GUILayout.HorizontalScope())
             {
-                Debug.Log($"Popup: Button{resultIdx + 1}");
+                GUILayout.Label("Popup");
+
+                GUILayout.Box("Popup");
+                var resultIdx = RGUI.PopupOnLastRect(new[] { "Button One", "Button Two", "Button Three" });
+                if (resultIdx >= 0)
+                {
+                    Debug.Log($"Popup: Button{resultIdx + 1}");
+                }
             }
+
+            using (new GUILayout.HorizontalScope())
+            {
+                GUILayout.Label("SelectionPopup");
+                selectionPopupIdx = RGUI.SelectionPopup(selectionPopupIdx, new[] { "One", "Two", "Three" });
+            }
+
+            using (new GUILayout.HorizontalScope())
+            {
+                GUILayout.Label("SelectionPopupStr");
+                selectionPopupStr = RGUI.SelectionPopup(selectionPopupStr, new[] { "One", "Two", "Three" });
+            }
+
 
 
             GUILayout.Space(8f);
