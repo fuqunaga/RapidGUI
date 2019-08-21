@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RapidGUI
 {
@@ -8,6 +7,7 @@ namespace RapidGUI
         public static GUIStyle popupButton;
         public static GUIStyle popup;
         public static GUIStyle darkWindow;
+        public static GUIStyle alignLeftBox;
 
         public static GUIStyle warningLabel;
         public static GUIStyle warningLabelNoStyle;
@@ -30,6 +30,7 @@ namespace RapidGUI
             CreateFlatButton();
             CreatePopup();
             CreateDarkWindow();
+            CreateAlignLeftBox();
             CreateWarningLabel();
             CreateWarningLabelNoStyle();
         }
@@ -81,6 +82,16 @@ namespace RapidGUI
             style.name = nameof(darkWindow);
 
             darkWindow = style;
+        }
+
+        public static void CreateAlignLeftBox()
+        {
+            var style = new GUIStyle(GUI.skin.box);
+            style.alignment = TextAnchor.MiddleLeft;
+
+            style.name = nameof(alignLeftBox);
+
+            alignLeftBox = style;
         }
 
         public static Texture2D CreateTexDark(Texture2D src, float colorRate, float alphaRate)

@@ -13,7 +13,7 @@ namespace RapidGUI
         public static string SelectionPopup(string current, string[] displayOptions)
         {
             var idx = Array.IndexOf(displayOptions, current);
-            GUILayout.Box(current);
+            GUILayout.Box(current, RGUIStyle.alignLeftBox);
             var newIdx = PopupOnLastRect(idx, displayOptions);
             if ( newIdx != idx)
             {
@@ -25,7 +25,7 @@ namespace RapidGUI
         public static int SelectionPopup(int selectionIndex, string[] displayOptions)
         {
             var label = (selectionIndex < 0 || displayOptions.Length <= selectionIndex) ? "" : displayOptions[selectionIndex];
-            GUILayout.Box(label);
+            GUILayout.Box(label, RGUIStyle.alignLeftBox);
             return PopupOnLastRect(selectionIndex, displayOptions);
         }
 
