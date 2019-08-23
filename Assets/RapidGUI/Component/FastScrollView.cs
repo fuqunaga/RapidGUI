@@ -27,6 +27,11 @@ namespace RapidGUI
 
             using (var sv = new GUILayout.ScrollViewScope(scrollPosition))
             {
+                // reset control if scroll is moved
+                if ( scrollPosition != sv.scrollPosition)
+                {
+                    GUIUtility.keyboardControl = 0;
+                }
                 scrollPosition = sv.scrollPosition;
 
                 using (new GUILayout.VerticalScope())
