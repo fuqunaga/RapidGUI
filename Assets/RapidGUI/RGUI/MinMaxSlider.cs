@@ -11,14 +11,31 @@ namespace RapidGUI
         delegate object MinMaxSliderFunc(TupleObject tuple, object min, object max);
 
 
+        public static void MinMaxSlider(MinMax<float> val, string label = null, params GUILayoutOption[] options)
+        {
+            MinMaxSlider(ref val.min, ref val.max, label, options);
+        }
+
         public static void MinMaxSlider(ref float valMin, ref float valMax, string label = null, params GUILayoutOption[] options)
         {
             MinMaxSlider(ref valMin, ref valMax, 1f, label, options);
         }
 
+
+        public static void MinMaxSlider<T>(MinMax<T> val, T max, string label = null, params GUILayoutOption[] options)
+        {
+            MinMaxSlider(ref val.min, ref val.max, max, label, options);
+        }
+
         public static void MinMaxSlider<T>(ref T valMin, ref T valMax, T max, string label = null, params GUILayoutOption[] options)
         {
             MinMaxSlider(ref valMin, ref valMax, default, max, label, options);
+        }
+
+
+        public static void MinMaxSlider<T>(MinMax<T> val, MinMax<T> range, string label = null, params GUILayoutOption[] options)
+        {
+            MinMaxSlider(ref val.min, ref val.max, range.min, range.max, label, options);
         }
 
         public static void MinMaxSlider<T>(ref T valMin, ref T valMax, T min, T max, string label = null, params GUILayoutOption[] options)
