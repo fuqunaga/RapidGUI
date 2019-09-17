@@ -45,7 +45,7 @@ namespace RapidGUI
                         switch (result)
                         {
                             case 0:
-                                list = AddElement(list, elemType, list[i], i+1);
+                                list = AddElement(list, elemType, list[i], i + 1);
                                 break;
 
                             case 1:
@@ -152,7 +152,9 @@ namespace RapidGUI
 
             if (ret == null)
             {
-                ret = Activator.CreateInstance(elemType);
+                ret = (elemType == typeof(string))
+                    ? ""
+                    : Activator.CreateInstance(elemType);
             }
 
             return ret;
