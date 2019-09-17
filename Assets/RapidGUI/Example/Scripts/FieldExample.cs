@@ -58,14 +58,29 @@ namespace RapidGUI.Example
         /// <summary>
         /// ComplecClass
         ///  display Slider for member field that has RangAttribute
+        ///  call DoGUI() if member is a IDoGUI;
         /// </summary>
         [Serializable]
         public class ComplexClass
         {
+            public class HasDoGUI : IDoGUI
+            {
+                public int myParam;
+                public void DoGUI()
+                {
+                    using (new GUILayout.HorizontalScope())
+                    {
+                        GUILayout.Label("In DoGUI");
+                        myParam = RGUI.Field(myParam);
+                    }
+                }
+            }
+
             [Range(0f, 10f)]
             public float rangeVal;
             public string longNameFieldSoThatWillBeMultiLine;
-            public CustomClass customClass = new CustomClass();
+            public HasDoGUI hasDoGUI = new HasDoGUI();
+            public CustomClass customClass = new CustomClass(); // self reference
             public ComplexClass complexClass = null;
             public float[] floatList;
             public List<CustomClass> customClassList;

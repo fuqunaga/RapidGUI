@@ -13,29 +13,44 @@ namespace RapidGUI
 
         static object DoRecursiveField(object obj)
         {
-            var type = obj.GetType();
-
-            var multiLine = TypeUtility.IsMultiLine(type);
-            if (multiLine)
+            var doGuiObj = obj as IDoGUI;
+            if (doGuiObj != null)
             {
                 GUILayout.EndHorizontal();
 
                 using (new PrefixLabelIndentScope())
                 {
-                    DoFields(obj, type);
+                    doGuiObj.DoGUI();
                 }
 
                 GUILayout.BeginHorizontal();
             }
             else
             {
-                var tmp = PrefixLabelSetting.width;
-                PrefixLabelSetting.width = 0f;
+                var type = obj.GetType();
 
-                DoFields(obj, type);
+                var multiLine = TypeUtility.IsMultiLine(type);
+                if (multiLine)
+                {
+                    GUILayout.EndHorizontal();
 
-                GUILayout.FlexibleSpace();
-                PrefixLabelSetting.width = tmp;
+                    using (new PrefixLabelIndentScope())
+                    {
+                        DoFields(obj, type);
+                    }
+
+                    GUILayout.BeginHorizontal();
+                }
+                else
+                {
+                    var tmp = PrefixLabelSetting.width;
+                    PrefixLabelSetting.width = 0f;
+
+                    DoFields(obj, type);
+
+                    GUILayout.FlexibleSpace();
+                    PrefixLabelSetting.width = tmp;
+                }
             }
 
             return obj;
@@ -52,7 +67,7 @@ namespace RapidGUI
                 var range = info.Range;
                 var memberType = info.MemberType;
                 var elemName = CheckCustomLabel(info.Name);
-                
+
 
                 if (range != null)
                 {
