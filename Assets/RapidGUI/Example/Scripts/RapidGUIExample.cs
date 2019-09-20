@@ -45,7 +45,7 @@ namespace RapidGUI.Example
             launchers.Add("RGUI.MinMaxSlider()", typeof(MinMaxSliderExample));
             launchers.Add("Fold / Folds", typeof(FoldExample));
             launchers.Add("WindowLauncher / WindowLaunchers", typeof(WindowLauncherExample));
-            launchers.Add("Misc", typeof(MiscExample));
+            launchers.Add("Misc", typeof(MiscExample)).SetWidth(600f);
         }
 
         void OnGUI()

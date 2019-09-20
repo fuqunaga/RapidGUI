@@ -55,7 +55,11 @@ namespace RapidGUI
                     && displayOptions.Any()
                     )
                 {
-                    popupWindow.pos = GUIUtility.GUIToScreenPoint(pos);
+                    var windowPos = GUIUtility.GUIToScreenPoint(pos);
+                    const float offset = 150f;
+                    var maxPos = new Vector2(Screen.width, Screen.height) - Vector2.one * offset;
+
+                    popupWindow.pos = Vector2.Min(windowPos, maxPos);
                     popupControlID = controlID;
                     ev.Use();
                 }
@@ -75,7 +79,7 @@ namespace RapidGUI
                     var type = Event.current.type;
                     if ((type == EventType.Layout) || (type == EventType.Repaint))
                     {
-                        var buttonStyle = RGUIStyle.popupButton;
+                        var buttonStyle = RGUIStyle.flatButton;
                         var contentSize = Vector2.zero;
                         for (var i = 0; i < displayOptions.Length; ++i)
                         {
@@ -87,9 +91,20 @@ namespace RapidGUI
                         var margin = buttonStyle.margin;
                         contentSize.y += Mathf.Max(0, displayOptions.Length - 1) * Mathf.Max(margin.top, margin.bottom); // is this right?
 
-                        var size = RGUIStyle.popup.CalcScreenSize(contentSize);
+                        var vbarSkin = GUI.skin.verticalScrollbar;
+                        var vbarSize = vbarSkin.CalcScreenSize(Vector2.zero);
+                        var vbarMargin = vbarSkin.margin;
 
-                        popupWindow.size = size;
+                        var hbarSkin = GUI.skin.horizontalScrollbar;
+                        var hbarSize = hbarSkin.CalcScreenSize(Vector2.zero);
+                        var hbarMargin = hbarSkin.margin;
+
+                        const float offset = 5f;
+                        contentSize += new Vector2(vbarSize.x + vbarMargin.horizontal, hbarSize.y + hbarMargin.vertical) + Vector2.one * offset;
+                        var size = RGUIStyle.popup.CalcScreenSize(contentSize);
+                        var maxSize = new Vector2(Screen.width, Screen.height) - popupWindow.pos;
+
+                        popupWindow.size = Vector2.Min(size, maxSize);
                     }
 
                     popupWindow.label = label;
@@ -109,6 +124,7 @@ namespace RapidGUI
             public Vector2 size;
             public int? result;
             public string[] displayOptions;
+            public Vector2 scrollPosition;
 
             static readonly int popupWindowID = "Popup".GetHashCode();
 
@@ -118,11 +134,13 @@ namespace RapidGUI
             {
                 GUI.ModalWindow(popupWindowID, GetWindowRect(), (id) =>
                 {
-                    using (new GUILayout.VerticalScope())
+                    using (var sc = new GUILayout.ScrollViewScope(scrollPosition))
                     {
+                        scrollPosition = sc.scrollPosition;
+
                         for (var j = 0; j < displayOptions.Length; ++j)
                         {
-                            if (GUILayout.Button(displayOptions[j], RGUIStyle.popupButton))
+                            if (GUILayout.Button(displayOptions[j], RGUIStyle.flatButton))
                             {
                                 result = j;
                             }

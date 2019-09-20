@@ -55,6 +55,14 @@ namespace RapidGUI.Example
 
             using (new GUILayout.HorizontalScope())
             {
+                GUILayout.Label("Popup with so many elements");
+
+                GUILayout.Box("A scrollbar appears when the pop-up protrudes from the screen");
+                RGUI.PopupOnLastRect(Enumerable.Range(0, 100).Select(i => "Element " + i.ToString()).ToArray());
+            }
+
+            using (new GUILayout.HorizontalScope())
+            {
                 GUILayout.Label("SelectionPopup");
                 selectionPopupIdx = RGUI.SelectionPopup(selectionPopupIdx, new[] { "One", "Two", "Three" });
             }

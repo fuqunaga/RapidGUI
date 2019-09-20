@@ -4,7 +4,7 @@ namespace RapidGUI
 {
     public static class RGUIStyle
     {
-        public static GUIStyle popupButton;
+        public static GUIStyle flatButton;
         public static GUIStyle popup;
         public static GUIStyle darkWindow;
         public static GUIStyle alignLeftBox;
@@ -15,7 +15,7 @@ namespace RapidGUI
         // GUIStyleState.background will be null 
         // if it set after secound scene load and don't use a few frame
         // to keep textures, set it to other member. at unity2019
-        public static Texture2D popupButtonTex;
+        public static Texture2D flatButtonTex;
         public static Texture2D popupTex;
         public static Texture2D darkWindowTexNormal;
         public static Texture2D darkWindowTexOnNormal;
@@ -38,19 +38,20 @@ namespace RapidGUI
         static void CreateFlatButton()
         {
             var style = new GUIStyle(GUI.skin.label);
+            style.wordWrap = false;
             style.padding = new RectOffset(24, 48, 2, 2);
 
             var toggle = GUI.skin.toggle;
             style.normal.textColor = toggle.normal.textColor;
             style.hover.textColor = toggle.hover.textColor;
 
-            popupButtonTex = new Texture2D(1, 1);
-            popupButtonTex.SetPixels(new[] { new Color(0.5f, 0.5f, 0.5f, 0.5f) });
-            popupButtonTex.Apply();
-            style.hover.background = popupButtonTex;
+            flatButtonTex = new Texture2D(1, 1);
+            flatButtonTex.SetPixels(new[] { new Color(0.5f, 0.5f, 0.5f, 0.5f) });
+            flatButtonTex.Apply();
+            style.hover.background = flatButtonTex;
 
-            style.name = nameof(popupButton);
-            popupButton = style;
+            style.name = nameof(flatButton);
+            flatButton = style;
         }
 
         static void CreatePopup()
