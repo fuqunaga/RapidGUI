@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RapidGUI.Example
 {
     /// <summary>
-    /// GUIUtil.Field() examples
+    /// RGUI.Field() examples
     /// </summary>
     public class FieldExample : ExampleBase
     {

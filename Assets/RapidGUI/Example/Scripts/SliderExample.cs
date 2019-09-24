@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace RapidGUI.Example
 {
     /// <summary>
-    /// GUIUtil.Slider() examples
+    /// RGUI.Slider() examples
     /// </summary>
     public class SliderExample : ExampleBase
     {

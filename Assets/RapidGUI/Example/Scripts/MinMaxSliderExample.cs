@@ -4,7 +4,7 @@
 namespace RapidGUI.Example
 {
     /// <summary>
-    /// GUIUtil.Slider() examples
+    /// RGUI.MinMaxSlider() examples
     /// </summary>
     public class MinMaxSliderExample : ExampleBase
     {
