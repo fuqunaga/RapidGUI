@@ -6,9 +6,8 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        static int popupControlID;
-        static PopsupWindow popupWindow = new PopsupWindow();
-
+        static int popupControlId;
+        static readonly PopupWindow popupWindow = new PopupWindow();
 
         public static string SelectionPopup(string current, string[] displayOptions)
         {
@@ -40,10 +39,10 @@ namespace RapidGUI
         public static int Popup(Rect launchRect, int mouseButton, int selectionIndex, string[] displayOptions, string label = "")
         {
             var ret = selectionIndex;
-            var controlID = GUIUtility.GetControlID(FocusType.Passive);
+            var controlId = GUIUtility.GetControlID(FocusType.Passive);
 
             // not Popup Owner
-            if (popupControlID != controlID)
+            if (popupControlId != controlId)
             {
                 var ev = Event.current;
                 var pos = ev.mousePosition;
@@ -60,23 +59,25 @@ namespace RapidGUI
                     var maxPos = new Vector2(Screen.width, Screen.height) - Vector2.one * offset;
 
                     popupWindow.pos = Vector2.Min(windowPos, maxPos);
-                    popupControlID = controlID;
+                    popupControlId = controlId;
                     ev.Use();
                 }
             }
             // Active
             else
             {
+                var type = Event.current.type;
+                
                 var result = popupWindow.result;
-                if (result.HasValue)
+                if (result.HasValue && type != EventType.Layout)
                 {
                     ret = result.Value;
                     popupWindow.result = null;
-                    popupControlID = 0;
+                    popupControlId = 0;
                 }
                 else
                 {
-                    var type = Event.current.type;
+
                     if ((type == EventType.Layout) || (type == EventType.Repaint))
                     {
                         var buttonStyle = RGUIStyle.flatButton;
@@ -117,7 +118,7 @@ namespace RapidGUI
         }
 
 
-        class PopsupWindow : IDoGUIWindow
+        class PopupWindow : IDoGUIWindow
         {
             public string label;
             public Vector2 pos;
@@ -126,13 +127,13 @@ namespace RapidGUI
             public string[] displayOptions;
             public Vector2 scrollPosition;
 
-            static readonly int popupWindowID = "Popup".GetHashCode();
+            static readonly int PopupWindowId = "Popup".GetHashCode();
 
             public Rect GetWindowRect() => new Rect(pos, size);
 
             public void DoGUIWindow()
             {
-                GUI.ModalWindow(popupWindowID, GetWindowRect(), (id) =>
+                GUI.ModalWindow(PopupWindowId, GetWindowRect(), (id) =>
                 {
                     using (var sc = new GUILayout.ScrollViewScope(scrollPosition))
                     {

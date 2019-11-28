@@ -7,10 +7,7 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        static readonly string[] listPopupButtonNames = new[] { "Add Element", "Delete Element" };
-
-        static Rect rect_;
-
+        static readonly string[] ListPopupButtonNames = new[] { "Add Element", "Delete Element" };
 
         static object ListField(object v, Type type)
         {
@@ -18,7 +15,9 @@ namespace RapidGUI
             var hasElem = (list != null) && list.Count > 0;
             var elemType = TypeUtility.GetListInterface(type).GetGenericArguments().First();
 
-            using (var ver = new GUILayout.VerticalScope("box"))
+            var addIdx = -1;
+            var deleteIdx = -1;
+            using (new GUILayout.VerticalScope("box"))
             {
                 if (v == null)
                 {
@@ -30,8 +29,6 @@ namespace RapidGUI
                 }
                 else
                 {
-                    var ev = Event.current;
-
                     for (var i = 0; i < list.Count; ++i)
                     {
                         var label = TypeUtility.IsMultiLine(elemType) ? $"Element {i}" : null;
@@ -41,22 +38,31 @@ namespace RapidGUI
                             list[i] = Field(list[i], elemType, label);
                         }
 
-                        var result = PopupOnLastRect(listPopupButtonNames, 1);
+                        var result = PopupOnLastRect(ListPopupButtonNames, 1);
+#if true
                         switch (result)
                         {
-                            case 0:
-                                list = AddElement(list, elemType, list[i], i + 1);
+                            case 0: addIdx = i+1;
                                 break;
-
-                            case 1:
-                                list = DeleteElement(list, elemType, i);
+                            case 1: deleteIdx = i;
                                 break;
                         }
+#else
+                        list = result switch
+                        {
+                            0 => AddElement(list, elemType, list[i], i + 1),
+                            1 => DeleteElement(list, elemType, i),
+                            _ => list
+                        };
+#endif
                     }
                 }
-
+                
+                if (addIdx >= 0) list = AddElement(list, elemType, list[addIdx-1], addIdx);
+                if (deleteIdx >= 0) list = DeleteElement(list, elemType, deleteIdx);
+                
                 // +/- button
-                using (var h = new GUILayout.HorizontalScope())
+                using (new GUILayout.HorizontalScope())
                 {
                     GUILayout.FlexibleSpace();
 
@@ -92,8 +98,7 @@ namespace RapidGUI
             index = Mathf.Clamp(index, 0, list.Count);
             var newElem = CreateNewElement(baseElem, elemType);
 
-            var array = list as Array;
-            if (array != null)
+            if (list is Array array)
             {
                 var newArray = Array.CreateInstance(elemType, array.Length + 1);
                 Array.Copy(array, newArray, index);
@@ -111,8 +116,7 @@ namespace RapidGUI
 
         static IList DeleteElement(IList list, Type elemType, int index)
         {
-            var array = list as Array;
-            if (array != null)
+            if (list is Array array)
             {
                 var newArray = Array.CreateInstance(elemType, array.Length - 1);
                 Array.Copy(array, newArray, index);
