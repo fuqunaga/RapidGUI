@@ -20,14 +20,13 @@ namespace RapidGUI
                 var style = GUI.skin.label;
                 isLong = style.CalcHeight(RGUIUtility.TempContent(label), PrefixLabelSetting.width) > 21;
 
-
                 if (isLong)
                 {
                     GUILayout.Label(label);
                 }
                 else
                 {
-                    GUILayout.Label(label, GUILayout.Width(PrefixLabelSetting.width));                    
+                    GUILayout.Label(label, GUILayout.Width(PrefixLabelSetting.width));
                 }
             }
 
@@ -63,76 +62,78 @@ namespace RapidGUI
             return obj;
         }
 
-#region implement drag
+
+        #region implement drag
 
         static Vector2 lastMousePos;
-        static readonly int doDragHash = "DoDrag".GetHashCode();
+        static readonly int DoDragHash = "DoDrag".GetHashCode();
 
         static object DoDrag(object obj, Type type)
         {
-            var controlID = GUIUtility.GetControlID(doDragHash, FocusType.Passive);
+            var controlId = GUIUtility.GetControlID(DoDragHash, FocusType.Passive);
 
             var rect = GUILayoutUtility.GetLastRect();
 
             var ev = Event.current;
-            var etype = ev.GetTypeForControl(controlID);
+            var etype = ev.GetTypeForControl(controlId);
 
             switch (etype)
             {
                 case EventType.MouseDown:
+                {
+                    if ((ev.button == RapidGUIBehaviour.Instance.prefixLabelSlideButton) &&
+                        rect.Contains(ev.mousePosition))
                     {
-                        if ((ev.button == 0) && rect.Contains(ev.mousePosition))
-                        {
-                            GUIUtility.hotControl = controlID;
-                            lastMousePos = ev.mousePosition;
-                            ev.Use();
-                        }
+                        GUIUtility.hotControl = controlId;
+                        lastMousePos = ev.mousePosition;
+                        ev.Use();
                     }
-                    break;
+                }
+                break;
 
                 case EventType.MouseUp:
+                {
+                    if (GUIUtility.hotControl == controlId)
                     {
-                        if (GUIUtility.hotControl == controlID)
-                            GUIUtility.hotControl = 0;
+                        GUIUtility.hotControl = 0;
+                        ev.Use();
                     }
-                    break;
+                }
+                break;
 
                 case EventType.MouseDrag:
+                {
+                    if ((ev.button == RapidGUIBehaviour.Instance.prefixLabelSlideButton) &&
+                        (GUIUtility.hotControl == controlId))
                     {
-                        if ((ev.button == 0) && (GUIUtility.hotControl == controlID))
+                        var diff = ev.mousePosition - lastMousePos;
+                        var add = (Mathf.Abs(diff.x) > Mathf.Abs(diff.y)) ? diff.x : diff.y;
+                        add = Math.Sign(add);
+
+                        lastMousePos = ev.mousePosition;
+                        if (typeof(int) == type)
                         {
-                            var diff = ev.mousePosition - lastMousePos;
-                            var add = (Mathf.Abs(diff.x) > Mathf.Abs(diff.y)) ? diff.x : diff.y;
-                            add = Math.Sign(add);
-
-                            lastMousePos = ev.mousePosition;
-                            if (typeof(int) == type)
-                            {
-                                var v = (int)obj;
-                                v += (int)(add);
-                                obj = v;
-                            }
-                            else if (typeof(float) == type)
-                            {
-                                var scale = 0.03f;
-                                var v = (float)obj;
-                                v += add * scale;
-                                v = Mathf.Floor(v * 100f) * 0.01f; // chop
-                                obj = v;
-                            }
-
-
-                            ev.Use();
+                            var v = (int) obj;
+                            v += (int) (add);
+                            obj = v;
                         }
-
+                        else if (typeof(float) == type)
+                        {
+                            var scale = 0.03f;
+                            var v = (float) obj;
+                            v += add * scale;
+                            v = Mathf.Floor(v * 100f) * 0.01f; // chop
+                            obj = v;
+                        }
+                        
+                        ev.Use();
                     }
-                    break;
+                }
+                break;
             }
 
             return obj;
         }
-
-
 
 
         public static bool IsDraggable(Type type)
@@ -140,9 +141,9 @@ namespace RapidGUI
             return (
                 (typeof(int) == type) ||
                 (typeof(float)) == type
-                );
+            );
         }
     }
 
-#endregion
+    #endregion
 }
