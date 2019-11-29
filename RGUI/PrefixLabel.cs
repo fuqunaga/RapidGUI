@@ -75,9 +75,9 @@ namespace RapidGUI
             var rect = GUILayoutUtility.GetLastRect();
 
             var ev = Event.current;
-            var etype = ev.GetTypeForControl(controlId);
+            var evType = ev.GetTypeForControl(controlId);
 
-            switch (etype)
+            switch (evType)
             {
                 case EventType.MouseDown:
                 {
@@ -86,6 +86,8 @@ namespace RapidGUI
                     {
                         GUIUtility.hotControl = controlId;
                         lastMousePos = ev.mousePosition;
+
+                        RGUIUtility.SetCursor(MouseCursor.ResizeHorizontal);
                         ev.Use();
                     }
                 }
@@ -125,8 +127,17 @@ namespace RapidGUI
                             v = Mathf.Floor(v * 100f) * 0.01f; // chop
                             obj = v;
                         }
-                        
+
                         ev.Use();
+                    }
+                }
+                break;
+                
+                case EventType.Repaint:
+                {
+                    if (GUIUtility.hotControl == controlId)
+                    {
+                        RGUIUtility.SetCursor(MouseCursor.ResizeHorizontal);
                     }
                 }
                 break;
