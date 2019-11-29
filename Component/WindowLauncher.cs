@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.Animations;
 
 
 namespace RapidGUI
@@ -75,7 +76,18 @@ namespace RapidGUI
                 rect = RGUI.ResizableWindow(GetHashCode(), rect,
                     (id) =>
                     {
-                        GetGUIFuncs().ForEach(func => func());
+                        var buttonSize = new Vector2(40f, 15f);
+                        var buttonPos = new Vector2(rect.size.x - buttonSize.x, 2f);
+                        var buttonRect = new Rect(buttonPos, buttonSize);
+                        if (GUI.Button(buttonRect, "✕", RGUIStyle.flatButton))
+                        {
+                            CloseWindow();
+                        }
+                        
+                        foreach (var func in GetGUIFuncs())
+                        {
+                            func();
+                        }
                         GUI.DragWindow();
 
                         if (Event.current.type == EventType.Used)
@@ -103,13 +115,12 @@ namespace RapidGUI
         public static class Style
         {
             public static readonly GUIStyle toggle;
-            const int leftLine = 3;
+            const int LeftLine = 3;
 
             // GUIStyleState.background will be null 
             // if it set after secound scene load and don't use a few frame
             // to keep textures, set it to other member. at unity2019
-            static List<Texture2D> texList = new List<Texture2D>();
-
+            static readonly List<Texture2D> TexList = new List<Texture2D>();
 
             static Style()
             {
@@ -124,18 +135,18 @@ namespace RapidGUI
                 var style = new GUIStyle(GUI.skin.button);
                 style.alignment = TextAnchor.MiddleLeft;
                 //style.border = new RectOffset(0, 0, 1, underLine + 1);
-                style.border = new RectOffset(leftLine + 1, 1, 0, 0);
+                style.border = new RectOffset(LeftLine + 1, 1, 0, 0);
 
                 var bgColorHover = Vector4.one * 0.5f;
                 var bgColorActive = Vector4.one * 0.7f;
 
-                texList.Add(style.onNormal.background = CreateToggleOnTex(onColor, Color.clear));
-                texList.Add(style.onHover.background = CreateToggleOnTex(onColor, bgColorHover));
-                texList.Add(style.onActive.background = CreateToggleOnTex(onColor * 1.5f, bgColorActive));
+                TexList.Add(style.onNormal.background = CreateToggleOnTex(onColor, Color.clear));
+                TexList.Add(style.onHover.background = CreateToggleOnTex(onColor, bgColorHover));
+                TexList.Add(style.onActive.background = CreateToggleOnTex(onColor * 1.5f, bgColorActive));
 
-                texList.Add(style.normal.background = CreateTex(Color.clear));
-                texList.Add(style.hover.background = CreateTex(bgColorHover));
-                texList.Add(style.active.background = CreateTex(bgColorActive));
+                TexList.Add(style.normal.background = CreateTex(Color.clear));
+                TexList.Add(style.hover.background = CreateTex(bgColorHover));
+                TexList.Add(style.active.background = CreateTex(bgColorActive));
 
                 return style;
             }
@@ -143,11 +154,11 @@ namespace RapidGUI
             static Texture2D CreateToggleOnTex(Color col, Color bg)
             {
                 //var tex = new Texture2D(1, underLine + 3);
-                var tex = new Texture2D(leftLine + 3,1);
+                var tex = new Texture2D(LeftLine + 3,1);
 
                 for (var x = 0; x < tex.width; ++x)
                 {
-                    var c = (x < leftLine) ? col : bg;
+                    var c = (x < LeftLine) ? col : bg;
                     for (var y = 0; y < tex.height; ++y)
                     {
                         //var c = (y < underLine) ? col : bg;

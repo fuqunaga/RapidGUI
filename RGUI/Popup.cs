@@ -80,7 +80,7 @@ namespace RapidGUI
 
                     if ((type == EventType.Layout) || (type == EventType.Repaint))
                     {
-                        var buttonStyle = RGUIStyle.flatButton;
+                        var buttonStyle = RGUIStyle.popupFlatButton;
                         var contentSize = Vector2.zero;
                         for (var i = 0; i < displayOptions.Length; ++i)
                         {
@@ -141,7 +141,7 @@ namespace RapidGUI
 
                         for (var j = 0; j < displayOptions.Length; ++j)
                         {
-                            if (GUILayout.Button(displayOptions[j], RGUIStyle.flatButton))
+                            if (GUILayout.Button(displayOptions[j], RGUIStyle.popupFlatButton))
                             {
                                 result = j;
                             }

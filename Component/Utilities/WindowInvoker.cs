@@ -6,7 +6,7 @@ namespace RapidGUI
 {
     public static class WindowInvoker
     {
-        static HashSet<IDoGUIWindow> windows = new HashSet<IDoGUIWindow>();
+        static readonly HashSet<IDoGUIWindow> Windows = new HashSet<IDoGUIWindow>();
 
         static WindowInvoker()
         {
@@ -14,8 +14,8 @@ namespace RapidGUI
         }
 
 
-        public static void Add(IDoGUIWindow window) => windows.Add(window);
-        public static void Remove(IDoGUIWindow window) => windows.Remove(window);
+        public static void Add(IDoGUIWindow window) => Windows.Add(window);
+        public static void Remove(IDoGUIWindow window) => Windows.Remove(window);
 
         static IDoGUIWindow focusedWindow;
 
@@ -26,7 +26,7 @@ namespace RapidGUI
 
         static void DoGUI()
         {
-            windows.ToList().ForEach(l => l?.DoGUIWindow());
+            Windows.ToList().ForEach(l => l?.DoGUIWindow());
 
             var evt = Event.current;
 
@@ -35,7 +35,7 @@ namespace RapidGUI
                 && (GUIUtility.keyboardControl == 0)
                 )
             {
-                if (windows.Contains(focusedWindow))
+                if (Windows.Contains(focusedWindow))
                 {
                     focusedWindow.CloseWindow();
                     focusedWindow = null;
@@ -45,7 +45,7 @@ namespace RapidGUI
 
             if (Event.current.type == EventType.Repaint)
             {
-                windows.Clear();
+                Windows.Clear();
             }
         }
     }

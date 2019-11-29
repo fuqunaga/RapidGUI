@@ -5,6 +5,7 @@ namespace RapidGUI
     public static class RGUIStyle
     {
         public static GUIStyle flatButton;
+        public static GUIStyle popupFlatButton;
         public static GUIStyle popup;
         public static GUIStyle darkWindow;
         public static GUIStyle alignLeftBox;
@@ -28,6 +29,7 @@ namespace RapidGUI
         public static void CreateStyles()
         {
             CreateFlatButton();
+            CreatePopupFlatButton();
             CreatePopup();
             CreateDarkWindow();
             CreateAlignLeftBox();
@@ -37,9 +39,11 @@ namespace RapidGUI
 
         static void CreateFlatButton()
         {
-            var style = new GUIStyle(GUI.skin.label);
-            style.wordWrap = false;
-            style.padding = new RectOffset(24, 48, 2, 2);
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                wordWrap = false, 
+                alignment = TextAnchor.MiddleCenter
+            };
 
             var toggle = GUI.skin.toggle;
             style.normal.textColor = toggle.normal.textColor;
@@ -53,11 +57,25 @@ namespace RapidGUI
             style.name = nameof(flatButton);
             flatButton = style;
         }
+        
+        static void CreatePopupFlatButton()
+        {
+            var style = new GUIStyle(flatButton)
+            {
+                alignment = GUI.skin.label.alignment,
+                padding = new RectOffset(24, 48, 2, 2),
+                name = nameof(popupFlatButton)
+            };
+
+            popupFlatButton = style;
+        }
 
         static void CreatePopup()
         {
-            var style = new GUIStyle(GUI.skin.box);
-            style.border = new RectOffset();
+            var style = new GUIStyle(GUI.skin.box)
+            {
+                border = new RectOffset()
+            };
 
             popupTex = new Texture2D(1, 1);
             var brightness = 0.2f;
@@ -87,10 +105,11 @@ namespace RapidGUI
 
         public static void CreateAlignLeftBox()
         {
-            var style = new GUIStyle(GUI.skin.box);
-            style.alignment = TextAnchor.MiddleLeft;
-
-            style.name = nameof(alignLeftBox);
+            var style = new GUIStyle(GUI.skin.box)
+            {
+                alignment = TextAnchor.MiddleLeft,
+                name = nameof(alignLeftBox)
+            };
 
             alignLeftBox = style;
         }
@@ -135,23 +154,25 @@ namespace RapidGUI
 
         private static void CreateWarningLabel()
         {
-            var style = new GUIStyle(GUI.skin.box);
-            style.alignment = GUI.skin.label.alignment;
-            style.richText = true;
+            var style = new GUIStyle(GUI.skin.box)
+            {
+                alignment = GUI.skin.label.alignment,
+                richText = true, 
+                name = nameof(warningLabel)
+            };
 
-            style.name = nameof(warningLabel);
             warningLabel = style;
         }
 
         private static void CreateWarningLabelNoStyle()
         {
-            var style = new GUIStyle(GUI.skin.label);
-            style.richText = true;
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                richText = true,
+                name = nameof(warningLabelNoStyle)
+            };
 
-            style.name = nameof(warningLabelNoStyle);
             warningLabelNoStyle = style;
         }
-
-
     }
 }

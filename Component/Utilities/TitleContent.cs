@@ -53,6 +53,6 @@ namespace RapidGUI
         public T SetTitleAction(Action titleAction) { this.titleAction = titleAction; return (T)this; }
 
 
-        protected List<Func<bool>> GetGUIFuncs() => funcDatas.Where(fd => fd.checkEnableFunc?.Invoke() ?? true).Select(fd => fd.guiFunc).ToList();
+        protected IEnumerable<Func<bool>> GetGUIFuncs() => funcDatas.Where(fd => fd.checkEnableFunc?.Invoke() ?? true).Select(fd => fd.guiFunc);
     }
 }
