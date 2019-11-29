@@ -40,7 +40,8 @@ namespace RapidGUI.Example
             // child windows automaticaly aligned.
             launchers = new WindowLaunchers();
             launchers.name = "WindowLaunchers";
-            launchers.Add("RGUI.Field()", typeof(FieldExample));
+            launchers.Add("RGUI.Field() Part1", typeof(FieldExample_Part1));
+            launchers.Add("RGUI.Field() Part2", typeof(FieldExample_Part2));
             launchers.Add("RGUI.Slider()", typeof(SliderExample));
             launchers.Add("RGUI.MinMaxSlider()", typeof(MinMaxSliderExample));
             launchers.Add("Fold / Folds", typeof(FoldExample));

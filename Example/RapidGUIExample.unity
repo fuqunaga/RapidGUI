@@ -94,8 +94,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -120,6 +120,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &113337800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113337801}
+  - component: {fileID: 113337802}
+  m_Layer: 0
+  m_Name: FieldExample_Part2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &113337801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113337800}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 627452967}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &113337802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113337800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e20345576e8e640bb9c3f0b125a9ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customClassVal:
+    publicField: 0
+    serializeField: 0
+    rangeVal: 0
+    longNameFieldWillBeMultiLine: 
+  customClassListVal: []
 --- !u!1 &209638402
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +198,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627452967}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &209638404
 MonoBehaviour:
@@ -163,64 +212,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400b4f7ddc046e74dbc995468b9afa7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intValMin: 0
-  intValMax: 0
-  floatValMin: 0
-  floatValMax: 0
-  vector2ValMin: {x: 0, y: 0}
-  vector2ValMax: {x: 0, y: 0}
-  vector3ValMin: {x: 0, y: 0, z: 0}
-  vector3ValMax: {x: 0, y: 0, z: 0}
-  vector4ValMin: {x: 0, y: 0, z: 0, w: 0}
-  vector4ValMax: {x: 0, y: 0, z: 0, w: 0}
-  vector2IntValMin: {x: 0, y: 0}
-  vector2IntValMax: {x: 0, y: 0}
-  vector3IntValMin: {x: 0, y: 0, z: 0}
-  vector3IntValMax: {x: 0, y: 0, z: 0}
-  rectValMin:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  rectValMax:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  rectIntValMin:
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  rectIntValMax:
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  rectOffsetValMin:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  rectOffsetValMax:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  boundsValMin:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  boundsValMax:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  boundsIntValMin:
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 0, y: 0, z: 0}
-  boundsIntValMax:
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 0, y: 0, z: 0}
+  intVal:
+    min: 0
+    max: 0
+  floatVal:
+    min: 0
+    max: 0
+  vector2Val:
+    min: {x: 0, y: 0}
+    max: {x: 0, y: 0}
+  vector3Val:
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+  vector4Val:
+    min: {x: 0, y: 0, z: 0, w: 0}
+    max: {x: 0, y: 0, z: 0, w: 0}
+  vector2IntVal:
+    min: {x: 0, y: 0}
+    max: {x: 0, y: 0}
+  vector3IntVal:
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+  floatMin: 0
+  floatMax: 0
 --- !u!1 &567826315
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +338,7 @@ GameObject:
   - component: {fileID: 607490101}
   - component: {fileID: 607490102}
   m_Layer: 0
-  m_Name: FieldExample
+  m_Name: FieldExample_Part1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -392,22 +406,6 @@ MonoBehaviour:
     m_Size: {x: 0, y: 0, z: 0}
   arrayVal: []
   listVal: 
-  customClassVal:
-    intVal: 0
-    floatVal: 0
-    rangeVal: 0
-    stringVal: 
-  customClassListVal: []
-  complexClassVal:
-    longNameFieldSoThatWillBeMultiLine: 
-    customClass:
-      intVal: 0
-      floatVal: 0
-      rangeVal: 0
-      stringVal: 
-    floatList: []
-    customClassList: []
-  complexClassListVal: []
 --- !u!1 &627452966
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +435,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 607490101}
+  - {fileID: 113337801}
   - {fileID: 1280648729}
   - {fileID: 209638403}
   - {fileID: 1282380288}
@@ -501,7 +500,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627452967}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &654249864
 MonoBehaviour:
@@ -545,7 +544,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627452967}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &671565588
 MonoBehaviour:
@@ -559,6 +558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f383fc3b7fb3bb34cb1f6d3c773e48ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useFastScrollView: 1
+  scrollViewItemCount: 1000
 --- !u!1 &1280648728
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,7 +589,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627452967}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1280648730
 MonoBehaviour:
@@ -670,7 +671,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627452967}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1282380289
 MonoBehaviour:
