@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 627452967}
   - component: {fileID: 627452968}
   m_Layer: 0
-  m_Name: FileldExample_Part2
+  m_Name: FileldExample_Part1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,15 +252,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 627452966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16e20345576e8e640bb9c3f0b125a9ec, type: 3}
+  m_Script: {fileID: 11500000, guid: fea68c5098e51d84d92090d7f0558109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customClassVal:
-    publicField: 0
-    serializeField: 0
-    rangeVal: 0
-    longNameFieldSoThatWillBeMultiLine: 
-  customClassListVal: []
+  stringVal: 
+  boolVal: 0
+  intVal: 0
+  floatVal: 0
+  colorVal: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.5019608}
+  enumVal: 0
+  enumFlagsVal: 0
+  vector2Val: {x: 0, y: 0}
+  vector3Val: {x: 0, y: 0, z: 0}
+  vector4Val: {x: 0, y: 0, z: 0, w: 0}
+  vector2IntVal: {x: 0, y: 0}
+  vector3IntVal: {x: 0, y: 0, z: 0}
+  rectVal:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  rectIntVal:
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  rectOffsetVal:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  boundsVal:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  boundsIntVal:
+    m_Position: {x: 0, y: 0, z: 0}
+    m_Size: {x: 0, y: 0, z: 0}
+  arrayVal: []
+  listVal: 
 --- !u!1 &1938052298
 GameObject:
   m_ObjectHideFlags: 0
