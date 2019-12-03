@@ -7,37 +7,17 @@ namespace RapidGUI
 {
     public class WindowLaunchers : TitleContents<WindowLauncher>
     {
-        #region Type Define
-
-        public class FuncData
-        {
-            public Func<bool> checkEnableFunc;
-            public Action drawFunc;
-
-            public void OnGUI()
-            {
-                if (checkEnableFunc())
-                {
-                    drawFunc();
-                    GUI.DragWindow();
-                }
-            }
-        }
-
-        #endregion
-
         public string name = "";
         public bool isWindow = true;
         public bool isDraggable = true;
         public Rect rect = new Rect(Vector2.one * 10f, Vector2.zero);
 
-        const float defaultWidth = 300f;
+        const float DefaultWidth = 300f;
 
-
-        public override WindowLauncher Add(string name, Func<bool> checkEnableFunc, Func<bool> drawFunc)
+        public override WindowLauncher Add(string title, Func<bool> checkEnableFunc, Func<bool> drawFunc)
         {
-            var launcher = base.Add(name, checkEnableFunc, drawFunc)
-                .SetWidth(defaultWidth);
+            var launcher = base.Add(title, checkEnableFunc, drawFunc)
+                .SetWidth(DefaultWidth);
 
             launcher.onOpen -= OnOpen;
             launcher.onOpen += OnOpen;
@@ -46,7 +26,7 @@ namespace RapidGUI
         }
 
 
-        static GUIContent tmpContent = new GUIContent();
+        static readonly GUIContent tmpContent = new GUIContent();
         List<WindowLauncher> list;
         public void DoGUI()
         {
@@ -82,7 +62,7 @@ namespace RapidGUI
 
         #region Auto Layout Windows
 
-        List<WindowLauncher> openLaunchers = new List<WindowLauncher>();
+        readonly List<WindowLauncher> openLaunchers = new List<WindowLauncher>();
 
         void OnOpen(WindowLauncher launcher)
         {
@@ -92,7 +72,6 @@ namespace RapidGUI
                 const float yOffset = 16f;
                 var x = rect.xMax + xOffset;
                 var y = rect.yMin;
-
 
                 var removeIdx = openLaunchers.FindIndex(l => l == launcher || !l.isOpen || l.isMoved);
                 var last = (removeIdx >= 0)

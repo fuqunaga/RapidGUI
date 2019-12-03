@@ -11,22 +11,22 @@ namespace RapidGUI
         protected bool dicChanged = true;
 
 
-        public T Add(string name, Action guiAction) => Add(name, null, guiAction);
+        public T Add(string title, Action guiAction) => Add(title, null, guiAction);
 
-        public T Add(string name, Func<bool> checkEnableFunc, Action guiAction) => Add(name, checkEnableFunc, () => { guiAction(); return false; });
+        public T Add(string title, Func<bool> checkEnableFunc, Action guiAction) => Add(title, checkEnableFunc, () => { guiAction(); return false; });
 
-        public T Add(string name, Func<bool> guiFunc) => Add(name, null, guiFunc);
+        public T Add(string title, Func<bool> guiFunc) => Add(title, null, guiFunc);
 
-        public virtual T Add(string name, Func<bool> checkEnableFunc, Func<bool> guiFunc)
+        public virtual T Add(string title, Func<bool> checkEnableFunc, Func<bool> guiFunc)
         {
-            if (dic.TryGetValue(name, out var element))
+            if (dic.TryGetValue(title, out var element))
             {
                 element.Add(checkEnableFunc, guiFunc);
             }
             else
             {
-                element = new T() { name = name }.Add(checkEnableFunc, guiFunc);
-                dic.Add(name, element);
+                element = new T() { name = title }.Add(checkEnableFunc, guiFunc);
+                dic.Add(title, element);
             }
 
             dicChanged = true;
@@ -34,14 +34,14 @@ namespace RapidGUI
             return element;
         }
 
-        public T Add(string name, params Type[] iDoGUITypes)
+        public T Add(string title, params Type[] iDoGUITypes)
         {
             Assert.IsTrue(iDoGUITypes.All(type => type.GetInterfaces().Contains(typeof(IDoGUI))));
 
             var iDoGUIs = iDoGUITypes.Select(t => new LazyFindObject(t)).ToList() // exec once.
                 .Select(lfo => lfo.GetObject()).Where(o => o != null).Cast<IDoGUI>();   // exec every call.
 
-            return Add(name, () => iDoGUIs.Any(), () => iDoGUIs.ToList().ForEach(idm => idm.DoGUI()));
+            return Add(title, () => iDoGUIs.Any(), () => iDoGUIs.ToList().ForEach(idm => idm.DoGUI()));
         }
 
 
