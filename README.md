@@ -11,7 +11,7 @@ or
 Using Pacakge Manager  
 Add following line to the `dependencies` section in the `Packages/manifest.json`.
 ```
-"ga.fuquna.prefsgui": "https://github.com/fuqunaga/RapidGUI.git"
+"ga.fuquna.rapidgui": "https://github.com/fuqunaga/RapidGUI.git"
 ```
 # Getting Started
 - Checkout the **RapidGUI/Example/RapidGUIExample scene**
