@@ -53,29 +53,21 @@ namespace RapidGUI.Example
         {
             stringVal = RGUI.Field(stringVal, "string");
             boolVal = RGUI.Field(boolVal, "bool");
-
             intVal = RGUI.Field(intVal, "int");
             floatVal = RGUI.Field(floatVal, "float");
             colorVal = RGUI.Field(colorVal, "color");
             enumVal = RGUI.Field(enumVal, "enum");
             enumFlagsVal = RGUI.Field(enumFlagsVal, "enumFlags");
-
             vector2Val = RGUI.Field(vector2Val, "vector2");
-
-
             vector3Val = RGUI.Field(vector3Val, "vector3");
             vector4Val = RGUI.Field(vector4Val, "vector4");
-
             vector2IntVal = RGUI.Field(vector2IntVal, "vector2Int");
             vector3IntVal = RGUI.Field(vector3IntVal, "vector3Int");
-
             rectVal = RGUI.Field(rectVal, "rect");
             rectIntVal = RGUI.Field(rectIntVal, "rectInt");
             rectOffsetVal = RGUI.Field(rectOffsetVal, "rectOffset");
-
             boundsVal = RGUI.Field(boundsVal, "bounds");
             boundsIntVal = RGUI.Field(boundsIntVal, "boundsInt");
-
             arrayVal = RGUI.Field(arrayVal, "array");
             listVal = RGUI.Field(listVal, "list");
         }

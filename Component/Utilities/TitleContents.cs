@@ -7,7 +7,7 @@ namespace RapidGUI
 {
     public abstract class TitleContents<T> where T : TitleContent<T>, new()
     {
-        protected Dictionary<string, T> dic = new Dictionary<string, T>();
+        protected readonly Dictionary<string, T> dic = new Dictionary<string, T>();
         protected bool dicChanged = true;
 
 
