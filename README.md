@@ -30,7 +30,7 @@ value = RGUI.Field(value, label);
 - Color picker
 - Array/List has a right-click menu like inspector
 
-**CustomClass**
+**CustomClass**  
 ![fieldCustomClass](Documents~/FieldCustomClass.png)
 
 ```csharp
@@ -57,7 +57,7 @@ customClass = RGUI.Field(customClass, nameof(customClass));
 
 
 ## RGUI.Slider()
-![slider](Documents~/slider.png)
+![Slider](Documents~/Slider.png)
 ```csharp
 value = RGUI.Slider(value, min, max, label);
 ```
@@ -112,6 +112,9 @@ launcher.DoGUI();
 
 ![windowLaunchers](Documents~/windowLaunchers.gif)
 - WindowLaunchers automatically adjusts the layout when opening a window
+
+## And more
+Please check the **RapidGUI/Example/RapidGUIExample scene**
 
 
 # Reference
