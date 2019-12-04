@@ -14,8 +14,8 @@ Add following line to the `dependencies` section in the `Packages/manifest.json`
 "ga.fuquna.rapidgui": "https://github.com/fuqunaga/RapidGUI.git"
 ```
 # Getting Started
-- Checkout the **RapidGUI/Example/RapidGUIExample scene**
-- And check the usage from the script below **RapidGUI/Example/Scripts/**
+- Checkout the **RapidGUI/Example/RapidGUIExample.unity**
+- And check the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
 
 # Function
 ## RGUI.Field()
@@ -114,8 +114,7 @@ launcher.DoGUI();
 - WindowLaunchers automatically adjusts the layout when opening a window
 
 ## And more
-Please check the **RapidGUI/Example/RapidGUIExample scene**
-
+Please check the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
 
 # Reference
 https://github.com/mattatz/unity-immediate-color-picker
