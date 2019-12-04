@@ -116,5 +116,12 @@ launcher.DoGUI();
 ## And more
 Please check the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
 
+# Tips
+
+## RapidGUIBehaviour?
+![RapidGUIBehaviour](Documents~/RapidGUIBehaviour.png)
+A object placed as RapidGUI settings and update hooks.
+If not in the scene, it will be generated automatically.
+
 # Reference
 https://github.com/mattatz/unity-immediate-color-picker
