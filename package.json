@@ -1,8 +1,8 @@
 {
     "name": "ga.fuquna.rapidgui",
     "displayName": "RapidGUI",
-    "version": "0.0.0",
-    "unity": "2019.1",
+    "version": "1.0.0",
+    "unity": "2019.2",
     "description": "IMGUI extensions for Rapid prototyping/development",
     "keywords": ["IMGUI", "GUI"],
     "category": "Tool",

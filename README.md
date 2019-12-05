@@ -1,7 +1,7 @@
 # RapidGUI
 Unity IMGUI extensions for Rapid prototyping/development.
 
-![rapidgui](Documents~/rapidgui.png)
+![rapidgui](Documentation~/rapidgui.png)
 
 # Install
 Download a `.unitypackage` file from [Release page](https://github.com/fuqunaga/RapidGUI/releases).
@@ -19,7 +19,7 @@ Add following line to the `dependencies` section in the `Packages/manifest.json`
 
 # Function
 ## RGUI.Field()
-![field](Documents~/field.gif)
+![field](Documentation~/field.gif)
 
 ```csharp
 value = RGUI.Field(value, label);
@@ -31,7 +31,7 @@ value = RGUI.Field(value, label);
 - Array/List has a right-click menu like inspector
 
 **CustomClass**  
-![fieldCustomClass](Documents~/FieldCustomClass.png)
+![fieldCustomClass](Documentation~/FieldCustomClass.png)
 
 ```csharp
 public class CustomClass
@@ -57,7 +57,7 @@ customClass = RGUI.Field(customClass, nameof(customClass));
 
 
 ## RGUI.Slider()
-![Slider](Documents~/Slider.png)
+![Slider](Documentation~/Slider.png)
 ```csharp
 value = RGUI.Slider(value, min, max, label);
 ```
@@ -65,7 +65,7 @@ value = RGUI.Slider(value, min, max, label);
 
 
 ## RGUI.MinMaxSlider()
-![MinMaxSlider](Documents~/MinMaxSlider.png)
+![MinMaxSlider](Documentation~/MinMaxSlider.png)
 ```csharp
 RGUI.MinMaxSlider(minMaxVal, minMaxRange, label);
 RGUI.MinMaxSlider(ref floatMin, ref floatMax, rangeMin, rangeMax, label);
@@ -76,14 +76,14 @@ RGUI.MinMaxSlider(ref floatMin, ref floatMax, rangeMin, rangeMax, label);
 
 
 ## RGUI.SelectionPopup()
-![fold](Documents~/selectionPopup.gif)
+![fold](Documentation~/selectionPopup.gif)
 ```csharp
 selectionPopupIdx = RGUI.SelectionPopup(selectionPopupIdx, new[] { "One", "Two", "Three" });
 selectionPopupStr = RGUI.SelectionPopup(selectionPopupStr, new[] { "One", "Two", "Three" });
 ```
 
 ## RapidGUI.Fold / Folds
-![fold](Documents~/fold.gif)
+![fold](Documentation~/fold.gif)
 
 ```csharp
 // Initialize
@@ -96,7 +96,7 @@ fold.DoGUI();
 ```
   
 ## RapidGUI.WindowLauncher / WindowLaunchers
-![windowLauncher](Documents~/windowLauncher.gif)
+![windowLauncher](Documentation~/windowLauncher.gif)
 ```csharp
 // Initialize
 launcher = new WindowLauncher("WindowLauncher");
@@ -110,16 +110,15 @@ launcher.DoGUI();
 - Resizable
 - Has a close button
 
-![windowLaunchers](Documents~/windowLaunchers.gif)
+![windowLaunchers](Documentation~/windowLaunchers.gif)
 - WindowLaunchers automatically adjusts the layout when opening a window
 
 ## And more
 Please check the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
 
 # Tips
-
 ## RapidGUIBehaviour?
-![RapidGUIBehaviour](Documents~/RapidGUIBehaviour.png)
+![RapidGUIBehaviour](Documentation~/RapidGUIBehaviour.png)
 A object placed as RapidGUI settings and update hooks.
 If not in the scene, it will be generated automatically.
 
