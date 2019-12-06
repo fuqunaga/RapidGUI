@@ -7,17 +7,10 @@ using UnityEditor;
 
 public static class RGUILayoutUtility
 {
-
     public static bool IsInEditorWindow()
     {
 #if UNITY_EDITOR
-
-        var pos = GUIUtility.GUIToScreenRect(GUILayoutUtility.GetRect(0f, 0f, GUILayout.ExpandWidth(false))).position;
-
-        return Resources.FindObjectsOfTypeAll<EditorWindow>()
-            .Where(ew => ew.position.Contains(pos))
-            .Where(ew => ew.GetType().Name != "GameView")
-            .Any();
+        return GUI.skin.FindStyle("ToggleMixed") != null;
 #else
         return false;
 #endif
