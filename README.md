@@ -17,7 +17,7 @@ Add following line to the `dependencies` section in the `Packages/manifest.json`
 - Checkout the **RapidGUI/Example/RapidGUIExample.unity**
 - And check the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
 
-# Function
+# Functions
 ## RGUI.Field()
 ![field](Documentation~/field.gif)
 
@@ -29,6 +29,7 @@ value = RGUI.Field(value, label);
 - Right-drag label to edit numbers
 - Color picker
 - Array/List has a right-click menu like inspector
+- Supports custom class
 
 **CustomClass**  
 ![fieldCustomClass](Documentation~/FieldCustomClass.png)
@@ -71,7 +72,7 @@ RGUI.MinMaxSlider(minMaxVal, minMaxRange, label);
 RGUI.MinMaxSlider(ref floatMin, ref floatMax, rangeMin, rangeMax, label);
 ```
 - Display min max slider GUI according to type of numbers
-- RapidGUI defines some MinMax type(`MinMaxInt`,`MinMaxFloat`,`MinMaxVector2`...)
+- RapidGUI defines some basic MinMax type(`MinMaxInt`,`MinMaxFloat`,`MinMaxVector2`...)
 - You can also create your own MinMax type by inheriting `MinMax<T>`
 
 
@@ -106,21 +107,22 @@ launcher.Add(() => GUILayout.Label("Added function"));
 ```csharp
 launcher.DoGUI();
 ```
-- Open/Close window
+- Toggle open/close window
 - Resizable
 - Has a close button
 
 ![windowLaunchers](Documentation~/windowLaunchers.gif)
 - WindowLaunchers automatically adjusts the layout when opening a window
 
-## And more
+## And more!!!
 Please check the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
 
 # Tips
-## RapidGUIBehaviour?
+## A "RapidGUI" object appears in the hierarchy
 ![RapidGUIBehaviour](Documentation~/RapidGUIBehaviour.png)
-A object placed as RapidGUI settings and update hooks.
+the object is a RapidGUI settings and update hooks.
 If not in the scene, it will be generated automatically.
 
 # Reference
+- **unity-immediate-color-picker**  
 https://github.com/mattatz/unity-immediate-color-picker
