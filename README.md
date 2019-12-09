@@ -8,14 +8,14 @@ Download a `.unitypackage` file from [Release page](https://github.com/fuqunaga/
 
 or
 
-Using Pacakge Manager  
+**Using Pacakge Manager**  
 Add following line to the `dependencies` section in the `Packages/manifest.json`.
 ```
 "ga.fuquna.rapidgui": "https://github.com/fuqunaga/RapidGUI.git"
 ```
 # Getting Started
-- Checkout the **RapidGUI/Example/RapidGUIExample.unity**
-- And check the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
+- Open and checkout the **RapidGUI/Example/RapidGUIExample.unity**
+- see also the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
 
 # Functions
 ## RGUI.Field()
@@ -126,3 +126,7 @@ If not in the scene, it will be generated automatically.
 # Reference
 - **unity-immediate-color-picker**  
 https://github.com/mattatz/unity-immediate-color-picker
+<br>
+
+- **PrefsGUI**  
+https://github.com/fuqunaga/PrefsGUI
