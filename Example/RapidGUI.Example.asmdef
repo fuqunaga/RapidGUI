@@ -1,0 +1,14 @@
+{
+    "name": "RapidGUI.Example",
+    "references": [
+        "GUID:3d35d6db7bb67824691179b12a2ce031"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

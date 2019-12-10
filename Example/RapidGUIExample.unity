@@ -163,12 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e20345576e8e640bb9c3f0b125a9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customClassVal:
+  customClass:
     publicField: 0
     serializeField: 0
     rangeVal: 0
     longNameFieldWillBeMultiLine: 
-  customClassListVal: []
 --- !u!1 &209638402
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,21 +455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2c46592c8012e45b5c3d63c7b8fe70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _string: 
-  _bool: 0
-  _int: 0
-  _float: 0
-  _vector2: {x: 0, y: 0}
-  _vector3: {x: 0, y: 0, z: 0}
-  _vector4: {x: 0, y: 0, z: 0, w: 0}
-  _vector2Int: {x: 0, y: 0}
-  _vector3Int: {x: 0, y: 0, z: 0}
-  _rect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
 --- !u!1 &654249862
 GameObject:
   m_ObjectHideFlags: 0

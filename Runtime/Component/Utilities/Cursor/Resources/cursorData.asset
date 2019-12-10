@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a36177a40558a4c8dc1eecadc2194a, type: 3}
+  m_Name: cursorData
+  m_EditorClassIdentifier: 
+  resizeHorizontal:
+    tex: {fileID: 2800000, guid: 4c7d0789dd64c2a4abb34c702bde2d23, type: 3}
+    hotspot: {x: 18, y: 8}
+  resizeVertical:
+    tex: {fileID: 2800000, guid: 9ea93cce483d412479afe7393187edd5, type: 3}
+    hotspot: {x: 8, y: 18}
+  resizeUpLeft:
+    tex: {fileID: 2800000, guid: 611057dfbf0a2c943b4d5ee31759394c, type: 3}
+    hotspot: {x: 13, y: 13}

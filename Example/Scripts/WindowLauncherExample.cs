@@ -20,7 +20,7 @@ namespace RapidGUI.Example
 
         void InitFold()
         {
-            launcher = new WindowLauncher("WindowLauncher");//.Add(() => GUILayout.Label("This is WindowLauncher."));
+            launcher = new WindowLauncher("WindowLauncher");
 
             // add funcion
             launcher.Add(() => GUILayout.Label("Added function"));
