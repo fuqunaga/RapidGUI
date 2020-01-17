@@ -32,6 +32,13 @@ namespace RapidGUI
             return this;
         }
 
+        public WindowLauncher SetHeight(float height)
+        {
+            rect.height = height;
+            return this;
+        }
+
+
         public void DoGUI()
         {
             if (isEnable)
