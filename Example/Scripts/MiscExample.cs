@@ -76,13 +76,13 @@ namespace RapidGUI.Example
 
 
             GUILayout.Space(8f);
-            
+
 
             GUILayout.Label("FastScrollView (doesn't slow down even if there are many items.)");
             using (new GUILayout.HorizontalScope())
             {
                 GUILayout.Label("ItemNum");
-                if ( int.TryParse(GUILayout.TextField(scrollViewItemCount.ToString()), out var count))
+                if (int.TryParse(GUILayout.TextField(scrollViewItemCount.ToString()), out var count))
                 {
                     if (scrollViewItemCount != count)
                     {

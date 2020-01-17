@@ -20,7 +20,6 @@ namespace RapidGUI
 
         public void SetNeedUpdateLayout() => needUpdateLayout = true;
 
-
         public void DoGUI<T>(IEnumerable<T> items, Action<T> doGUIItem)
         {
             var isRepaint = (Event.current.type == EventType.Repaint);
@@ -28,7 +27,7 @@ namespace RapidGUI
             using (var sv = new GUILayout.ScrollViewScope(scrollPosition))
             {
                 // reset control if scroll is moved
-                if ( scrollPosition != sv.scrollPosition)
+                if (scrollPosition != sv.scrollPosition)
                 {
                     GUIUtility.keyboardControl = 0;
                 }
@@ -38,22 +37,23 @@ namespace RapidGUI
                 {
                     if (needUpdateLayout)
                     {
-                        var itemList = items.ToList();
-
                         if (isRepaint)
                         {
                             yMaxList.Clear();
 
-                            itemList.ForEach(item =>
+                            foreach (var item in items)
                             {
                                 doGUIItem(item);
                                 var rect = GUILayoutUtility.GetLastRect();
                                 yMaxList.Add(rect.yMax);
-                            });
+                            }
                         }
                         else
                         {
-                            itemList.ForEach(item => doGUIItem(item));
+                            foreach (var item in items)
+                            {
+                                doGUIItem(item);
+                            }
                         }
                     }
                     else
@@ -64,11 +64,14 @@ namespace RapidGUI
 
                         if (startIdx > 0) GUILayout.Space(yMaxList[startIdx - 1]);
 
-                        items
+                        var itemRange = items
                             .Skip(startIdx)
-                            .Take(endIdx - startIdx + 1)
-                            .ToList()
-                            .ForEach(item => doGUIItem(item));
+                            .Take(endIdx - startIdx + 1);
+
+                        foreach (var item in itemRange)
+                        {
+                            doGUIItem(item);
+                        }
 
                         if (endIdx < yMaxList.Count - 1) GUILayout.Space(yMaxList.Last() - yMaxList[endIdx]);
 
@@ -81,7 +84,6 @@ namespace RapidGUI
                     scopeWidth = GUILayoutUtility.GetLastRect().width;
                 }
             }
-
 
 
             if (needUpdateLayout && isRepaint)
