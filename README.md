@@ -1,18 +1,31 @@
 # RapidGUI
+[![openupm](https://img.shields.io/npm/v/ga.fuquna.rapidgui?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/ga.fuquna.rapidgui/)
+
 Unity IMGUI extensions for Rapid prototyping/development.
 
 ![rapidgui](Documentation~/rapidgui.png)
 
-## Install
-Download a `.unitypackage` file from [Release page](https://github.com/fuqunaga/RapidGUI/releases).
+## Installation
 
-or
+### Install via OpenUPM
 
-**Using Package Manager**
-Add following line to the `dependencies` section in the `Packages/manifest.json`.
+The package is available on the [openupm registry](https://openupm.com). It's recommended to install it via [openupm-cli](https://github.com/openupm/openupm-cli).
+
+```
+openupm add ga.fuquna.rapidgui
+```
+
+### Install via git URL
+
+Add following lines to the `dependencies` section of the `Packages/manifest.json`.
 ```
 "ga.fuquna.rapidgui": "https://github.com/fuqunaga/RapidGUI.git"
 ```
+
+### Install via traditional `.unitypackage`
+
+Download a `.unitypackage` file from the [Release page](https://github.com/fuqunaga/RapidGUI/releases).
+
 ## Getting Started
 - Open and checkout the **RapidGUI/Example/RapidGUIExample.unity**
 - see also the usage from the script below [**RapidGUI/Example/Scripts/**](Example/Scripts/)
@@ -126,7 +139,5 @@ If not in the scene, it will be generated automatically.
 ## Reference
 - **unity-immediate-color-picker**
 https://github.com/mattatz/unity-immediate-color-picker
-<br>
-
 - **PrefsGUI**
 https://github.com/fuqunaga/PrefsGUI
