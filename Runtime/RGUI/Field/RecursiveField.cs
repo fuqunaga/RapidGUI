@@ -63,6 +63,8 @@ namespace RapidGUI
             for (var i = 0; i < infos.Count; ++i)
             {
                 var info = infos[i];
+                if (CheckIgnoreField(info.Name)) continue;
+
                 var v = info.GetValue(obj);
                 var range = info.Range;
                 var memberType = info.MemberType;

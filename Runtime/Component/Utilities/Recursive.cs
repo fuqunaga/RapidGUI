@@ -41,7 +41,7 @@ namespace RapidGUI
             switch (GetStatus(obj))
             {
                 case ObjStatus.Null:
-                    WarningLabel("object" + nullMsg);
+                    WarningLabel("object " + nullMsg);
                     break;
 
                 case ObjStatus.Loop:

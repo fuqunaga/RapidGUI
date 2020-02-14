@@ -34,6 +34,8 @@ namespace RapidGUI
             for (var i = 0; i < infos.Count; ++i)
             {
                 var fi = infos[i];
+                if (CheckIgnoreField(fi.Name)) continue;
+
                 var elemValMin = fi.GetValue(to.Item1);
                 var elemValMax = fi.GetValue(to.Item2);
                 var elemMin = fi.GetValue(min);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Table = System.Collections.Generic.Dictionary<string, string>;
 
@@ -6,17 +7,14 @@ namespace RapidGUI
 {
     public static partial class RGUI
     {
-        static Table recursiveCustomLabel;
-
         static string CheckCustomLabel(string label)
         {
-            if (recursiveCustomLabel != null)
+            var table = customLabelScopeStack.FirstOrDefault(t => t.ContainsKey(label));
+            if (table != null)
             {
-                if (recursiveCustomLabel.TryGetValue(label, out var modified))
-                {
-                    label = modified;
-                }
+                label = table[label];
             }
+     
 
             return label;
         }
@@ -25,13 +23,12 @@ namespace RapidGUI
 
         public static void BeginCustomLabel(Table table)
         {
-            customLabelScopeStack.Push(recursiveCustomLabel);
-            recursiveCustomLabel = table;
+            customLabelScopeStack.Push(table);
         }
 
         public static void EndCustomLabel()
         {
-            recursiveCustomLabel = customLabelScopeStack.Pop();
+            customLabelScopeStack.Pop();
         }
 
 

@@ -33,6 +33,8 @@ namespace RapidGUI
             for (var i = 0; i < infos.Count; ++i)
             {
                 var fi = infos[i];
+                if (CheckIgnoreField(fi.Name)) continue;
+
                 var elem = fi.GetValue(obj);
                 var elemMin = fi.GetValue(min);
                 var elemMax = fi.GetValue(max);
