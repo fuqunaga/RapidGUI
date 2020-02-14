@@ -101,7 +101,7 @@ namespace RapidGUI.Example
             GUILayout.Label("ClassWithIDoGUI - automatically call DoGUI within an Array/List and another class.");
             classWithIDoGUIList = RGUI.Field(classWithIDoGUIList, nameof(classWithIDoGUIList));
             
-            GUILayout.Label("ClassWithICloneable - element will be duplicate when add new element.");
+            GUILayout.Label("ClassWithICloneable - element will be duplicated when add new element.");
             classWithICloneableList = RGUI.Field(classWithICloneableList, nameof(classWithICloneableList));
         }
         

@@ -31,12 +31,16 @@ namespace RapidGUI
             }
             else
             {
-                var valueNames = enumValues.Select(value => value.ToString()).ToArray();
                 var idx = enumValues.IndexOf(v);
+                var valueNames = enumValues.Select(value => value.ToString()).ToArray();
+#if true
+                idx = SelectionPopup(idx, valueNames);
+#else
                 idx = GUILayout.SelectionGrid(
                     idx,
                     valueNames,
                     valueNames.Length);
+#endif
                 v = enumValues.ElementAtOrDefault(idx);
             }
             return v;

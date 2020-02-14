@@ -5,9 +5,6 @@ namespace RapidGUI.Example
 {
     public class RapidGUIExample : MonoBehaviour
     {
-        readonly Folds miscFolds = new Folds();
-        readonly Folds dynamicFolds = new Folds();
-
         WindowLaunchers launchers;
 
         public void Start()
@@ -24,6 +21,7 @@ namespace RapidGUI.Example
             launchers.Add("RGUI.Field() Part2", typeof(FieldExample_Part2));
             launchers.Add("RGUI.Slider()", typeof(SliderExample));
             launchers.Add("RGUI.MinMaxSlider()", typeof(MinMaxSliderExample));
+            launchers.Add("Scope", typeof(ScopeExample));
             launchers.Add("Fold / Folds", typeof(FoldExample));
             launchers.Add("WindowLauncher / WindowLaunchers", typeof(WindowLauncherExample));
             launchers.Add("Misc", typeof(MiscExample)).SetWidth(600f);
