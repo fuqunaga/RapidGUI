@@ -69,7 +69,7 @@ namespace RapidGUI
                 var type = Event.current.type;
                 
                 var result = popupWindow.result;
-                if (result.HasValue && type != EventType.Layout)
+                if (result.HasValue && type == EventType.Layout)
                 {
                     ret = result.Value;
                     popupWindow.result = null;
