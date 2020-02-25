@@ -45,6 +45,7 @@ value = RGUI.Field(value, label);
 - Supports custom class
 
 **CustomClass**
+
 ![fieldCustomClass](Documentation~/FieldCustomClass.png)
 
 ```csharp
@@ -135,6 +136,10 @@ Please check the usage from the script below [**RapidGUI/Example/Scripts/**](Exa
 ![RapidGUIBehaviour](Documentation~/RapidGUIBehaviour.png)
 the object is a RapidGUI settings and update hooks.
 If not in the scene, it will be generated automatically.
+
+## Save/Load parameters
+See [PrefsGUI](https://github.com/fuqunaga/PrefsGUI)
+
 
 ## Reference
 - **unity-immediate-color-picker**
