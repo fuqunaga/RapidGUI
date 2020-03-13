@@ -71,7 +71,10 @@ namespace RapidGUI
                 var result = popupWindow.result;
                 if (result.HasValue && type == EventType.Layout)
                 {
-                    ret = result.Value;
+                    if (result.Value >= 0) // -1 when the popup is closed by clicking outside the window
+                    {
+                        ret = result.Value;
+                    }
                     popupWindow.result = null;
                     popupControlId = 0;
                 }
