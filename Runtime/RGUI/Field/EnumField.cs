@@ -33,14 +33,18 @@ namespace RapidGUI
             {
                 var idx = enumValues.IndexOf(v);
                 var valueNames = enumValues.Select(value => value.ToString()).ToArray();
-#if true
-                idx = SelectionPopup(idx, valueNames);
-#else
-                idx = GUILayout.SelectionGrid(
-                    idx,
-                    valueNames,
-                    valueNames.Length);
+
+#if UNITY_EDITOR
+                if (RGUILayoutUtility.IsInEditorWindow())
+                {
+                    idx = UnityEditor.EditorGUILayout.Popup(idx, valueNames);
+                }
+                else
 #endif
+                {
+                    idx = SelectionPopup(idx, valueNames);
+                }
+
                 v = enumValues.ElementAtOrDefault(idx);
             }
             return v;
