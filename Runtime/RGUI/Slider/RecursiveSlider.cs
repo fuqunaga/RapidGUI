@@ -32,17 +32,17 @@ namespace RapidGUI
             var infos = TypeUtility.GetMemberInfoList(type);
             for (var i = 0; i < infos.Count; ++i)
             {
-                var fi = infos[i];
-                if (CheckIgnoreField(fi.Name)) continue;
+                var info = infos[i];
+                if (CheckIgnoreField(info.Name)) continue;
 
-                var elem = fi.GetValue(obj);
-                var elemMin = fi.GetValue(min);
-                var elemMax = fi.GetValue(max);
-                var elemLabel = CheckCustomLabel(fi.Name);
+                var elem = info.GetValue(obj);
+                var elemMin = (min is float) ? min : info.GetValue(min);
+                var elemMax = (max is float) ? max : info.GetValue(max);
+                var elemLabel = CheckCustomLabel(info.Name) ?? info.label;
 
-                elem = Slider(elem, elemMin, elemMax, fi.MemberType, elemLabel);
+                elem = Slider(elem, elemMin, elemMax, info.MemberType, elemLabel);
 
-                fi.SetValue(obj, elem);
+                info.SetValue(obj, elem);
             }
         }
     }

@@ -66,9 +66,9 @@ namespace RapidGUI
                 if (CheckIgnoreField(info.Name)) continue;
 
                 var v = info.GetValue(obj);
-                var range = info.Range;
+                var range = info.range;
                 var memberType = info.MemberType;
-                var elemName = CheckCustomLabel(info.Name);
+                var elemName = CheckCustomLabel(info.Name) ?? info.label;
 
 
                 if (range != null)

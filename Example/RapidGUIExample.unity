@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 113337801}
   - component: {fileID: 113337802}
   m_Layer: 0
-  m_Name: FieldExample_Part2
+  m_Name: FieldWithClassExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 607490101}
   - component: {fileID: 607490102}
   m_Layer: 0
-  m_Name: FieldExample_Part1
+  m_Name: FieldExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

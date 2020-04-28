@@ -8,7 +8,7 @@ namespace RapidGUI.Example
     /// <summary>
     /// RGUI.Field() examples part2
     /// </summary>
-    public class FieldExample_Part2 : ExampleBase
+    public class FieldWithClassExample : ExampleBase
     {
         /// <summary>
         /// Simple Class
@@ -17,7 +17,7 @@ namespace RapidGUI.Example
         /// - If field name is long, name and value are displayed in multiple lines
         /// </summary>
         [Serializable]
-        public class CustomClass
+        public class MyClass
         {
             public int publicField;
 
@@ -30,10 +30,25 @@ namespace RapidGUI.Example
             [Range(0f, 10f)]
             public float rangeVal;
 
+            [Range(0f, 10f)] // The Range attribute is applied to a variety of numeric types 
+            public Vector3Int rangeVec3Int;
+
             public string longNameFieldWillBeMultiLine;
         }
-        
-        
+
+        /// <summary>
+        /// CustomGUIClass
+        /// - If you can't add an attribute to a class, you can specify a GUI from outside by using CustomGUI.
+        /// - See also Start().
+        /// </summary>
+        public class CustomGUIClass
+        {
+            public int value0;
+            public int value1;
+            public int value2;
+        }
+
+
         /// <summary>
         /// RobustTestClass
         /// </summary>
@@ -45,7 +60,7 @@ namespace RapidGUI.Example
 
         /// <summary>
         /// ClassWithIDoGUI
-        ///  Class with IDoGUI will automatically call DoGUI within an Array/List and another class
+        /// - Class with IDoGUI will automatically call DoGUI within an Array/List and another class
         /// </summary>
         public class ClassWithIDoGUI : IDoGUI
         {
@@ -67,7 +82,7 @@ namespace RapidGUI.Example
 
         /// <summary>
         /// ClassWithICloneable
-        /// - if class is ICloneable or has Copy Constructor then Array/List element will be duplicate when add new element.
+        /// - If class is ICloneable or has Copy Constructor then Array/List element will be duplicate when add new element.
         /// </summary>
         public class ClassWithICloneable : ICloneable
         {
@@ -83,7 +98,10 @@ namespace RapidGUI.Example
         }
 
 
-        public CustomClass customClass = new CustomClass();
+
+
+        public MyClass myClass = new MyClass();
+        public CustomGUIClass customGUIClass = new CustomGUIClass();
         public RobustTestClass robustTestClass = new RobustTestClass();
         public List<ClassWithIDoGUI> classWithIDoGUIList = new List<ClassWithIDoGUI>();
         public List<ClassWithICloneable> classWithICloneableList = new List<ClassWithICloneable>();
@@ -91,20 +109,25 @@ namespace RapidGUI.Example
         private void Start()
         {
             robustTestClass.selfReference = robustTestClass; // circular reference
+
+            CustomGUI.Label<CustomGUIClass>("value0", "label changed");
+            CustomGUI.IgnoreMember<CustomGUIClass>("value1");
+            CustomGUI.AddRange<CustomGUIClass>("value2", new MinMaxFloat() { max = 100f });
         }
-        
+
         public override void DoGUI()
         {
-            customClass = RGUI.Field(customClass, nameof(customClass));
+            myClass = RGUI.Field(myClass, nameof(myClass));
+            customGUIClass = RGUI.Field(customGUIClass, nameof(customGUIClass));
             robustTestClass = RGUI.Field(robustTestClass, nameof(robustTestClass));
             
             GUILayout.Label("ClassWithIDoGUI - automatically call DoGUI within an Array/List and another class.");
             classWithIDoGUIList = RGUI.Field(classWithIDoGUIList, nameof(classWithIDoGUIList));
-            
+
             GUILayout.Label("ClassWithICloneable - element will be duplicated when add new element.");
             classWithICloneableList = RGUI.Field(classWithICloneableList, nameof(classWithICloneableList));
         }
         
-        protected override string title => "RGUI.Field() Part2";
+        protected override string title => "RGUI.Field() with class";
     }
 }

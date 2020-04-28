@@ -9,14 +9,13 @@ namespace RapidGUI
     {
         static string CheckCustomLabel(string label)
         {
-            var table = customLabelScopeStack.FirstOrDefault(t => t.ContainsKey(label));
-            if (table != null)
-            {
-                label = table[label];
-            }
-     
-
-            return label;
+            return customLabelScopeStack
+                .Select(t =>
+                {
+                    t.TryGetValue(label, out var l);
+                    return l;
+                })
+                .FirstOrDefault(l => l != null);
         }
 
         static Stack<Table> customLabelScopeStack = new Stack<Table>();

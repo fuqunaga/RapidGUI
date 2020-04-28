@@ -17,8 +17,8 @@ namespace RapidGUI.Example
                 name = "WindowLaunchers"
             };
             
-            launchers.Add("RGUI.Field() Part1", typeof(FieldExample_Part1));
-            launchers.Add("RGUI.Field() Part2", typeof(FieldExample_Part2));
+            launchers.Add("RGUI.Field()", typeof(FieldExample));
+            launchers.Add("RGUI.Field() with class", typeof(FieldWithClassExample));
             launchers.Add("RGUI.Slider()", typeof(SliderExample));
             launchers.Add("RGUI.MinMaxSlider()", typeof(MinMaxSliderExample));
             launchers.Add("Scope", typeof(ScopeExample));

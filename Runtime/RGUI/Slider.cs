@@ -173,6 +173,8 @@ namespace RapidGUI
 
         static object SliderInt(object v, object min, object max)
         {
+            if (min is float) min = (int)(float)min;
+            if (max is float) max = (int)(float)max;
             var ret = (int)GUILayout.HorizontalSlider((int)v, (int)min, (int)max, GUILayout.MinWidth(SliderSetting.minWidth));
             ret = (int)StandardField(ret, v.GetType(), GUILayout.Width(SliderSetting.fieldWidth));
 

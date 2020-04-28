@@ -14,39 +14,60 @@ namespace RapidGUI
     {
         #region Type Define
 
-        public interface IMemberWrapper
+        public abstract class MemberWrapper
         {
-            string Name { get; }
-            Type MemberType { get; }
+            public abstract string Name { get; }
+            public abstract Type MemberType { get; }
 
-            object GetValue(object value);
-            void SetValue(object obj, object value);
+            public abstract object GetValue(object value);
+            public abstract void SetValue(object obj, object value);
 
-            RangeAttribute Range { get; }
+            string label_;
+
+            public string label
+            {
+                get
+                {
+                    return label_ ?? Name;
+                }
+
+                set
+                {
+                    label_ = value;
+                }
+            }
+
+            public MinMaxFloat range { get; set; }
         }
 
-        public class MemberFieldInfo : IMemberWrapper
+        public class MemberFieldInfo : MemberWrapper
         {
             FieldInfo info;
 
             public MemberFieldInfo(FieldInfo info)
             {
                 this.info = info;
-                Range = info.GetCustomAttribute<RangeAttribute>();
+                var rangeAttr = info.GetCustomAttribute<RangeAttribute>();
+                if ( rangeAttr != null)
+                {
+                    range = new MinMaxFloat()
+                    {
+                        min = rangeAttr.min,
+                        max = rangeAttr.max
+                    };
+                }
             }
 
-            public string Name => info.Name;
+            public override string Name => info.Name;
 
-            public Type MemberType => info.FieldType;
+            public override Type MemberType => info.FieldType;
 
-            public object GetValue(object obj) => info.GetValue(obj);
+            public override object GetValue(object obj) => info.GetValue(obj);
 
-            public void SetValue(object obj, object value) => info.SetValue(obj, value);
-
-            public RangeAttribute Range { get; protected set; }
+            public override void SetValue(object obj, object value) => info.SetValue(obj, value);
         }
 
-        public class MemberPropertyInfo : IMemberWrapper
+        public class MemberPropertyInfo : MemberWrapper
         {
             PropertyInfo info;
 
@@ -55,26 +76,24 @@ namespace RapidGUI
                 this.info = info;
             }
 
-            public string Name => info.Name;
+            public override string Name => info.Name;
 
-            public Type MemberType => info.PropertyType;
+            public override Type MemberType => info.PropertyType;
 
-            public object GetValue(object obj) => info.GetValue(obj);
+            public override object GetValue(object obj) => info.GetValue(obj);
 
-            public void SetValue(object obj, object value) => info.SetValue(obj, value);
-
-            public RangeAttribute Range => null;
+            public override void SetValue(object obj, object value) => info.SetValue(obj, value);
         }
 
         #endregion
 
-        static Dictionary<Type, List<IMemberWrapper>> memberInfoTable = new Dictionary<Type, List<IMemberWrapper>>();
-        public static List<IMemberWrapper> GetMemberInfoList(Type type)
+        static Dictionary<Type, List<MemberWrapper>> memberInfoTable = new Dictionary<Type, List<MemberWrapper>>();
+        public static List<MemberWrapper> GetMemberInfoList(Type type)
         {
-            List<IMemberWrapper> list;
+            List<MemberWrapper> list;
             if (!memberInfoTable.TryGetValue(type, out list))
             {
-                list = new List<IMemberWrapper>();
+                list = new List<MemberWrapper>();
                 list.AddRange(GetPropertyInfoList(type).Select(info => new MemberPropertyInfo(info)));
                 list.AddRange(GetFieldInfoList(type).Select(info => new MemberFieldInfo(info)));
 

@@ -8,7 +8,7 @@ namespace RapidGUI.Example
     /// <summary>
     ///  RGUI.Field() examples part1
     /// </summary>
-    public class FieldExample_Part1 : ExampleBase
+    public class FieldExample : ExampleBase
     {
         public enum EnumSample
         {
@@ -47,7 +47,7 @@ namespace RapidGUI.Example
         public float[] arrayVal;
         public List<int> listVal;
 
-        protected override string title => "RGUI.Field() Part1";
+        protected override string title => "RGUI.Field()s";
 
         public override void DoGUI()
         {

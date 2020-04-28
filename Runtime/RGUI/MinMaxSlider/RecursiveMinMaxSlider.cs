@@ -33,20 +33,20 @@ namespace RapidGUI
             var infos = TypeUtility.GetMemberInfoList(type);
             for (var i = 0; i < infos.Count; ++i)
             {
-                var fi = infos[i];
-                if (CheckIgnoreField(fi.Name)) continue;
+                var info = infos[i];
+                if (CheckIgnoreField(info.Name)) continue;
 
-                var elemValMin = fi.GetValue(to.Item1);
-                var elemValMax = fi.GetValue(to.Item2);
-                var elemMin = fi.GetValue(min);
-                var elemMax = fi.GetValue(max);
-                var elemLabel = CheckCustomLabel(fi.Name);
+                var elemValMin = info.GetValue(to.Item1);
+                var elemValMax = info.GetValue(to.Item2);
+                var elemMin = info.GetValue(min);
+                var elemMax = info.GetValue(max);
+                var elemLabel = CheckCustomLabel(info.Name) ?? info.label;
 
-                var tuple = (TupleObject)MinMaxSlider((elemValMin, elemValMax), elemMin, elemMax, fi.MemberType, elemLabel);
+                var tuple = (TupleObject)MinMaxSlider((elemValMin, elemValMax), elemMin, elemMax, info.MemberType, elemLabel);
 
 
-                fi.SetValue(to.Item1, tuple.Item1);
-                fi.SetValue(to.Item2, tuple.Item2);
+                info.SetValue(to.Item1, tuple.Item1);
+                info.SetValue(to.Item2, tuple.Item2);
             }
         }
     }

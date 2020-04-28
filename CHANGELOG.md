@@ -1,6 +1,11 @@
 # RapidGUI
 Unity IMGUI extension for Rapid prototyping/development.
 
+## [1.2.0] - 2020-04-28
+### Added
+- CustomGUI: Configure the GUI from outside the class instead of the attributes.
+
+
 ## [1.1.0] - 2020-02-24
 ### Added
 - IgnoreFieldScope: Ignore fields with specified names in recursive display

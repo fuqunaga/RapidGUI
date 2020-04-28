@@ -55,7 +55,7 @@ namespace RapidGUI.Example
                 () => GUILayout.Label("Displayed only when checkEnableFunc return true.")
             );
 
-            folds.Add("finds the type of IDoGUI in the scene.", typeof(FieldExample_Part1));
+            folds.Add("finds the type of IDoGUI in the scene.", typeof(FieldExample));
         }
 
 

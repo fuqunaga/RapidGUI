@@ -20,7 +20,7 @@ namespace RapidGUI
             {
                 var infoList = GetMemberInfoList(type);
 
-                ret = infoList.Any(info => info.Range != null);
+                ret = infoList.Any(info => info.range != null);
                 if (!ret)
                 {
                     var elemtTypes = infoList.Select(info => info.MemberType);
