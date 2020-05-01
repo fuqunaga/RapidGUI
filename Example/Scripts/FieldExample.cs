@@ -70,6 +70,19 @@ namespace RapidGUI.Example
             boundsIntVal = RGUI.Field(boundsIntVal, "boundsInt");
             arrayVal = RGUI.Field(arrayVal, "array");
             listVal = RGUI.Field(listVal, "list");
+
+            listVal = RGUI.ListField(listVal, "list with custom element GUI", (list, idx, label) =>
+            {
+                using (new GUILayout.HorizontalScope())
+                {
+                    var v = list[idx];
+                    v = RGUI.Slider(v, 100, label);
+                    if (GUILayout.Button("+")) v++;
+                    if (GUILayout.Button("-")) v--;
+
+                    return v;
+                }
+            });
         }
     }
 }

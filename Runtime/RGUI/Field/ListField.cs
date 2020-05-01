@@ -9,7 +9,21 @@ namespace RapidGUI
     {
         static readonly string[] ListPopupButtonNames = new[] { "Add Element", "Delete Element" };
 
-        static object ListField(object v, Type type)
+        public static T ListField<T>(T list, Func<T, int, string, object> customElementGUI = null)
+            where T: IList
+        {
+            return ListField(list, null, customElementGUI);
+        }
+
+        public static T ListField<T>(T list, string label, Func<T, int, string, object> customElementGUI = null)
+            where T : IList
+        {
+            return (T)DoField(list, list.GetType(), label, styleNone, (v, type) => ListField(v, type, customElementGUI), null);
+        }
+
+        static object ListField(object v, Type type) => ListField<object>(v, type, null);
+
+        static object ListField<T>(object v, Type type, Func<T, int, string, object> customElementGUI)
         {
             var list = v as IList;
             var hasElem = (list != null) && list.Count > 0;
@@ -35,32 +49,28 @@ namespace RapidGUI
 
                         using (new IndentScope(20f))
                         {
-                            list[i] = Field(list[i], elemType, label);
+                            list[i] = (customElementGUI != null)
+                                ? customElementGUI((T)list, i, label)
+                                : Field(list[i], elemType, label);
                         }
 
                         var result = PopupOnLastRect(ListPopupButtonNames, 1);
-#if true
+
                         switch (result)
                         {
-                            case 0: addIdx = i+1;
+                            case 0:
+                                addIdx = i + 1;
                                 break;
-                            case 1: deleteIdx = i;
+                            case 1:
+                                deleteIdx = i;
                                 break;
                         }
-#else
-                        list = result switch
-                        {
-                            0 => AddElement(list, elemType, list[i], i + 1),
-                            1 => DeleteElement(list, elemType, i),
-                            _ => list
-                        };
-#endif
                     }
                 }
-                
-                if (addIdx >= 0) list = AddElement(list, elemType, list[addIdx-1], addIdx);
+
+                if (addIdx >= 0) list = AddElement(list, elemType, list[addIdx - 1], addIdx);
                 if (deleteIdx >= 0) list = DeleteElement(list, elemType, deleteIdx);
-                
+
                 // +/- button
                 using (new GUILayout.HorizontalScope())
                 {

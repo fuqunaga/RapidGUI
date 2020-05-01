@@ -14,7 +14,7 @@ namespace RapidGUI
             object ret = v;
 
             var unparsedStr = UnparsedStr.Create();
-            var color = (unparsedStr.hasStr && !unparsedStr.CanParse(type)) ? UnityEngine.Color.red : GUI.color;
+            var color = (unparsedStr.hasStr && !unparsedStr.CanParse(type)) ? Color.red : GUI.color;
 
             using (new ColorScope(color))
             {
