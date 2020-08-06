@@ -7,5 +7,10 @@
     "keywords": ["IMGUI", "GUI"],
     "category": "Tool",
     "dependencies": { 
+    },
+    "author": {
+        "name": "fuqunaga",
+        "email": "fukhid@gmail.com",
+        "url": "https://fuquna.ga"
     }
 }
