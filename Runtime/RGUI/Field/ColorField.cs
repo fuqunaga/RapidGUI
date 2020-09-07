@@ -74,8 +74,7 @@ namespace RapidGUI
                 if (GUI.Button(rect, "", Style.whiteRect))
                 {
                     colorPicker = new IMColorPicker(color);
-                    colorPicker.SetWindowPosition(colorPickerLastPos ??
-                                                  GUIUtility.GUIToScreenPoint(Event.current.mousePosition));
+                    colorPicker.SetWindowPosition(colorPickerLastPos ?? RGUIUtility.GetMouseScreenPos());
                     colorPickerControlId = id;
                 }
             }

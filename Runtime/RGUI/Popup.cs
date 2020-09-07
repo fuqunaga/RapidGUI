@@ -54,11 +54,7 @@ namespace RapidGUI
                     && displayOptions.Any()
                     )
                 {
-                    var windowPos = GUIUtility.GUIToScreenPoint(pos);
-                    const float offset = 150f;
-                    var maxPos = new Vector2(Screen.width, Screen.height) - Vector2.one * offset;
-
-                    popupWindow.pos = Vector2.Min(windowPos, maxPos);
+                    popupWindow.pos = RGUIUtility.GetMouseScreenPos(Vector2.one * 150f);
                     popupControlId = controlId;
                     ev.Use();
                 }

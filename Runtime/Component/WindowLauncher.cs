@@ -56,7 +56,7 @@ namespace RapidGUI
                     if (isOpen)
                     {
                         isMoved = false;
-                        rect.position = GUIUtility.GUIToScreenPoint(Event.current.mousePosition) + Vector2.right * 50f;
+                        rect.position = RGUIUtility.GetMouseScreenPos() + Vector2.right * 50f;
                         onOpen?.Invoke(this);
                     }
                     else
