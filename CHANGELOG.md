@@ -1,6 +1,10 @@
 # RapidGUI
 Unity IMGUI extension for Rapid prototyping/development.
 
+## [1.2.2] - 2021-05-10
+### Added
+- RGUI.ListField() size field
+
 ## [1.2.1] - 2020-09-07
 ### Added
 - RGUI.ListField() for custom element GUI

@@ -6,6 +6,7 @@ using UnityEngine;
 namespace RapidGUI
 {
     using FieldFunc = Func<object, Type, object>;
+    using LabelRightFunc = Func<object, Type, object>;
 
     public static partial class RGUI
     {
@@ -28,16 +29,31 @@ namespace RapidGUI
 
         public static object Field(object obj, Type type, string label, GUIStyle style, params GUILayoutOption[] options)
         {
-            return DoField(obj, type, label, style, DispatchFieldFunc(type), options);
+            return DoField(obj, type, label, style, DispatchFieldFunc(type), DispatchLabelRightFunc(type), options);
         }
 
-        static object DoField(object obj, Type type, string label, GUIStyle style, FieldFunc fieldFunc, GUILayoutOption[] options)
+        static object DoField(object obj, Type type, string label, GUIStyle style, FieldFunc fieldFunc, LabelRightFunc labelRightFunc, GUILayoutOption[] options)
         {
             using (new GUILayout.VerticalScope(style, options))
-            using (new GUILayout.HorizontalScope())
             {
-                obj = PrefixLabelDraggable(label, obj, type);
+                GUILayout.BeginHorizontal();
+
+                obj = PrefixLabelDraggable(label, obj, type, out var isLong);
+
+                if (isLong || labelRightFunc != null)
+                {
+                    if (labelRightFunc != null)
+                    {
+                        obj = labelRightFunc(obj, type);
+                    }
+                    GUILayout.EndHorizontal();
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Space(PrefixLabelSetting.width + GUI.skin.label.margin.horizontal);
+                }
+
                 obj = fieldFunc(obj, type);
+
+                GUILayout.EndHorizontal();
             }
 
             return obj;
@@ -74,6 +90,17 @@ namespace RapidGUI
             }
 
             return func;
+        }
+
+        static LabelRightFunc DispatchLabelRightFunc(Type type)
+        {
+            LabelRightFunc ret = null;
+            if (TypeUtility.IsList(type))
+            {
+                ret = ListLabelRightFunc;
+            }
+
+            return ret;
         }
     }
 }

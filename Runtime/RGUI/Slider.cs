@@ -131,6 +131,7 @@ namespace RapidGUI
             return obj;
         }
 
+        /*
         public static object Slider(object obj, object min, object max, Type type, string label, params GUILayoutOption[] options)
         {
             using (new GUILayout.VerticalScope(options))
@@ -141,6 +142,14 @@ namespace RapidGUI
             }
 
             return obj;
+        }
+        */
+
+        public static object Slider(object obj, object min, object max, Type type, string label, params GUILayoutOption[] options)
+        {
+            var sliderFunc = DicpatchSliderFunc(type);
+            Func<object, Type, object> fieldFunc = (o, _) => sliderFunc(o, min, max);
+            return DoField(obj, type, label, GUIStyle.none, fieldFunc, null, options);
         }
 
         static Dictionary<Type, SliderFunc> sliderFuncTable = new Dictionary<Type, SliderFunc>()
