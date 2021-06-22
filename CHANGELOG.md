@@ -1,6 +1,10 @@
 # RapidGUI
 Unity IMGUI extension for Rapid prototyping/development.
 
+## [1.2.3] - 2021-06-22
+### Fixed
+- fix "Getting control 1's position in a group with only 1 controls when doing repaint" error
+
 ## [1.2.2] - 2021-05-10
 ### Added
 - RGUI.ListField() size field

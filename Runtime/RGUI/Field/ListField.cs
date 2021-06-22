@@ -24,7 +24,7 @@ namespace RapidGUI
                 labelRightFunc = (obj, type) => customLabelRightFunc((T)obj);
             }
 
-            return (T)DoField(list, list.GetType(), label, styleNone,
+            return (T)DoField(list, typeof(T), label, styleNone,
                 fieldFunc: (v, t) => ListField(v, t, customElementGUI),
                 labelRightFunc: labelRightFunc,
                 options: null
