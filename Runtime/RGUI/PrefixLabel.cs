@@ -18,7 +18,7 @@ namespace RapidGUI
             if (!string.IsNullOrEmpty(label))
             {
                 var style = GUI.skin.label;
-                isLong = style.CalcSize(RGUIUtility.TempContent(label)).x > PrefixLabelSetting.width;
+                isLong = PrefixLabelSetting.width > 0f && style.CalcSize(RGUIUtility.TempContent(label)).x > PrefixLabelSetting.width;
 
                 if (isLong)
                 {
