@@ -1,0 +1,25 @@
+name: Publish
+
+on: workflow_dispatch
+    
+    
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pkg_root: [./Assets/RapidGUI]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-node@v2
+      with:
+        registry-url: 'https://registry.npmjs.org'
+
+    - run: npm publish
+      working-directory: ${{ matrix.pkg_root }}
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
