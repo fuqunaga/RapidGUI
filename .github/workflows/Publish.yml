@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        pkg_root: [./Assets/RapidGUI]
+        pkg_root: [./]
 
     steps:
     - uses: actions/checkout@v2
