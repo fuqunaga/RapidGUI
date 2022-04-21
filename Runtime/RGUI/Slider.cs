@@ -114,7 +114,7 @@ namespace RapidGUI
 
                         using (new GUILayout.HorizontalScope())
                         {
-                            obj = DicpatchSliderFunc(type).Invoke(obj, min, max);
+                            obj = DispatchSliderFunc(type).Invoke(obj, min, max);
                         }
                     }
                     else
@@ -147,18 +147,23 @@ namespace RapidGUI
 
         public static object Slider(object obj, object min, object max, Type type, string label, params GUILayoutOption[] options)
         {
-            var sliderFunc = DicpatchSliderFunc(type);
-            Func<object, Type, object> fieldFunc = (o, _) => sliderFunc(o, min, max);
-            return DoField(obj, type, label, GUIStyle.none, fieldFunc, null, options);
+            var sliderFunc = DispatchSliderFunc(type);
+            
+            return DoField(obj, type, label, GUIStyle.none, FieldFunc, null, options);
+
+            object FieldFunc(object o, Type _)
+            {
+                return sliderFunc(o, min, max);
+            }
         }
 
-        static Dictionary<Type, SliderFunc> sliderFuncTable = new Dictionary<Type, SliderFunc>()
+        static readonly Dictionary<Type, SliderFunc> sliderFuncTable = new Dictionary<Type, SliderFunc>()
         {
             {typeof(int), SliderInt },
             {typeof(float), SliderFloat }
         };
 
-        static SliderFunc DicpatchSliderFunc(Type type)
+        static SliderFunc DispatchSliderFunc(Type type)
         {
             if (!sliderFuncTable.TryGetValue(type, out var func))
             {
