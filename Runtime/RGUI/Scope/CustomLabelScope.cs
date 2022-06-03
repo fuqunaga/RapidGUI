@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Table = System.Collections.Generic.Dictionary<string, string>;
+
 
 namespace RapidGUI
 {
@@ -18,9 +18,9 @@ namespace RapidGUI
                 .FirstOrDefault(l => l != null);
         }
 
-        static Stack<Table> customLabelScopeStack = new Stack<Table>();
+        static readonly Stack<Dictionary<string, string>> customLabelScopeStack = new ();
 
-        public static void BeginCustomLabel(Table table)
+        public static void BeginCustomLabel(Dictionary<string, string> table)
         {
             customLabelScopeStack.Push(table);
         }
@@ -33,7 +33,7 @@ namespace RapidGUI
 
         public class CustomLabelScope : GUI.Scope
         {
-            public CustomLabelScope(Table table) => BeginCustomLabel(table);
+            public CustomLabelScope(Dictionary<string, string> table) => BeginCustomLabel(table);
 
             protected override void CloseScope() => EndCustomLabel();
         }
