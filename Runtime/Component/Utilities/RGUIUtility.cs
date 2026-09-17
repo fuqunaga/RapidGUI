@@ -20,7 +20,7 @@ namespace RapidGUI
         {
             //var windowPos = GUIUtility.GUIToScreenPoint(pos); // doesn't seem to work on the unity2020 Editor.
 
-            var mousePos = Input.mousePosition;
+            var mousePos = MousePosition();
             var ret = new Vector2(mousePos.x, Screen.height - mousePos.y);
 
             if (screenInsideOffset.HasValue)
@@ -30,6 +30,16 @@ namespace RapidGUI
             }
 
             return ret;
+        }
+
+        static Vector2 MousePosition()
+        {
+#if RAPIDGUI_INPUT_SYSTEM && ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+            var mouse = UnityEngine.InputSystem.Mouse.current;
+            return mouse == null ? Vector2.zero : mouse.position.ReadValue();
+#else
+            return Input.mousePosition;
+#endif
         }
     }
 }
